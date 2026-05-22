@@ -166,6 +166,42 @@ main{margin-top:56px;}
 /* FLYWHEEL INTERACTIVE */
 .fly-ring{display:flex;justify-content:center;align-items:center;padding:1rem 0 1.5rem;}
 .fly-svg{max-width:560px;width:100%;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  nav{padding:0 1rem;}
+  .nav-right{display:none;}
+  .nav-links{flex:1;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-links a{white-space:nowrap;padding:.3rem .65rem;font-size:10px;}
+  .section{padding:3rem 1.25rem;}
+  #cover{padding:2rem 1.25rem!important;}
+  .cv-grid{grid-template-columns:1fr;gap:2rem;}
+  .business-2col{grid-template-columns:1fr!important;gap:1.5rem!important;}
+  .business-3col{grid-template-columns:1fr!important;}
+  .business-3col>div:not(:last-child){border-right:none!important;border-bottom:1px solid var(--cream-3);}
+  .dr{grid-template-columns:1fr;gap:.5rem;}
+  .chart-wrap{padding:1.5rem 1.25rem;}
+  .chart-h{height:240px;}
+  .sig-grid{grid-template-columns:1fr;}
+  .ctable-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .ctable{min-width:580px;}
+  .phase{grid-template-columns:1fr;gap:1rem;}
+  .not-grid{grid-template-columns:1fr;}
+  .gtm-row{grid-template-columns:1fr;gap:.75rem;}
+  .geo-grid{grid-template-columns:1fr;}
+  .broker-grid{grid-template-columns:1fr;}
+  .wc{grid-template-columns:1fr;gap:1rem;}
+  .why-intro{font-size:1.15rem;}
+  .pattern-text{font-size:1.25rem;}
+}
+@media(max-width:480px){
+  .tx-strip{grid-template-columns:1fr;}
+  .panel-row{grid-template-columns:1fr;}
+  .panel-cell{border-right:none!important;}
+  .panel-cell,.panel-cell:nth-child(odd){border-bottom:1px solid var(--cream-3)!important;}
+  .panel-row:last-child .panel-cell:last-child{border-bottom:none!important;}
+}
 </style>
 </head>
 <body>
@@ -224,7 +260,7 @@ main{margin-top:56px;}
     <div class="s-label">02 · The Business</div>
     <h2 class="serif h2" style="margin-bottom:1.5rem;">How it works.</h2>
     <p class="body-lg" style="max-width:620px;margin-bottom:3rem;">Viventis is not insurance. It is a health discount membership built on a DPO — Discount Provider Organization — structure. The company negotiates bulk discounts with pharmacy networks, labs, telemedicine providers, and dental and vision partners. Employers pay a monthly subscription per enrolled employee. Members receive a digital card that unlocks those discounts at point of service. No claims. No underwriting. No open enrollment. No regulatory complexity.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem;">
+    <div class="business-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem;">
       <div>
         <div style="font-size:14px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:1rem;">What the card covers</div>
         <div style="display:flex;flex-direction:column;">
@@ -241,7 +277,7 @@ main{margin-top:56px;}
         <div style="padding:1rem 1.25rem;background:var(--warm-l);border:1px solid var(--warm-b);border-radius:8px;font-size:.82rem;color:var(--ink-2);line-height:1.65;">This clarity is a sales asset, not a liability. Workers who understand exactly what the card does — and what it does not — trust it more and use it more.</div>
       </div>
     </div>
-    <div style="background:var(--cream-2);border:1px solid var(--cream-3);border-radius:12px;display:grid;grid-template-columns:repeat(3,1fr);">
+    <div class="business-3col" style="background:var(--cream-2);border:1px solid var(--cream-3);border-radius:12px;display:grid;grid-template-columns:repeat(3,1fr);">
       <div style="padding:1.25rem 1.5rem;border-right:1px solid var(--cream-3);"><div style="font-size:13px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin-bottom:.5rem;">Revenue model</div><p class="body">Pure subscription. Employer pays monthly per enrolled employee. No claims. No usage-based variance. Highly predictable cash flow.</p></div>
       <div style="padding:1.25rem 1.5rem;border-right:1px solid var(--cream-3);"><div style="font-size:13px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin-bottom:.5rem;">Plan structure</div><p class="body">Individual, couple, and family tiers. Employer typically pays individual plan. Plan mix compounds ARPU above the $39 base — blended revenue per employer is higher.</p></div>
       <div style="padding:1.25rem 1.5rem;"><div style="font-size:13px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin-bottom:.5rem;">Gross margin est.</div><p class="body">65–70%, benchmarked against GoodRx and comparable DPO-based membership companies. Structural: no claims to pay, low variable cost per member.</p></div>
@@ -309,7 +345,7 @@ main{margin-top:56px;}
     <div class="s-label">05 · The Competitive Landscape</div>
     <h2 class="serif h2" style="margin-bottom:.75rem;">Who else is in this space.</h2>
     <p class="body-lg" style="max-width:580px;margin-bottom:2rem;">The market has players at different levels of scale, funding, and strategic intent. Viventis wins by being the one that actually shows up at the worksite.</p>
-    <table class="ctable">
+    <div class="ctable-wrap"><table class="ctable">
       <thead><tr><th style="width:140px;">Company</th><th>Model</th><th>Scale</th><th>Spanish-first</th><th>Employer channel</th><th>Verdict</th></tr></thead>
       <tbody>
         <tr class="cv-row"><td>Viventis</td><td>DPO discount bundle — Rx, labs, tele, dental, vision</td><td>2,500+ members · ~$1.17M est. ARR</td><td><strong>Yes · core brand</strong></td><td><strong>Yes · primary</strong></td><td><div class="verdict v-win">Operator play</div></td></tr>
@@ -318,7 +354,7 @@ main{margin-top:56px;}
         <tr><td>Careington</td><td>DPO discount card network · white-label B2B</td><td>50M+ members · private</td><td>No</td><td>Broker + employer at scale</td><td><div class="verdict v-neutral">Distribution model</div></td></tr>
         <tr><td>TrumpRx</td><td>Government Rx comparison portal · DTC</td><td>10M+ visits · $400M savings claimed · English-only</td><td>No · English-only</td><td>No employer channel</td><td><div class="verdict v-neutral">Market validator</div></td></tr>
       </tbody>
-    </table>
+    </table></div>
     <div style="margin-top:2rem;padding:1.5rem 2rem;background:var(--accent-l);border:1px solid var(--accent-b);border-radius:12px;">
       <div style="font-size:13px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;">The moat Viventis can build</div>
       <p class="body" style="color:var(--ink-2);">GoodRx can beat Viventis on pharmacy pricing. MiSalud can beat Viventis on clinical depth. Neither will show up at a 40-person construction company, run a 30-minute Spanish-first onboarding, activate workers in real time, and send the employer a monthly report proving employees are using it. <strong>The worksite activation system is the moat — and it is operational, not technological. That makes it harder to copy.</strong></p>
