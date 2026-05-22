@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viventis — Operator Brief</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F8F7F4;--cream-2:#EFEDE8;--cream-3:#E0DDD7;
+  --ink:#1C1B19;--ink-2:#4a4641;--ink-3:#6B6861;--ink-4:#9a9088;
+  --accent:#2c5f3f;--accent-l:#eef4f0;--accent-b:#c4d9cb;
+  --warm:#7a5c2e;--warm-l:#faf4ea;--warm-b:#dfd0b4;
+  --serif:'DM Serif Display',Georgia,serif;
+  --mono:'DM Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.7;min-height:100vh}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(248,247,244,0.97);border-bottom:1px solid var(--cream-3);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:56px;}
+.nav-logo{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);}
+.nav-links{display:flex;gap:.2rem;}
+.nav-links a{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;padding:.35rem .9rem;border-radius:20px;transition:background .15s,color .15s;}
+.nav-links a:hover,.nav-links a.active{background:var(--cream-3);color:var(--ink);}
+.nav-right{font-family:var(--mono);font-size:11px;color:var(--ink-4);}
+main{margin-top:56px;}
+.section{padding:6rem 3rem;border-bottom:1px solid var(--cream-3);}
+.inner{max-width:860px;margin:0 auto;}
+.s-label{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;}
+.s-label::after{content:'';flex:1;height:1px;background:var(--cream-3);}
+.serif{font-family:var(--serif);}
+.h1{font-size:clamp(2.8rem,5vw,3.75rem);font-weight:400;line-height:1.05;letter-spacing:-.01em;}
+.h2{font-size:clamp(1.8rem,3vw,2.4rem);font-weight:400;line-height:1.1;}
+.italic{font-style:italic;}
+.accent{color:var(--accent);}
+.body{font-size:1rem;color:var(--ink-2);line-height:1.78;font-weight:300;}
+.body strong{color:var(--ink);font-weight:500;}
+.body-lg{font-size:1.05rem;color:var(--ink-2);line-height:1.82;font-weight:300;}
+
+/* COVER */
+#cover{min-height:calc(100vh - 54px);display:flex;align-items:center;padding:5rem 3rem;}
+.cv-grid{display:grid;grid-template-columns:1fr 400px;gap:5rem;align-items:center;max-width:840px;margin:0 auto;width:100%;}
+.cv-eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1.5rem;}
+.cv-deck{font-size:1rem;color:var(--ink-2);line-height:1.82;font-weight:300;margin-bottom:2rem;}
+.thesis{background:var(--cream-2);border-left:3px solid var(--accent);padding:1.5rem 2rem;margin-top:2rem;}
+.thesis p{font-family:var(--serif);font-size:1.35rem;font-style:italic;color:var(--ink);line-height:1.55;}
+.thesis p strong{font-style:normal;color:var(--accent);}
+.panel{background:var(--cream-2);border:1px solid var(--cream-3);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;gap:0;}
+.panel-row{display:grid;grid-template-columns:1fr 1fr;}
+.panel-cell{padding:1rem .875rem;border-bottom:1px solid var(--cream-3);}
+.panel-cell:nth-child(odd){border-right:1px solid var(--cream-3);}
+.panel-cell:last-child,.panel-cell:nth-last-child(2):nth-child(odd){border-bottom:none;}
+.m-label{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.35rem;}
+.m-value{font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--ink);}
+.m-note{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:.1rem;}
+.m-note.est{color:var(--warm);}
+.panel-footer{padding:.875rem .875rem 0;font-family:var(--mono);font-size:11px;color:var(--ink-3);line-height:1.6;border-top:1px solid var(--cream-3);font-style:italic;}
+
+/* DATA ROWS */
+.dr{display:grid;grid-template-columns:150px 1fr;gap:3rem;padding:2rem 0;border-top:1px solid var(--cream-3);align-items:start;}
+.dr:last-child{border-bottom:1px solid var(--cream-3);}
+.dr-num{font-family:var(--serif);font-size:2.5rem;font-weight:400;color:var(--ink);line-height:1;}
+.dr-src{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:.3rem;letter-spacing:.04em;}
+.dr-text{font-size:1rem;color:var(--ink-2);line-height:1.78;padding-top:.4rem;}
+.dr-text strong{color:var(--ink);font-weight:500;}
+
+/* CHART */
+.chart-wrap{background:var(--cream-2);border:1px solid var(--cream-3);border-radius:16px;padding:2.5rem;margin:3rem 0;}
+.chart-title{font-family:var(--serif);font-size:1.35rem;font-style:italic;color:var(--ink);margin-bottom:.4rem;}
+.chart-sub{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-bottom:1.75rem;line-height:1.6;}
+.chart-h{position:relative;height:320px;}
+.chart-legend{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:11px;color:var(--ink-3);}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.chart-note{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:.75rem;font-style:italic;}
+
+/* SIGNAL */
+.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2.5rem;}
+.sig-card{border:1px solid var(--cream-3);border-radius:12px;padding:1.75rem;}
+.sig-card.val{border-color:var(--accent-b);background:var(--accent-l);}
+.sig-card.thr{border-color:var(--warm-b);background:var(--warm-l);}
+.sig-tag{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .55rem;border-radius:20px;display:inline-block;margin-bottom:.75rem;}
+.tag-v{background:var(--accent-b);color:var(--accent);}
+.tag-t{background:var(--warm-b);color:var(--warm);}
+.sig-title{font-family:var(--serif);font-size:1.2rem;margin-bottom:.75rem;}
+.sig-body{font-size:.97rem;color:var(--ink-2);line-height:1.78;}
+.sig-body strong{color:var(--ink);font-weight:500;}
+.tx-strip{background:var(--cream-2);border:1px solid var(--cream-3);border-radius:12px;padding:1.5rem 2rem;margin:2.5rem 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.tx-stat{text-align:center;}
+.tx-num{font-family:var(--serif);font-size:2rem;color:var(--ink);}
+.tx-lbl{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:.3rem;line-height:1.5;}
+
+/* COMP TABLE */
+.ctable{width:100%;border-collapse:collapse;margin-top:2rem;font-size:.95rem;}
+.ctable thead th{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding:.75rem 1rem;text-align:left;border-bottom:2px solid var(--cream-3);}
+.ctable tbody tr{border-bottom:1px solid var(--cream-3);}
+.ctable tbody tr:last-child{border-bottom:none;}
+.ctable tbody td{padding:1.2rem 1rem;color:var(--ink-2);vertical-align:top;line-height:1.6;}
+.ctable tbody td:first-child{font-weight:500;color:var(--ink);font-size:1rem;}
+.ctable tbody td strong{color:var(--ink);font-weight:500;}
+.cv-row{background:var(--accent-l);}
+.cv-row td:first-child{color:var(--accent)!important;}
+.verdict{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;padding:.2rem .5rem;border-radius:20px;}
+.v-win{background:var(--accent-b);color:var(--accent);}
+.v-watch{background:var(--warm-b);color:var(--warm);}
+.v-neutral{background:var(--cream-3);color:var(--ink-3);}
+
+/* PLAN */
+.phase{display:grid;grid-template-columns:170px 1fr;gap:3rem;padding:2.5rem 0;border-top:1px solid var(--cream-3);}
+.phase:last-child{border-bottom:1px solid var(--cream-3);}
+.ph-tag{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.4rem;}
+.ph-period{font-family:var(--serif);font-size:1.85rem;color:var(--ink);line-height:1;}
+.ph-sub{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:.3rem;}
+.ph-title{font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:.75rem;}
+.ph-list{list-style:none;}
+.ph-list li{font-size:.97rem;color:var(--ink-2);line-height:1.75;padding:.25rem 0 .25rem 1.1rem;position:relative;}
+.ph-list li::before{content:'—';position:absolute;left:0;color:var(--ink-3);}
+.ph-list li strong{color:var(--ink);font-weight:500;}
+.insight{margin-top:1rem;padding:1.1rem 1.35rem;background:var(--warm-l);border:1px solid var(--warm-b);border-radius:8px;font-size:.97rem;color:var(--ink-2);line-height:1.75;}
+.insight strong{color:var(--ink);font-weight:500;}
+.not-do{margin-top:1rem;padding:1rem 1.35rem;background:var(--cream-2);border:1px solid var(--cream-3);border-radius:8px;}
+.not-lbl{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.5rem;}
+.not-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;}
+.not-item{font-size:.95rem;color:var(--ink-2);display:flex;gap:.45rem;align-items:flex-start;line-height:1.6;}
+.not-x{color:#c0392b;font-weight:600;flex-shrink:0;}
+
+/* STRATEGY */
+.gtm-list{display:flex;flex-direction:column;gap:1rem;margin-top:2.5rem;}
+.gtm-row{display:grid;grid-template-columns:180px 1fr;gap:2rem;padding:1.75rem;border:1px solid var(--cream-3);border-radius:12px;background:var(--cream-2);}
+.gtm-tag{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.3rem;}
+.gtm-num{font-family:var(--serif);font-size:2rem;color:var(--ink-3);line-height:1;}
+.gtm-period{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:.3rem;}
+.gtm-title{font-size:1.02rem;font-weight:500;color:var(--ink);margin-bottom:.5rem;}
+.gtm-body{font-size:.97rem;color:var(--ink-2);line-height:1.75;}
+.gtm-body strong{color:var(--ink);font-weight:500;}
+.flywheel{background:var(--accent-l);border:1px solid var(--accent-b);border-radius:12px;padding:2rem;margin:2.5rem 0;}
+.fly-title{font-family:var(--serif);font-size:1.25rem;font-style:italic;color:var(--accent);margin-bottom:1.5rem;}
+.geo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem;}
+.geo-card{border:1px solid var(--cream-3);border-radius:10px;padding:1.35rem;background:var(--cream-2);}
+.geo-state{font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:.45rem;}
+.geo-why{font-size:.93rem;color:var(--ink-2);line-height:1.68;}
+.broker-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;}
+.broker-card{border:1px solid var(--cream-3);border-radius:10px;padding:1.35rem;background:var(--cream-2);}
+.broker-title{font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:.5rem;}
+.broker-body{font-size:.93rem;color:var(--ink-2);line-height:1.72;}
+.broker-body strong{color:var(--ink);font-weight:500;}
+
+/* WHY ME */
+.why-intro{font-family:var(--serif);font-size:1.4rem;font-style:italic;color:var(--ink-2);line-height:1.6;margin-bottom:3rem;max-width:620px;}
+.wc{display:grid;grid-template-columns:210px 1fr;gap:3rem;padding:2.5rem 0;border-top:1px solid var(--cream-3);}
+.wc:last-child{border-bottom:1px solid var(--cream-3);}
+.wc-co{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.3rem;}
+.wc-role{font-family:var(--serif);font-size:1.25rem;color:var(--ink);line-height:1.2;margin-bottom:.3rem;}
+.wc-period{font-family:var(--mono);font-size:12px;color:var(--ink-3);}
+.wc-body{font-size:.97rem;color:var(--ink-2);line-height:1.8;}
+.wc-body strong{color:var(--ink);font-weight:500;}
+.wc-transfer{margin-top:1.1rem;padding:1.1rem 1.35rem;background:var(--accent-l);border:1px solid var(--accent-b);border-radius:8px;font-size:.95rem;color:var(--accent);line-height:1.72;}
+.wc-transfer strong{font-weight:600;}
+.pattern{background:var(--cream-2);border:1px solid var(--cream-3);border-radius:12px;padding:2rem;margin-top:3rem;}
+.pattern-lbl{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.75rem;}
+.pattern-text{font-family:var(--serif);font-size:1.55rem;font-weight:300;line-height:1.4;color:var(--ink);}
+.pattern-text em{font-style:italic;color:var(--accent);}
+
+/* FLYWHEEL INTERACTIVE */
+.fly-ring{display:flex;justify-content:center;align-items:center;padding:1rem 0 1.5rem;}
+.fly-svg{max-width:560px;width:100%;}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Viventis</div>
+  <div class="nav-links">
+    <a href="#cover">Overview</a>
+    <a href="#business">Business</a>
+    <a href="#market">Market</a>
+    <a href="#signal">Signal</a>
+    <a href="#competition">Competition</a>
+    <a href="#plan">30 Days</a>
+    <a href="#strategy">Strategy</a>
+    <a href="#why">Why Me</a>
+  </div>
+  <div class="nav-right">May 2026 · Confidential</div>
+</nav>
+<main>
+
+<!-- 01 COVER -->
+<section id="cover" class="section" style="padding-top:0;padding-bottom:0;min-height:calc(100vh - 54px);display:flex;align-items:center;">
+  <div class="cv-grid">
+    <div>
+      <div class="cv-eyebrow">Operator Brief · The Boring Holding</div>
+      <h1 class="serif h1" style="margin-bottom:1.5rem;">Viventis —<br><span class="italic accent">Health Access<br>for Every Worker</span></h1>
+      <p class="cv-deck">B2B2C health discount membership targeting uninsured Hispanic workers across the US. Employers pay a monthly fee per enrolled employee. Members receive discounts on prescriptions, labs, telemedicine, dental, and vision. Spanish-first. No insurance. No claims. No complexity.</p>
+      <div class="thesis">
+        <p>Traditional employer health insurance costs <strong>$600–800 per employee per month.</strong> Viventis costs <strong>$39.</strong> The business has product-market fit. What it does not have is a commercial engine. That is the job.</p>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-row">
+        <div class="panel-cell"><div class="m-label">Active members</div><div class="m-value">2,500+</div><div class="m-note">confirmed · viventis.health</div></div>
+        <div class="panel-cell"><div class="m-label">Price / member</div><div class="m-value">$39</div><div class="m-note">per month · employer pays</div></div>
+      </div>
+      <div class="panel-row">
+        <div class="panel-cell"><div class="m-label">Pharmacies</div><div class="m-value">500+</div><div class="m-note">confirmed · viventis.health</div></div>
+        <div class="panel-cell"><div class="m-label">Labs</div><div class="m-value">200+</div><div class="m-note">confirmed · viventis.health</div></div>
+      </div>
+      <div class="panel-row">
+        <div class="panel-cell"><div class="m-label">Onboarding</div><div class="m-value">48h</div><div class="m-note">contract to active cards</div></div>
+        <div class="panel-cell"><div class="m-label">States</div><div class="m-value">50</div><div class="m-note">full US coverage ready</div></div>
+      </div>
+      <div class="panel-row">
+        <div class="panel-cell"><div class="m-label">Est. ARR</div><div class="m-value" style="font-size:1.5rem;">~$1.17M</div><div class="m-note est">2,500 × $39 × 12 · not confirmed</div></div>
+        <div class="panel-cell"><div class="m-label">Est. gross margin</div><div class="m-value" style="font-size:1.5rem;">65–70%</div><div class="m-note est">benchmarked vs. comps</div></div>
+      </div>
+      <div class="panel-footer">Confirmed figures from viventis.health. Estimated figures benchmarked against comparable health discount membership companies.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 THE BUSINESS -->
+<section id="business" class="section">
+  <div class="inner">
+    <div class="s-label">02 · The Business</div>
+    <h2 class="serif h2" style="margin-bottom:1.5rem;">How it works.</h2>
+    <p class="body-lg" style="max-width:620px;margin-bottom:3rem;">Viventis is not insurance. It is a health discount membership built on a DPO — Discount Provider Organization — structure. The company negotiates bulk discounts with pharmacy networks, labs, telemedicine providers, and dental and vision partners. Employers pay a monthly subscription per enrolled employee. Members receive a digital card that unlocks those discounts at point of service. No claims. No underwriting. No open enrollment. No regulatory complexity.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem;">
+      <div>
+        <div style="font-size:14px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:1rem;">What the card covers</div>
+        <div style="display:flex;flex-direction:column;">
+          <div style="padding:.875rem 0;border-bottom:1px solid var(--cream-3);display:flex;justify-content:space-between;align-items:center;"><span class="body">Prescription discounts</span><span class="verdict v-win">core</span></div>
+          <div style="padding:.875rem 0;border-bottom:1px solid var(--cream-3);display:flex;justify-content:space-between;align-items:center;"><span class="body">Lab tests</span><span class="verdict v-win">core</span></div>
+          <div style="padding:.875rem 0;border-bottom:1px solid var(--cream-3);display:flex;justify-content:space-between;align-items:center;"><span class="body">Telemedicine</span><span class="verdict v-win">core</span></div>
+          <div style="padding:.875rem 0;border-bottom:1px solid var(--cream-3);display:flex;justify-content:space-between;align-items:center;"><span class="body">Dental discounts</span><span class="verdict v-neutral">included</span></div>
+          <div style="padding:.875rem 0;display:flex;justify-content:space-between;align-items:center;"><span class="body">Vision discounts</span><span class="verdict v-neutral">included</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:1rem;">What it does not cover</div>
+        <p class="body" style="margin-bottom:1rem;">Hospitalizations, surgeries, specialist visits, emergency room, and anything catastrophic. Viventis covers routine, high-frequency healthcare. For a healthy 30-year-old worker, this addresses roughly 80% of their actual annual healthcare interactions.</p>
+        <div style="padding:1rem 1.25rem;background:var(--warm-l);border:1px solid var(--warm-b);border-radius:8px;font-size:.82rem;color:var(--ink-2);line-height:1.65;">This clarity is a sales asset, not a liability. Workers who understand exactly what the card does — and what it does not — trust it more and use it more.</div>
+      </div>
+    </div>
+    <div style="background:var(--cream-2);border:1px solid var(--cream-3);border-radius:12px;display:grid;grid-template-columns:repeat(3,1fr);">
+      <div style="padding:1.25rem 1.5rem;border-right:1px solid var(--cream-3);"><div style="font-size:13px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin-bottom:.5rem;">Revenue model</div><p class="body">Pure subscription. Employer pays monthly per enrolled employee. No claims. No usage-based variance. Highly predictable cash flow.</p></div>
+      <div style="padding:1.25rem 1.5rem;border-right:1px solid var(--cream-3);"><div style="font-size:13px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin-bottom:.5rem;">Plan structure</div><p class="body">Individual, couple, and family tiers. Employer typically pays individual plan. Plan mix compounds ARPU above the $39 base — blended revenue per employer is higher.</p></div>
+      <div style="padding:1.25rem 1.5rem;"><div style="font-size:13px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin-bottom:.5rem;">Gross margin est.</div><p class="body">65–70%, benchmarked against GoodRx and comparable DPO-based membership companies. Structural: no claims to pay, low variable cost per member.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 THE MARKET -->
+<section id="market" class="section" style="background:var(--cream-2);">
+  <div class="inner">
+    <div class="s-label">03 · The Market</div>
+    <h2 class="serif h2" style="margin-bottom:.75rem;">A structural gap. <span class="italic">Growing wider.</span></h2>
+    <p class="body-lg" style="max-width:560px;margin-bottom:3rem;">The Hispanic uninsured problem is not new. What is new is that it is getting worse again — right now, in 2026 — precisely when Viventis is positioned to grow.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">Hispanic uninsured Americans — 20-year trend</div>
+      <div class="chart-sub">Uninsured rate (%) and estimated absolute count (millions) · 2004–2026 · KFF, Census Bureau, NCBI, Urban Institute · dashed = projected</div>
+      <div class="chart-h"><canvas id="mainChart"></canvas></div>
+      <div class="chart-legend">
+        <div class="leg"><div class="leg-dot" style="background:#2c5f3f;"></div>Hispanic uninsured rate (%)</div>
+        <div class="leg"><div class="leg-dot" style="background:#7a5c2e;"></div>White uninsured rate (%)</div>
+        <div class="leg"><div class="leg-dot" style="background:#9fb8ab;border:2px dashed #2c5f3f;"></div>Hispanic est. count (millions, right axis)</div>
+      </div>
+      <div class="chart-note">2025–2026 projected from Urban Institute ACA subsidy model + KFF analysis. Absolute counts: Census population × uninsured rate.</div>
+    </div>
+    <div class="dr"><div><div class="dr-num">18.4%</div><div class="dr-src">KFF · 2024</div></div><div class="dr-text">Hispanic uninsured rate — <strong>more than 2.5× the white rate of 6.8%.</strong> The highest of any major demographic group in the US. This gap has persisted across every policy cycle for two decades.</div></div>
+    <div class="dr"><div><div class="dr-num">41.9%</div><div class="dr-src">KFF · 2024</div></div><div class="dr-text">Of all uninsured Americans are Hispanic, despite being only 19% of the population. <strong>Overrepresented by a factor of 2.2×.</strong> Solving the Hispanic uninsured problem is not a niche play.</div></div>
+    <div class="dr"><div><div class="dr-num">27.8%</div><div class="dr-src">Census · 2024</div></div><div class="dr-text">Uninsured rate in construction and extraction — Viventis's primary target industry. Agriculture and farming: <strong>29.4%.</strong> These are the industries where the problem is most acute and where employers most need an affordable solution.</div></div>
+    <div class="dr"><div><div class="dr-num">4.8M</div><div class="dr-src">Urban Institute · 2025</div></div><div class="dr-text">Additional Americans projected to lose ACA Marketplace coverage in 2026 as enhanced subsidies expire. <strong>~6M Latinos currently rely on those credits.</strong> The uninsured pool is expanding right now.</div></div>
+    <div class="dr"><div><div class="dr-num">39%</div><div class="dr-src">KFF · 2025</div></div><div class="dr-text">Of small firms offer any health benefits. Cost is the #1 barrier in 65% of non-offering firms. <strong>At $39/month vs. $600–800 for traditional insurance, Viventis removes that barrier entirely.</strong></div></div>
+  </div>
+</section>
+
+<!-- 04 THE SIGNAL -->
+<section id="signal" class="section">
+  <div class="inner">
+    <div class="s-label">04 · The Signal</div>
+    <h2 class="serif h2" style="margin-bottom:.75rem;">Two market moves. <span class="italic">One clear read.</span></h2>
+    <p class="body-lg" style="max-width:580px;margin-bottom:2rem;">Two significant developments happened in early 2026. Both confirm the opportunity. One defines the threat worth watching.</p>
+    <div class="tx-strip">
+      <div class="tx-stat"><div class="tx-num">600+</div><div class="tx-lbl">generic drugs added to TrumpRx · May 18, 2026</div></div>
+      <div class="tx-stat"><div class="tx-num">$400M</div><div class="tx-lbl">savings claimed since launch</div></div>
+      <div class="tx-stat"><div class="tx-num">7%</div><div class="tx-lbl">of Rx users actually visited the site · KFF March 2026</div></div>
+    </div>
+    <div class="sig-grid">
+      <div class="sig-card val">
+        <div class="sig-tag tag-v">Validator</div>
+        <div class="sig-title">TrumpRx + Mark Cuban</div>
+        <div class="sig-body">On May 18, 2026, the White House expanded TrumpRx.gov to 600+ generic drugs via partnerships with Cost Plus Drugs, Amazon Pharmacy, and GoodRx. The US government has confirmed at the highest level that the uninsured cash-pay drug market is real and politically important.<br><br><strong>The problem Viventis is solving just got validated from the White House.</strong><br><br>What TrumpRx also reveals: a DTC, English-only, tech-navigation-required platform reaches only 7% of potential Rx users. The target customer — an uninsured Hispanic construction worker — will not find TrumpRx.gov on their own. They need an employer to bring the solution to them. That is exactly what Viventis does.</div>
+      </div>
+      <div class="sig-card thr">
+        <div class="sig-tag tag-t">Watch closely</div>
+        <div class="sig-title">GoodRx Employer Direct</div>
+        <div class="sig-body">In February 2026, GoodRx launched Employer Direct — allowing employers to subsidize high-cost medications like GLP-1s at the pharmacy counter. First employer pilot: Hy-Vee. 2025 revenue: $796.9M.<br><br><strong>GoodRx is entering the employer channel. This is the real competitive move to monitor.</strong><br><br>The distinction: GoodRx is targeting employers to solve a high-cost medication problem for workers who already have benefits. Viventis is solving a no-benefits problem for workers who have nothing. Different buyer problem, different conversation — but the channel overlap will grow as GoodRx scales employer relationships.</div>
+      </div>
+    </div>
+    <div class="thesis" style="margin-top:2.5rem;">
+      <p>TrumpRx is a tool. GoodRx is a pharmacy platform moving upmarket. <strong>Viventis is a managed health access benefit that shows up at the worksite, speaks Spanish, and proves value to the employer every month.</strong> None of the large players are building that.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 COMPETITION -->
+<section id="competition" class="section" style="background:var(--cream-2);">
+  <div class="inner">
+    <div class="s-label">05 · The Competitive Landscape</div>
+    <h2 class="serif h2" style="margin-bottom:.75rem;">Who else is in this space.</h2>
+    <p class="body-lg" style="max-width:580px;margin-bottom:2rem;">The market has players at different levels of scale, funding, and strategic intent. Viventis wins by being the one that actually shows up at the worksite.</p>
+    <table class="ctable">
+      <thead><tr><th style="width:140px;">Company</th><th>Model</th><th>Scale</th><th>Spanish-first</th><th>Employer channel</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr class="cv-row"><td>Viventis</td><td>DPO discount bundle — Rx, labs, tele, dental, vision</td><td>2,500+ members · ~$1.17M est. ARR</td><td><strong>Yes · core brand</strong></td><td><strong>Yes · primary</strong></td><td><div class="verdict v-win">Operator play</div></td></tr>
+        <tr><td>MiSalud</td><td>Bilingual telehealth + on-site wellness</td><td>100k+ members · $18.3M raised · 20× growth</td><td><strong>Yes · core identity</strong></td><td><strong>Yes · primary</strong></td><td><div class="verdict v-watch">Closest comp</div></td></tr>
+        <tr><td>GoodRx</td><td>Pharmacy discount platform · Employer Direct Feb 2026</td><td>$796.9M revenue · public</td><td>No · English-first</td><td>Entering via GLP-1</td><td><div class="verdict v-watch">Main threat</div></td></tr>
+        <tr><td>Careington</td><td>DPO discount card network · white-label B2B</td><td>50M+ members · private</td><td>No</td><td>Broker + employer at scale</td><td><div class="verdict v-neutral">Distribution model</div></td></tr>
+        <tr><td>TrumpRx</td><td>Government Rx comparison portal · DTC</td><td>10M+ visits · $400M savings claimed · English-only</td><td>No · English-only</td><td>No employer channel</td><td><div class="verdict v-neutral">Market validator</div></td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:2rem;padding:1.5rem 2rem;background:var(--accent-l);border:1px solid var(--accent-b);border-radius:12px;">
+      <div style="font-size:13px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;">The moat Viventis can build</div>
+      <p class="body" style="color:var(--ink-2);">GoodRx can beat Viventis on pharmacy pricing. MiSalud can beat Viventis on clinical depth. Neither will show up at a 40-person construction company, run a 30-minute Spanish-first onboarding, activate workers in real time, and send the employer a monthly report proving employees are using it. <strong>The worksite activation system is the moat — and it is operational, not technological. That makes it harder to copy.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 FIRST 30 DAYS -->
+<section id="plan" class="section">
+  <div class="inner">
+    <div class="s-label">06 · First 30 Days</div>
+    <h2 class="serif h2" style="margin-bottom:.75rem;">Understand before <span class="italic">building anything.</span></h2>
+    <p class="body-lg" style="max-width:580px;margin-bottom:2.5rem;">The business has 2,500 members. That is not a commercial engine — it is a proof of concept. The first 30 days are about understanding what is actually working before touching it.</p>
+    <div>
+      <div class="phase">
+        <div><div class="ph-tag">Phase 01</div><div class="ph-period">Week 1</div><div class="ph-sub">Days 1–7</div></div>
+        <div>
+          <div class="ph-title">Build the truth dashboard</div>
+          <ul class="ph-list">
+            <li>Active members, paying employers, MRR, gross margin by benefit category</li>
+            <li><strong>Churn by employer cohort</strong> — is the business growing because employers love it, or because churn hasn't had time to appear?</li>
+            <li>Member activation rate: what % use the card within 30 days of enrollment?</li>
+            <li>First-use and repeat-use rates — by employer, by industry, by geography</li>
+            <li>Sales source by employer — how did the first 2,500 members actually arrive?</li>
+            <li>Cancellation reasons, verbatim, every single one</li>
+          </ul>
+          <div class="insight">The key question is not how the business is doing. It is: <strong>which employers are thriving and why — and which are quietly churning?</strong> The answer is the ICP.</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div><div class="ph-tag">Phase 02</div><div class="ph-period">Weeks 2–3</div><div class="ph-sub">Days 8–21</div></div>
+        <div>
+          <div class="ph-title">Interview the market manually — in person where possible</div>
+          <ul class="ph-list">
+            <li><strong>10 current employers:</strong> why did you buy, what do employees say, would you renew at a higher price?</li>
+            <li><strong>10 employees:</strong> do you know what Viventis is, have you used it, what confused you, would you use WhatsApp support?</li>
+            <li><strong>10 brokers:</strong> would you sell this, to whom, what commission makes it worth your time?</li>
+            <li>Find the 3 employers who love Viventis most — <strong>what industry, what size, what was the trigger, what do they share?</strong></li>
+          </ul>
+          <div class="insight"><strong>The Favo parallel:</strong> Same motion used for wholesalers in Lima. Drove to Cono Norte. Called every one of the 50 major wholesalers personally. Did the same for bodegas — went directly to sell, pitch, and absorb objections before writing a single playbook. The ICP always comes from the best existing customers, never from assumptions made at a desk.</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div><div class="ph-tag">Phase 03</div><div class="ph-period">Week 4</div><div class="ph-sub">Days 22–30</div></div>
+        <div>
+          <div class="ph-title">Lock ICP. Design activation system. Build the first pipeline.</div>
+          <ul class="ph-list">
+            <li>ICP defined with precision: industry, size, geography, buying trigger, objection pattern</li>
+            <li>Standard employer launch: signed contract → roster → cards in 48h → Spanish-first worksite onboarding → WhatsApp support → first-use campaign → monthly activation report</li>
+            <li>CRM structure defined, pipeline stages clear, outreach scripts drafted</li>
+            <li>First 100 target employers and 50 target brokers identified — starting in Texas</li>
+          </ul>
+          <div class="insight"><strong>Activation is the product.</strong> The employer is not paying for a card. They are paying for a benefit their employees actually use — and for the monthly proof that they do. Positioning activation as a product feature, not a support function, is what separates Viventis from a commodity card.</div>
+          <div class="not-do">
+            <div class="not-lbl">What I would not do in the first 30 days</div>
+            <div class="not-grid">
+              <div class="not-item"><span class="not-x">×</span><span>Hire a sales team before knowing what they're selling and to whom</span></div>
+              <div class="not-item"><span class="not-x">×</span><span>Build product features before proving current ones are used</span></div>
+              <div class="not-item"><span class="not-x">×</span><span>Chase enterprise employers or expand geographies</span></div>
+              <div class="not-item"><span class="not-x">×</span><span>Assume 2,500 members = a proven commercial engine</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 THE GROWTH STRATEGY -->
+<section id="strategy" class="section" style="background:var(--cream-2);">
+  <div class="inner">
+    <div class="s-label">07 · The Growth Strategy</div>
+    <h2 class="serif h2" style="margin-bottom:.75rem;">Build the engine. <span class="italic">Then scale it.</span></h2>
+    <p class="body-lg" style="max-width:580px;margin-bottom:2rem;">The commercial engine is built in four phases. Each phase unlocks the next. Nothing scales before the previous layer is proven.</p>
+    <div class="gtm-list">
+      <div class="gtm-row">
+        <div><div class="gtm-tag">Phase 01</div><div class="gtm-num">Direct</div><div class="gtm-period">Days 1–90</div></div>
+        <div><div class="gtm-title">Operator-led direct sales</div><div class="gtm-body">Sell directly without intermediaries. The goal is not revenue — it is learning. Every conversation surfaces the real objection, the real buying trigger, the real ICP. By Day 90: pitch is proven, activation playbook designed, first case studies exist. <strong>This phase is the foundation everything else is built on.</strong></div></div>
+      </div>
+      <div class="gtm-row">
+        <div><div class="gtm-tag">Phase 02</div><div class="gtm-num">Brokers</div><div class="gtm-period">Months 3–9</div></div>
+        <div><div class="gtm-title">Broker-assisted co-selling</div><div class="gtm-body">Benefits brokers are the outsourced benefits brain for SMB employers. <strong>70–90% of SMB supplemental health benefit purchases go through a broker.</strong> Target bilingual brokers and brokers serving construction, hospitality, food service, and agriculture employers in Texas, Florida, and California. Commission: $75 per activated employee after 60 days + 10% renewal. Paying on activation aligns broker incentives with actual usage.</div></div>
+      </div>
+      <div class="gtm-row">
+        <div><div class="gtm-tag">Phase 03</div><div class="gtm-num">Scale</div><div class="gtm-period">Months 9–18</div></div>
+        <div><div class="gtm-title">Channel scale — associations, PEOs, payroll</div><div class="gtm-body">Once the broker motion is repeatable, scale through NABIP chapters, regional broker groups, Hispanic chambers of commerce, construction and hospitality associations, and local PEO and payroll consultants. <strong>CAC drops significantly because the warm introduction is built in.</strong></div></div>
+      </div>
+      <div class="gtm-row">
+        <div><div class="gtm-tag">Phase 04</div><div class="gtm-num">Platform</div><div class="gtm-period">Months 18–24+</div></div>
+        <div><div class="gtm-title">Embedded distribution — the Careington model</div><div class="gtm-body">Get listed in benefits quoting and enrollment platforms. Embed inside payroll and HR platforms serving SMBs. The long-term architecture is <strong>Viventis as the Spanish-first health discount infrastructure layer</strong> — distributed by partners at scale, not sold one employer at a time.</div></div>
+      </div>
+    </div>
+    <div class="flywheel">
+      <div class="fly-title">The flywheel</div>
+      <div class="fly-ring">
+        <svg class="fly-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#c4d9cb"/>
+            </marker>
+          </defs>
+          <!-- Guide ring -->
+          <circle cx="300" cy="300" r="195" fill="none" stroke="#c4d9cb" stroke-width="1" stroke-dasharray="4 6" opacity="0.5"/>
+          <!-- 6 nodes at r=195 from center 300,300
+               Top       = 300, 105
+               Top-right = 300+195*sin(60)=469, 300-195*cos(60)=203
+               Bot-right = 469, 397
+               Bottom    = 300, 495
+               Bot-left  = 131, 397
+               Top-left  = 131, 203
+          -->
+          <!-- Arcs between nodes (short arc, clockwise) -->
+          <path d="M 317 109 A 195 195 0 0 1 462 210" fill="none" stroke="#c4d9cb" stroke-width="1.5" marker-end="url(#arr)"/>
+          <path d="M 472 227 A 195 195 0 0 1 472 373" fill="none" stroke="#c4d9cb" stroke-width="1.5" marker-end="url(#arr)"/>
+          <path d="M 462 390 A 195 195 0 0 1 317 491" fill="none" stroke="#c4d9cb" stroke-width="1.5" marker-end="url(#arr)"/>
+          <path d="M 283 491 A 195 195 0 0 1 138 390" fill="none" stroke="#c4d9cb" stroke-width="1.5" marker-end="url(#arr)"/>
+          <path d="M 128 373 A 195 195 0 0 1 128 227" fill="none" stroke="#c4d9cb" stroke-width="1.5" marker-end="url(#arr)"/>
+          <path d="M 138 210 A 195 195 0 0 1 283 109" fill="none" stroke="#c4d9cb" stroke-width="1.5" marker-end="url(#arr)"/>
+          <!-- Node circles r=68 -->
+          <circle class="fly-node" id="fn0" cx="300" cy="105" r="68" fill="white" stroke="#c4d9cb" stroke-width="1.5"/>
+          <circle class="fly-node" id="fn1" cx="469" cy="203" r="68" fill="white" stroke="#c4d9cb" stroke-width="1.5"/>
+          <circle class="fly-node" id="fn2" cx="469" cy="397" r="68" fill="white" stroke="#c4d9cb" stroke-width="1.5"/>
+          <circle class="fly-node" id="fn3" cx="300" cy="495" r="68" fill="white" stroke="#c4d9cb" stroke-width="1.5"/>
+          <circle class="fly-node" id="fn4" cx="131" cy="397" r="68" fill="white" stroke="#c4d9cb" stroke-width="1.5"/>
+          <circle class="fly-node" id="fn5" cx="131" cy="203" r="68" fill="white" stroke="#c4d9cb" stroke-width="1.5"/>
+          <!-- Node labels — 2 lines each, centered -->
+          <text x="300" y="99" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">More employers</text>
+          <text x="300" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">signed</text>
+          <text x="469" y="197" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">More members</text>
+          <text x="469" y="214" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">enrolled</text>
+          <text x="469" y="390" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">Activation drives</text>
+          <text x="469" y="407" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">real usage</text>
+          <text x="300" y="489" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">Employer sees</text>
+          <text x="300" y="506" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">monthly proof</text>
+          <text x="131" y="390" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">Employer renews</text>
+          <text x="131" y="407" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">+ refers</text>
+          <text x="131" y="197" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">Broker trust</text>
+          <text x="131" y="214" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" fill="#3a332c" font-weight="500">compounds</text>
+          <!-- Center -->
+          <text x="300" y="293" text-anchor="middle" font-family="DM Serif Display,serif" font-size="18" fill="#2c5f3f" font-style="italic">Growth</text>
+          <text x="300" y="315" text-anchor="middle" font-family="DM Serif Display,serif" font-size="18" fill="#2c5f3f" font-style="italic">Flywheel</text>
+        </svg>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;">
+      <div style="font-size:14px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:1rem;">Geographic sequence — infrastructure ready in 50 states · commercial strategy starts concentrated</div>
+      <div class="geo-grid">
+        <div class="geo-card"><div class="geo-state">Texas · Phase 1</div><div class="geo-why">Highest absolute number of uninsured Hispanics in the US. Massive construction and hospitality SMB density. Active broker market. ACA cliff hits hardest here.</div></div>
+        <div class="geo-card"><div class="geo-state">Florida · Phase 2</div><div class="geo-why">High Hispanic SMB density in South Florida. Strong construction, hospitality, and agriculture workforce. Active supplemental benefits broker market.</div></div>
+        <div class="geo-card"><div class="geo-state">California · Phase 3</div><div class="geo-why">Largest Hispanic population in the US. Agriculture, food service, and construction at scale. Higher regulatory complexity — better to enter with a proven playbook.</div></div>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;">
+      <div style="font-size:14px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:1rem;">Broker channel mechanics</div>
+      <div class="broker-grid">
+        <div class="broker-card"><div class="broker-title">What brokers need to sell Viventis</div><div class="broker-body">Product clarity — is it insurance, what is discounted, what are average savings. Compliance comfort — "not insurance" disclaimers, state availability, Spanish and English disclosures. Operational confidence — 48h cards, simple roster process, Spanish support. <strong>Economic reason — commission, renewal stream, low service burden.</strong> Proof — case studies, activation rates, employer retention data.</div></div>
+        <div class="broker-card"><div class="broker-title">Commission recommendation</div><div class="broker-body"><strong>$75 per activated employee after 60 days + 10% renewal.</strong> Paying on activation aligns broker incentives with real usage. For a 50-person employer: $3,750 first-year + $234/month recurring. Competitive with ancillary product commissions in this category. Activation-based structure reduces ghost enrollment.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 WHY ME -->
+<section id="why" class="section">
+  <div class="inner">
+    <div class="s-label">08 · The Operator</div>
+    <h2 class="serif h2" style="margin-bottom:1.5rem;">The same problem. <span class="italic">Different market.</span></h2>
+    <p class="why-intro">Every company I have joined has had the same underlying structure: product-market fit confirmed, commercial engine missing or broken. The job has always been the same — understand what is actually working, build the playbook around it, scale it. I have done this three times. The market changes. The motion does not.</p>
+    <div>
+      <div class="wc">
+        <div><div class="wc-co">Favo · 2020–2024</div><div class="wc-role">Head of New Business & Growth</div><div class="wc-period">B2B e-commerce · Peru & Brazil · 25× growth</div></div>
+        <div class="wc-body">
+          When Favo's costs spiraled, I took over Sales and CX — a 55-person team — and found a structural bleed hiding in plain sight. A previous head of sales had raised commission caps for top wholesalers to 15%. Favo was losing money on 50% of its revenue. Nobody had modeled it clearly.<br><br>
+          I built a per-customer P&L allocating logistics cost by SKU, by drop, by distribution method. Then I called each one of the 50 major wholesalers personally — starting from my desk to understand their business model — and then went to visit them directly: their operations, their distribution points, and in some cases their homes. The field work mattered. What you understand about how someone actually runs their business is different from what they tell you on a call. Once I had the full picture, I presented the new commission structure to all 50 wholesalers at once. I redesigned the entire model: eliminated the commission and gave them cost-price access instead, consolidated logistics around bigger trucks, optimized routes. Logistics cost dropped from ~14% to under 6%. Contribution margin went from -6% to +6% in four months — a 12-point swing on 50% of company revenue. That result extended Favo's runway by over a year.<br><br>
+          Separately: built the direct-to-bodega model from zero. Went to the bodegas directly — selling, pitching, absorbing objections — before writing a single playbook. Hired 15+ reps, onboarded 3,500+ bodegas, hit $50K MRR in three months.
+          <div class="wc-transfer"><strong>Transfer to Viventis:</strong> Find the 3 employers who love the product most. Understand exactly why. Build the commercial model around them — not around assumptions. Go to the worksite before building the system.</div>
+        </div>
+      </div>
+      <div class="wc">
+        <div><div class="wc-co">iO · 2024–Present</div><div class="wc-role">Head of Performance Growth → Product Manager</div><div class="wc-period">Peru's first neobank · Credicorp · promoted 2025</div></div>
+        <div class="wc-body">
+          Joined iO and found the same pattern: team spending without measurement, declining trend nobody had diagnosed, no structure holding it together. Acquisition down 30% month-on-month. Cut paid media by 80%, restored customer incentives, rebuilt the growth structure from scratch. In six months: 4× acquisition, CAC down 80%, trajectory flipped to +30% MoM.<br><br>
+          Built an outbound sales team of 12 from zero — 30%+ of total acquisition at 25% lower CAC than digital channels. Then promoted to PM: launched the loyalty program on a $20M/month base. Loyalty spend reduced from 2.7% to 1.35% of billing. Churn cut from 2.2% to 1.1%. Activation from 60% to 80% in eight months.
+          <div class="wc-transfer"><strong>Transfer to Viventis:</strong> The activation playbook — moving users from enrolled to active to retained — is the same muscle. At iO it was neobank customers. At Viventis it is Hispanic workers with a health discount card. The mechanics are directly transferable.</div>
+        </div>
+      </div>
+    </div>
+    <div class="pattern">
+      <div class="pattern-lbl">The pattern across every role</div>
+      <div class="pattern-text">Find what is actually working. Go to the customer directly — not to study them, but to understand them. Build the system around what you find. <em>Then hire to scale it.</em></div>
+    </div>
+  </div>
+</section>
+
+</main>
+<script>
+(function(){
+  var years=[2004,2006,2008,2010,2012,2014,2016,2018,2020,2022,2023,2024,2025,2026];
+  var hispRate=[32.7,32.1,31.2,32.7,29.1,23.3,20.1,18.8,18.4,18.0,17.9,18.4,19.5,21.2];
+  var whiteRate=[12.2,11.8,11.5,12.0,11.1,10.0,8.6,7.5,6.8,6.5,6.5,6.8,7.5,8.8];
+  var hispAbs=[11.8,12.1,12.5,13.4,13.0,12.8,11.5,11.2,11.1,11.0,11.1,11.2,12.0,13.1];
+  var projStart=11;
+  var ctx=document.getElementById('mainChart').getContext('2d');
+  var acaLine={id:'acaLine',afterDraw:function(chart){var c=chart.ctx,x=chart.scales.x,y=chart.scales.y,xi=x.getPixelForValue(2014);c.save();c.setLineDash([4,4]);c.strokeStyle='rgba(44,95,63,0.35)';c.lineWidth=1;c.beginPath();c.moveTo(xi,y.top);c.lineTo(xi,y.bottom);c.stroke();c.fillStyle='rgba(44,95,63,0.6)';c.font='10px Outfit,sans-serif';c.fillText('ACA expansions',xi+5,y.top+14);c.restore();}};
+  var cliffLine={id:'cliffLine',afterDraw:function(chart){var c=chart.ctx,x=chart.scales.x,y=chart.scales.y,xi=x.getPixelForValue(2025);c.save();c.setLineDash([4,4]);c.strokeStyle='rgba(122,92,46,0.4)';c.lineWidth=1;c.beginPath();c.moveTo(xi,y.top);c.lineTo(xi,y.bottom);c.stroke();c.fillStyle='rgba(122,92,46,0.65)';c.font='10px Outfit,sans-serif';c.fillText('ACA cliff →',xi-72,y.top+14);c.restore();}};
+  new Chart(ctx,{type:'line',data:{labels:years,datasets:[
+    {label:'Hispanic uninsured rate (%)',data:hispRate,borderColor:'#2c5f3f',backgroundColor:'rgba(44,95,63,0.06)',borderWidth:2,pointRadius:years.map(function(_,i){return i>=projStart?0:4;}),pointHoverRadius:6,pointBackgroundColor:'#2c5f3f',fill:true,tension:0.4,yAxisID:'y',segment:{borderDash:function(ctx){return ctx.p0DataIndex>=projStart-1?[5,4]:undefined;},borderColor:function(ctx){return ctx.p0DataIndex>=projStart-1?'rgba(44,95,63,0.45)':'#2c5f3f';}}},
+    {label:'White uninsured rate (%)',data:whiteRate,borderColor:'#7a5c2e',backgroundColor:'transparent',borderWidth:1.5,pointRadius:years.map(function(_,i){return i>=projStart?0:3;}),pointHoverRadius:5,pointBackgroundColor:'#7a5c2e',tension:0.4,yAxisID:'y',segment:{borderDash:function(ctx){return ctx.p0DataIndex>=projStart-1?[5,4]:undefined;},borderColor:function(ctx){return ctx.p0DataIndex>=projStart-1?'rgba(122,92,46,0.4)':'#7a5c2e';}}},
+    {label:'Hispanic est. count (M)',data:hispAbs,borderColor:'rgba(44,95,63,0.3)',backgroundColor:'transparent',borderWidth:1.5,borderDash:[3,3],pointRadius:0,tension:0.4,yAxisID:'y2'}
+  ]},plugins:[acaLine,cliffLine],options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(26,23,20,0.92)',titleColor:'#f9f6f0',bodyColor:'rgba(249,246,240,0.75)',padding:12,callbacks:{label:function(ctx){if(ctx.datasetIndex===2)return' Est. count: '+ctx.parsed.y+'M';return' '+ctx.dataset.label+': '+ctx.parsed.y+'%';}}}},scales:{x:{grid:{color:'rgba(0,0,0,0.05)',drawTicks:false},ticks:{font:{family:'DM Sans',size:12},color:'#9a9088',maxRotation:0}},y:{position:'left',min:0,max:40,grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{family:'DM Sans',size:12},color:'#9a9088',callback:function(v){return v+'%';}}},y2:{position:'right',min:0,max:20,grid:{display:false},ticks:{font:{family:'DM Sans',size:12},color:'rgba(44,95,63,0.5)',callback:function(v){return v+'M';}}}}}});
+  var sections=document.querySelectorAll('section[id]');
+  var links=document.querySelectorAll('.nav-links a');
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.remove('active');});var a=document.querySelector('.nav-links a[href="#'+e.target.id+'"]');if(a)a.classList.add('active');}});},{rootMargin:'-40% 0px -40% 0px'});
+  sections.forEach(function(s){obs.observe(s);});
+  // Flywheel animation
+  var nodes=document.querySelectorAll('.fly-node');
+  var ni=0;
+  function pulseFly(){
+    nodes.forEach(function(n){n.setAttribute('fill','white');n.setAttribute('stroke','#c4d9cb');n.setAttribute('stroke-width','1.5');});
+    if(nodes[ni]){nodes[ni].setAttribute('fill','#eef4f0');nodes[ni].setAttribute('stroke','#2c5f3f');nodes[ni].setAttribute('stroke-width','2.5');}
+    ni=(ni+1)%nodes.length;
+  }
+  pulseFly();
+  setInterval(pulseFly,900);
+})();
+</script>
+</body>
+</html>
