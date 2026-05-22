@@ -2,8 +2,166 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=/viventis">
-<title>Juan Diego Peñaherrera</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JD Peñaherrera</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F8F7F4;--cream-2:#EFEDE8;--cream-3:#E0DDD7;
+  --ink:#1C1B19;--ink-2:#4a4641;--ink-3:#6B6861;--ink-4:#9a9088;
+  --serif:'DM Serif Display',Georgia,serif;
+  --mono:'DM Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+}
+html,body{height:100%;}
+body{
+  font-family:var(--sans);
+  background:var(--cream);
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* NAV */
+nav{
+  border-bottom:1px solid var(--cream-3);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 3rem;
+  height:56px;
+  flex-shrink:0;
+}
+.nav-logo{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);}
+.nav-right{font-family:var(--mono);font-size:11px;color:var(--ink-4);}
+
+/* MAIN */
+main{
+  flex:1;
+  display:flex;
+  align-items:center;
+  padding:4rem 3rem;
+}
+.inner{max-width:780px;margin:0 auto;width:100%;}
+.grid{
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:5rem;
+  align-items:center;
+}
+
+/* NFT */
+.nft{
+  width:200px;
+  height:200px;
+  border-radius:6px;
+  image-rendering:pixelated;
+  display:block;
+  flex-shrink:0;
+  object-fit:cover;
+}
+
+/* TEXT */
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  margin-bottom:1.25rem;
+}
+.name{
+  font-family:var(--serif);
+  font-size:3rem;
+  font-weight:400;
+  line-height:1.05;
+  letter-spacing:-.01em;
+  margin-bottom:.75rem;
+}
+.name em{font-style:italic;color:var(--ink-2);}
+.tagline{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:1.1rem;
+  color:var(--ink-2);
+  margin-bottom:2.5rem;
+  line-height:1.55;
+}
+
+/* SECTION DOTS */
+.sections{
+  display:flex;
+  gap:2rem;
+  border-top:1px solid var(--cream-3);
+  padding-top:1.25rem;
+  flex-wrap:wrap;
+}
+.sec{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-4);
+  display:flex;
+  align-items:center;
+  gap:.4rem;
+}
+.sec::before{
+  content:'';
+  width:5px;height:5px;
+  border-radius:50%;
+  background:var(--cream-3);
+  flex-shrink:0;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:0 1.5rem;}
+  main{padding:3rem 1.5rem;align-items:center;}
+  .grid{
+    grid-template-columns:1fr;
+    gap:2rem;
+    text-align:center;
+  }
+  .nft{width:140px;height:140px;margin:0 auto;}
+  .name{font-size:2.4rem;}
+  .sections{justify-content:center;}
+}
+@media(max-width:400px){
+  nav{padding:0 1.25rem;}
+  main{padding:2.5rem 1.25rem;}
+  .name{font-size:2rem;}
+  .sections{gap:1.25rem;}
+}
+</style>
 </head>
-<body></body>
+<body>
+
+<nav>
+  <div class="nav-logo">JD</div>
+  <div class="nav-right">juandiego.work</div>
+</nav>
+
+<main>
+  <div class="inner">
+    <div class="grid">
+      <img class="nft" src="JD_PFP.jpeg" alt="JD Peñaherrera">
+      <div>
+        <div class="eyebrow">JD Peñaherrera</div>
+        <h1 class="name">Operator.<br><em>Builder.</em></h1>
+        <p class="tagline">This space is under construction.<br>More soon.</p>
+        <div class="sections">
+          <div class="sec">Experience</div>
+          <div class="sec">Writing</div>
+          <div class="sec">Projects</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+</body>
 </html>
