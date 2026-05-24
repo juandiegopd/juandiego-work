@@ -248,6 +248,55 @@ main{flex:1;padding:5rem 3rem 6rem;}
 .principle p{font-size:.925rem;color:var(--ink-2);line-height:1.7;}
 .closing+.closing{margin-top:2.5rem;}
 
+/* ── RESULTS LINE (Option 1 format) ── */
+.t-results-line{
+  font-family:var(--sans);font-size:.875rem;font-weight:600;
+  color:var(--ink);line-height:1.6;margin-top:.85rem;
+}
+
+/* ── FLOW DIAGRAM ── */
+.flow{
+  display:flex;align-items:stretch;gap:0;
+  margin:1.75rem 0 2rem;
+}
+.flow-step{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  position:relative;
+}
+.flow-step:not(:last-child)::after{
+  content:'→';
+  position:absolute;right:-10px;top:18px;
+  font-family:var(--mono);font-size:11px;
+  color:var(--ink-4);z-index:1;
+}
+.flow-node{
+  background:var(--cream-2);border:1px solid var(--cream-3);
+  border-radius:4px;padding:.7rem .6rem;
+  width:calc(100% - 12px);text-align:center;
+}
+.flow-label{
+  font-family:var(--mono);font-size:9.5px;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink);line-height:1.3;margin-bottom:.25rem;
+}
+.flow-sub{
+  font-family:var(--sans);font-size:.75rem;
+  color:var(--ink-4);line-height:1.35;
+}
+@media(max-width:768px){
+  .flow{flex-direction:column;gap:0;align-items:stretch;}
+  .flow-step{flex-direction:column;align-items:stretch;}
+  .flow-step:not(:last-child)::after{
+    content:'↓';position:static;
+    display:block;text-align:center;
+    padding:.3rem 0;font-size:11px;color:var(--ink-4);
+  }
+  .flow-node{width:100%;text-align:left;
+    display:flex;align-items:baseline;gap:.5rem;padding:.65rem .85rem;}
+  .flow-label{margin-bottom:0;white-space:nowrap;}
+  .flow-sub{font-size:.8rem;}
+}
+
 /* ── FOOTER ── */
 footer{
   border-top:1px solid var(--cream-3);padding:1.25rem 3rem;
@@ -295,7 +344,7 @@ footer a:hover{color:var(--ink-3);}
   <div class="hero">
     <div class="eyebrow">Experience</div>
     <h1 class="hero-title">Ten years.<br><em>One approach.</em></h1>
-    <p class="hero-lede">Every move I have made has followed the same logic: find the hardest available challenge, go all in, figure it out.</p>
+    <p class="hero-lede">Every career decision I have made has followed the same logic: find the hardest available challenge, go all in, figure it out. Not because I had a plan laid out, but because I have always been certain my ceiling was higher than what I was being asked to reach. That instinct has taken me across industries, company sizes, and geographies, and the outcome has been the same every time.</p>
     <div class="hero-body">
       <p>That has taken me from management consulting to Peru's largest bank, from a 20-person pre-Series A startup to Peru's first neobank — and at each stop, the job was never just the job title. It was diagnosing what was broken, building the structure that didn't exist, and taking full ownership of the outcome.</p>
       <p>Over the past decade I have operated as a generalist in the deepest sense of the word: I have run growth strategy, led geographic expansion across two countries, owned a P&amp;L representing 50% of company revenue, built and managed teams from 5 to 55 people, and launched products from zero. I have also founded a company, invested in a SaaS startup, and joined its board. The through-line is not a function or an industry — it is a repeatable way of working: understand the unit economics, identify the real constraint, build the fix, hand it off with a system.</p>
@@ -345,31 +394,19 @@ footer a:hover{color:var(--ink-3);}
       </button>
       <div class="t-body">
         <div class="t-decision">
-          I found the same pattern: a team spending without data, a declining trend nobody had analyzed, and no structure to solve the problem.
+          iO reached out before I was looking. The problem fit: declining acquisition, no growth structure, and a clear opportunity to rebuild from scratch.
         </div>
 
         <div class="t-phase">
           <div class="t-phase-title">Growth turnaround</div>
-          <p>Acquisition was down 30% MoM when I joined. I cut paid media by 80%, restored customer incentives, and rebuilt the growth structure from first principles — establishing an acquisition → activation → retention framework that hadn't existed. Then built an outbound sales team of 12 from zero, which became 30%+ of total acquisition at 25% lower CAC.</p>
-          <div class="t-results">
-            <span class="t-chip strong">4× acquisition in 6 months</span>
-            <span class="t-chip strong">CAC −80% in 8 months</span>
-            <span class="t-chip">−30% MoM → +30% MoM</span>
-            <span class="t-chip">Outbound: 30% of acq. at −25% CAC</span>
-          </div>
+          <p>Acquisition was down <strong>30% MoM</strong> when I joined. I cut paid media by <strong>80%</strong>, restored customer incentives, and rebuilt the growth structure from first principles — establishing an acquisition → activation → retention framework that hadn't existed. Then built an outbound sales team of 12 from zero, which became <strong>30%+ of total acquisition at 25% lower CAC</strong> than the channel average.</p>
+          <p class="t-results-line">4× acquisition in 6 months. CAC −80% in 8 months. Trajectory: −30% → +30% MoM.</p>
         </div>
 
         <div class="t-phase">
           <div class="t-phase-title">Loyalty &amp; retention</div>
-          <p>Promoted to Product Manager. Designed and launched iO's loyalty program from scratch — a three-tier system (Maestro, Experto, Aprendiz) built on customer research and partnerships. Rebuilt the economics of retention: reduced incentive spend from 2.7% to 1.35% of billing on a $20M/month base while improving every engagement metric.</p>
-          <div class="t-results">
-            <span class="t-chip strong">Churn: 2.2% → 1.1%</span>
-            <span class="t-chip strong">M0 activation: 60% → 80%</span>
-            <span class="t-chip">30-day activation: 68% → 85%</span>
-            <span class="t-chip">Time to first purchase: 6 → 4 days</span>
-            <span class="t-chip">Incentive spend: 2.7% → 1.35% of billing</span>
-            <span class="t-chip">Transactions/user: ~14 → ~16.5</span>
-          </div>
+          <p>Promoted to Product Manager. Designed and launched iO's loyalty program from scratch — a three-tier system (Maestro, Experto, Aprendiz) built on customer research and partnerships. Rebuilt the economics of retention: reduced incentive spend from <strong>2.7% to 1.35%</strong> of billing while improving every engagement metric. Managed a <strong>$20M/month billing base</strong>.</p>
+          <p class="t-results-line">Churn: 2.2% → 1.1%. M0 activation: 60% → 80%. 30-day activation: 68% → 85%. Time to first purchase: 6 → 4 days.</p>
         </div>
       </div>
     </div>
@@ -394,14 +431,9 @@ footer a:hover{color:var(--ink-3);}
         </div>
         <div class="t-block">
           <div class="t-block-label">What I did</div>
-          <p>During my sabbatical, I came across Aedificium — a SaaS startup digitizing the management of residential buildings, condominiums, and offices. The financials were scattered across disconnected spreadsheets with no consolidated view. I rebuilt the P&amp;L from scratch, modeled the business, spoke to customers, sellers, and support agents, and ran full due diligence.</p>
-          <p>My recommendation: this company needs capital and a proper governance structure, not just someone to execute. I invested, proposed building a board, and joined it. Revenue has grown to $250K+ ARR since.</p>
+          <p>During my sabbatical, I came across Aedificium — a SaaS startup digitizing the management of residential buildings, condominiums, and offices. The financials were scattered across disconnected spreadsheets with no consolidated view. I rebuilt the P&amp;L from scratch, modeled the business, spoke to customers, sellers, and support agents, and ran full due diligence. My recommendation: this company needs capital and a proper governance structure, not just someone to execute. I invested, proposed building a board, and joined it.</p>
         </div>
-        <div class="t-results">
-          <span class="t-chip strong">$250K+ ARR</span>
-          <span class="t-chip">Board member</span>
-          <span class="t-chip">SaaS · Real estate management</span>
-        </div>
+        <p class="t-results-line">Revenue grown to $250K+ ARR. Active board member.</p>
       </div>
     </div>
 
@@ -428,16 +460,7 @@ footer a:hover{color:var(--ink-3);}
 
         <div class="t-phase">
           <div class="t-phase-title">Investing &amp; learning</div>
-          <p>Made my first crypto bets — researched fundamentals, built a position, reached +500% ROI. Enrolled in a front-end coding bootcamp and built real things with HTML, CSS, and JS (this site included). Read extensively on entrepreneurship through acquisition and search funds, and had conversations with operators and investors who had walked that path.</p>
-          <div class="t-results">
-            <span class="t-chip">Crypto: +500% ROI</span>
-            <span class="t-chip">Front-end bootcamp</span>
-          </div>
-        </div>
-
-        <div class="t-phase">
-          <div class="t-phase-title">The decision</div>
-          <p>I wanted to go back to a startup where I could apply my full toolkit — growth, strategy, P&amp;L ownership — and add real value from day one. That search led me to iO.</p>
+          <p>Made my first crypto bets — researched fundamentals, built a position, reached <strong>+500% ROI</strong>. Enrolled in a front-end coding bootcamp and built real things with HTML, CSS, and JS. Read extensively on entrepreneurship through acquisition and search funds, and had conversations with operators and investors who had walked that path — that's what sharpened my eye when Aedificium came across my network.</p>
         </div>
       </div>
     </div>
@@ -449,7 +472,7 @@ footer a:hover{color:var(--ink-3);}
         <div class="t-main">
           <div class="t-company">Favo</div>
           <div class="t-role">Generalist → Head of New Business</div>
-          <div class="t-summary">Latin America's first social commerce platform. Five distinct roles in 3.5 years.</div>
+          <div class="t-summary">Latin America's first social commerce platform. $50M+ raised. Seven distinct roles in 3.5 years.</div>
         </div>
         <div class="t-toggle">+</div>
       </button>
@@ -459,49 +482,45 @@ footer a:hover{color:var(--ink-3);}
         </div>
 
         <div class="t-phase">
-          <div class="t-phase-title">Growth &amp; strategy — 2020–2021</div>
-          <p>Joined as one of ~25 employees. Built the entrepreneur tier model that structured all of Favo's commercial logic from scratch. Designed and launched the "Compra en Comunidad" mechanic — the community buy system that became Favo's growth engine. Scaled from $0 to $60M ARR in the first year. When growth stalled and experienced leaders couldn't fix it, I co-led the turnaround: diagnosed that direct acquisition wasn't scalable, pivoted to leader-driven growth. Contributed to the Series A process ($27M) alongside the CFO — financial modeling and data room — because of the trust earned.</p>
-          <div class="t-results">
-            <span class="t-chip strong">$0 → $60M ARR in year one</span>
-            <span class="t-chip strong">CAC −40%</span>
-            <span class="t-chip">Series A: $27M</span>
-            <span class="t-chip">Activation: 11%→14% (BR), 12%→17% (PE)</span>
-          </div>
+          <div class="t-phase-title">Growth &amp; strategy generalist — 2020–2021</div>
+          <p>Joined as one of ~25 employees. Built the entrepreneur tier model that structured all of Favo's commercial logic from scratch. Managed the performance marketing budget, referral strategy, and execution. Built and tested the first version of the community-buy mechanic. Ran dozens of acquisition experiments and built a controlled-CAC playbook from the results — including a first bodega attempt (~10 SDRs) that we killed after diagnosing the cost structure didn't work. When growth stalled, I co-led the turnaround: diagnosed that direct acquisition wasn't scalable and pivoted to leader-driven growth. Contributed to the Series A process alongside the CFO — financial modeling and data room.</p>
+          <p class="t-results-line">$0 → $60M ARR in year one. LAC −30%. Activation: 11%→14% (BR), 12%→17% (PE). Series A: $27M.</p>
         </div>
 
         <div class="t-phase">
-          <div class="t-phase-title">Expansion — 2021–2022</div>
-          <p>Sent to Brazil to lead the Campinas launch. Returned two months later promoted to lead Peru expansion. Selected Trujillo as Favo's first city outside Lima — based on structured analysis: food consumption density, smartphone and banking penetration, logistics viability, proximity to next target. Built an 8-person team. Coordinated across Legal, Finance, ERP, Logistics, Commercial, and Marketing simultaneously, from T-minus-3-months to soft launch.</p>
-          <div class="t-results">
-            <span class="t-chip strong">$2M MRR in 3 months</span>
-            <span class="t-chip strong">1,000+ stores onboarded</span>
-            <span class="t-chip">8-person team built</span>
-            <span class="t-chip">2 country launches</span>
-          </div>
+          <div class="t-phase-title">Strategy &amp; planning — Jul–Sep 2021</div>
+          <p>Series A closed and a new CEO joined. Favo entered an aggressive hiring wave — heads of Expansion, Sales, Partnerships, and Growth, most of them Brazil-based. My role: structure the incoming teams, transfer the operational playbook, and make sure institutional knowledge didn't get lost in the transition. Led strategy alignment sessions and goal checkpoints across all new function heads. Worked directly with the CEO in a cross-cultural context.</p>
         </div>
 
         <div class="t-phase">
-          <div class="t-phase-title">Mayoristas P&amp;L — 2022</div>
-          <p>Took over Sales &amp; CX (55+ people) when Brazil operations struggled. Immediately diagnosed a structural problem hiding in plain sight: wholesalers were receiving 15% commissions while generating 50% of GMV — Favo was losing money on half its revenue. I built a per-customer P&amp;L that allocated logistics costs by SKU, drop, and distribution method. Presented to the CEO and COO. They handed it back: "fix it."</p>
-          <p>I was the youngest person in the room by a decade when I sat with the logistics director, commercial director, and CFO to redesign the model. Called every one of the 50 major wholesalers personally. Eliminated the commission entirely, gave cost-price access instead, consolidated logistics around bigger trucks, optimized routes. The result extended Favo's runway by over a year.</p>
-          <div class="t-results">
-            <span class="t-chip strong">Margin: −6% → +6% in 4 months</span>
-            <span class="t-chip strong">Breakeven in 2 months</span>
-            <span class="t-chip">Logistics: ~14% → under 6% of GMV</span>
-            <span class="t-chip">50% of company revenue affected</span>
-            <span class="t-chip">MercadoPago deal: +30% purchasing power</span>
-          </div>
+          <div class="t-phase-title">Expansion manager — Oct 2021–Mar 2022</div>
+          <p>Sent to Brazil to lead the Campinas launch — analyzed geographic zones, assessed distribution centers, built demand and logistics models. Returned promoted to lead Peru expansion. Selected Trujillo as Favo's first city outside Lima based on structured analysis: food consumption density, smartphone and banking penetration, logistics viability. Built an 8-person team. Coordinated across Legal, Finance, Logistics, Commercial, and Marketing simultaneously.</p>
+          <p class="t-results-line">$2M MRR in 3 months. 1,000+ stores onboarded. 8-person team. 2 country launches.</p>
         </div>
 
         <div class="t-phase">
-          <div class="t-phase-title">New business — 2022–2023</div>
-          <p>Once the wholesaler business was stable, I transferred it to a C-level director and built the next business from scratch: a direct-to-bodega fulfillment model. Hired 15+ sales reps, built the playbook, created a SKU catalog optimized for bodega demand, structured new logistics, ran due diligence on a potential acquisition. When the model hit structural limits competing against Alicorp's distribution arm, I recommended shutting it down — including cutting the team I had built. The hardest decision of my time at Favo.</p>
-          <div class="t-results">
-            <span class="t-chip strong">$50K+ MRR in 3 months</span>
-            <span class="t-chip">3,500+ bodegas onboarded</span>
-            <span class="t-chip">15+ sales reps hired</span>
-            <span class="t-chip">LAC −50%</span>
-          </div>
+          <div class="t-phase-title">Brazil logistics — Mar–May 2022</div>
+          <p>Led a 7-person team to cut Brazil logistics costs. Projects: order forecasting for truck optimization, DC consolidation, pickup points, consolidated last-mile. Built per-macrozone P&amp;L at unit economics level by entrepreneur type — a tracking structure that had never existed. CEO and COO as primary stakeholders. Brazil operations were later shut down; the infrastructure built here became the foundation for the Mayoristas work.</p>
+          <p class="t-results-line">7-person team. Logistics: 13% → 10% (−3pp). CEO &amp; COO stakeholders.</p>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Mayoristas P&amp;L — Jul 2022–Apr 2023</div>
+          <p>Took over Sales &amp; CX (55+ people). Spent two months organizing the team and reduced CX headcount by 50%+. That audit surfaced the real problem: wholesalers receiving 15% commissions on 50% of GMV — Favo was losing money on half its revenue, and nobody had built the model to see it. I built a per-customer P&amp;L that allocated logistics costs by SKU, drop, and distribution method. Presented to the CEO and COO: "fix it."</p>
+          <p>I was the youngest in the room by a decade when I sat with the logistics director, commercial director, and CFO to redesign the model. Called every one of the 50 major wholesalers personally. Eliminated the commission entirely, gave cost-price access instead, consolidated logistics around bigger trucks, optimized routes. Closed a MercadoPago deal that gave wholesalers <strong>+30% purchasing power</strong>. The result extended Favo's runway by over a year.</p>
+          <p class="t-results-line">Contribution margin: −6% → +6% in 4 months. Breakeven in 2 months. Logistics: ~14% → under 6% of GMV.</p>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">New business — Bodegas — Jan 2023–Aug 2023</div>
+          <p>Once the wholesaler business was stable, I transferred it and built the next model from scratch: direct-to-bodega fulfillment. Hired 15+ sales reps, wrote the playbook, built the SKU catalog, structured logistics operations, ran due diligence on a potential acquisition. Revenue reached <strong>$50K+ MRR in 3 months</strong>, <strong>3,500+ bodegas</strong> onboarded. When the model hit structural limits competing against Alicorp's own distribution arm, the decision was made alongside the C-level to shut it down. Cutting the team I had built was the hardest moment of my time at Favo.</p>
+          <p class="t-results-line">$50K+ MRR in 3 months. 3,500+ bodegas. 15+ sales reps hired.</p>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Customer acquisition — Aug 2023–Feb 2024</div>
+          <p>Rebuilt entrepreneur acquisition from scratch: influencer campaigns, TikTok, paid ads, early UGC, and partnerships. Led a 15-person team. Maintained core entrepreneur growth operations throughout. Favo shut down operations in February 2024.</p>
+          <p class="t-results-line">LAC −50%. Channels: influencers, TikTok, UGC, partnerships.</p>
         </div>
       </div>
     </div>
@@ -524,41 +543,25 @@ footer a:hover{color:var(--ink-3);}
 
         <div class="t-phase">
           <div class="t-phase-title">BCG joint program — Digital operations</div>
-          <p>Co-led a joint BCG engagement: a ~$50M digital transformation program across seven work streams with C-level reporting. Oversaw 40+ people across four squads. Three promotions across three years.</p>
-          <div class="t-results">
-            <span class="t-chip strong">~$50M program · 7 work streams</span>
-            <span class="t-chip">40+ people across 4 squads</span>
-            <span class="t-chip">C-level reporting</span>
-          </div>
+          <p>Worked as an analyst in a 2-person team alongside a senior manager, overseeing deployment of a ~$50M digital transformation program in partnership with BCG — seven work streams, four operational squads (~40 people), and direct reporting to the CEO. Three promotions across three years.</p>
+          <p class="t-results-line">~$50M program. 7 work streams. ~40 people across 4 squads. CEO-level reporting.</p>
         </div>
 
         <div class="t-phase">
           <div class="t-phase-title">Financial &amp; retail strategy</div>
-          <p>Managed a PEN 2.3B public infrastructure investment portfolio — recovering $100M in non-payments, renegotiating $20M in deals, reducing operational costs by $550K, and delivering $2.5M in capital savings. Redesigned the compensation scheme for BCP's retail relationship managers, a model affecting thousands of bankers. Led efficiency analysis across the bank's cost-to-income ratio.</p>
-          <div class="t-results">
-            <span class="t-chip">PEN 2.3B portfolio managed</span>
-            <span class="t-chip">$100M non-payments recovered</span>
-            <span class="t-chip">$15M + $8M in cost impact</span>
-          </div>
+          <p>Managed a PEN 2.3B public infrastructure investment portfolio — recovering $100M in non-payments, renegotiating $20M in deals, reducing operational costs by $550K, and delivering $2.5M in capital savings. Redesigned the compensation scheme for BCP's retail relationship managers, a model affecting thousands of bankers. Led multiple analyses on the bank's cost-to-income ratio, presented directly to the CFO.</p>
+          <p class="t-results-line">PEN 2.3B portfolio. $100M non-payments recovered. $15M + $8M in personnel cost impact.</p>
         </div>
 
         <div class="t-phase">
           <div class="t-phase-title">Call center innovation</div>
           <p>Led a 4-person team applying A/B testing and machine learning to call routing and proactive notification logic. Redesigned the channel to reduce inbound volume, create new outbound sales flows, and generate net new revenue.</p>
-          <div class="t-results">
-            <span class="t-chip">~$500K additional MRR</span>
-            <span class="t-chip">~$100K personnel savings</span>
-          </div>
+          <p class="t-results-line">~$500K additional MRR. ~$100K in personnel savings.</p>
         </div>
 
         <div class="t-phase">
           <div class="t-phase-title">Parallel ventures</div>
-          <p>While building at BCP, I founded <strong>Simple Fitness</strong> (2019–2020) — a personalized nutrition and training startup. The premise: most people fail at diet not because of willpower, but because the guidance is too generic. Built a product people paid for; learned what building from zero actually feels like before you have resources, a team, or a playbook. Before that, I explored <strong>Wellbe</strong> (2018–2019) — an early health and wellness venture that was my first test of the entrepreneurial instinct.</p>
-          <div class="t-results">
-            <span class="t-chip">Simple Fitness · 2019–2020</span>
-            <span class="t-chip">Wellbe · 2018–2019</span>
-            <span class="t-chip">First zero-to-one experience</span>
-          </div>
+          <p>While building at BCP, I founded <strong>Simple Fitness</strong> (2019–2020) — a personalized nutrition and training startup. The premise: most people fail at diet not because of willpower, but because the guidance is too generic. Built a product people paid for; learned what building from zero actually feels like before you have resources, a team, or a playbook. Before that, I explored <strong>Wellbe</strong> (2018–2019) — accepted into Universidad del Pacífico's acceleration program, ran customer interviews, developed the concept. Didn't scale, but it was my first structured entrepreneurial test.</p>
         </div>
       </div>
     </div>
@@ -582,18 +585,13 @@ footer a:hover{color:var(--ink-3);}
         <div class="t-phase">
           <div class="t-phase-title">3M — Industrial Business Group</div>
           <p>Built commercial models for performance tracking. Re-engaged lapsed customers through direct outreach. Launched weekly sales cadences and competitive market share analysis across the industrial division. This is where I built my first real analytical muscle — the data work that makes strategy possible: building models, tracking cohorts, understanding where revenue was coming from and where it was leaking.</p>
-          <div class="t-results">
-            <span class="t-chip">$1.2M ARR recovered</span>
-          </div>
+          <p class="t-results-line">$1.2M ARR recovered.</p>
         </div>
 
         <div class="t-phase">
           <div class="t-phase-title">Apoyo Consultoría</div>
           <p>Four industry engagements across consumer goods, hospitality, construction, and mining. Built strategic plans for clients up to $300M in revenue. Contributed to a merger analysis that surfaced $2M in synergies. Presented to a partner committee as an intern — rare at the time. It was also the moment I realized that recommendations without execution weren't enough for me.</p>
-          <div class="t-results">
-            <span class="t-chip">$2M synergies identified</span>
-            <span class="t-chip">4 industry engagements</span>
-          </div>
+          <p class="t-results-line">$2M synergies identified. 4 industry engagements.</p>
         </div>
       </div>
     </div>
@@ -604,7 +602,38 @@ footer a:hover{color:var(--ink-3);}
   <div class="closing">
     <h2 class="closing-title">How I <em>think.</em></h2>
     <p>I run on data first, experience when data is inconclusive, and informed intuition as a last resort. That is not a philosophy — it is a practical constraint. Every time I have cut corners on the diagnostic, I have paid for it downstream. Every time I have stayed rigorous, the answer eventually became obvious.</p>
-    <p>My problem-solving has a pattern: <strong>diagnose with real data, not impressions</strong> → <strong>find the one or two metrics that actually move the system</strong> → <strong>test a hypothesis before scaling</strong> → <strong>iterate fast and document what works</strong> → <strong>hand off with a repeatable playbook</strong>. It sounds linear. In practice, it runs in parallel across three or four workstreams at once, with a team that owns each.</p>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-node">
+          <div class="flow-label">Diagnose</div>
+          <div class="flow-sub">real data, not impressions</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-node">
+          <div class="flow-label">Find the metric</div>
+          <div class="flow-sub">that moves the system</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-node">
+          <div class="flow-label">Test</div>
+          <div class="flow-sub">hypothesis before scaling</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-node">
+          <div class="flow-label">Iterate</div>
+          <div class="flow-sub">fast, document what works</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-node">
+          <div class="flow-label">Hand off</div>
+          <div class="flow-sub">with a repeatable playbook</div>
+        </div>
+      </div>
+    </div>
     <p>I think in unit economics. Not as a finance habit — as a mental model. The question I always ask first is: does this make sense at the per-transaction level? If it does not, no amount of volume will save it. I learned that lesson at Favo when I inherited a business that was losing money on half its revenue and no one had built the model to see it clearly.</p>
     <p>I think in systems. When I build something, I ask from the start: what does the repeatable, scalable version of this look like? That is how I operated at BCP when I designed a compensation scheme for thousands of retail bankers, at Favo when I built per-macrozone P&amp;L tracking across entrepreneur types, and at iO when I rebuilt the full acquisition → activation → retention structure from scratch.</p>
     <p>I have a low tolerance for delay and a high tolerance for being wrong. Moving fast and making mistakes you learn from is not recklessness — it is the only way to close the gap between hypothesis and reality. The bottleneck is rarely the decision; it is the willingness to decide without perfect information.</p>
