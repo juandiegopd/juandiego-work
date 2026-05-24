@@ -237,6 +237,17 @@ main{flex:1;padding:5rem 3rem 6rem;}
 }
 .pillar p{font-size:.875rem;color:var(--ink-3);line-height:1.6;}
 
+/* ── PRINCIPLES ── */
+.principles{display:flex;flex-direction:column;gap:.75rem;margin-top:1.75rem;}
+.principle{padding:1rem 0 1rem 1.25rem;border-left:2px solid var(--cream-3);}
+.principle-title{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);margin-bottom:.4rem;
+}
+.principle p{font-size:.925rem;color:var(--ink-2);line-height:1.7;}
+.closing+.closing{margin-top:2.5rem;}
+
 /* ── FOOTER ── */
 footer{
   border-top:1px solid var(--cream-3);padding:1.25rem 3rem;
@@ -283,20 +294,20 @@ footer a:hover{color:var(--ink-3);}
   <!-- HERO -->
   <div class="hero">
     <div class="eyebrow">Experience</div>
-    <h1 class="hero-title">Eight years.<br><em>One approach.</em></h1>
-    <p class="hero-lede">Every career decision has followed the same logic: find the hardest available challenge, go all in, figure it out.</p>
+    <h1 class="hero-title">Ten years.<br><em>One approach.</em></h1>
+    <p class="hero-lede">Every move I have made has followed the same logic: find the hardest available challenge, go all in, figure it out.</p>
     <div class="hero-body">
-      <p>I started in consulting and banking — learning how to structure problems and work at scale. Then I made the deliberate bet that changed everything: joining a twenty-person startup in the middle of a pandemic, because I was certain I had more to give than a large institution was asking for.</p>
-      <p>What followed was 3.5 years of building Favo across Peru and Brazil — running growth, operations, logistics, sales, P&amp;L — more distinct roles than most people hold across a decade. Then I took that exact playbook to iO, Peru's first neobank, and ran it again.</p>
+      <p>That has taken me from management consulting to Peru's largest bank, from a 20-person pre-Series A startup to Peru's first neobank — and at each stop, the job was never just the job title. It was diagnosing what was broken, building the structure that didn't exist, and taking full ownership of the outcome.</p>
+      <p>Over the past decade I have operated as a generalist in the deepest sense of the word: I have run growth strategy, led geographic expansion across two countries, owned a P&amp;L representing 50% of company revenue, built and managed teams from 5 to 55 people, and launched products from zero. I have also founded a company, invested in a SaaS startup, and joined its board. The through-line is not a function or an industry — it is a repeatable way of working: understand the unit economics, identify the real constraint, build the fix, hand it off with a system.</p>
     </div>
 
     <div class="stats">
       <div class="stat-item">
-        <span class="stat-num">8</span>
+        <span class="stat-num">~10</span>
         <span class="stat-label">Years operating</span>
       </div>
       <div class="stat-item">
-        <span class="stat-num">5</span>
+        <span class="stat-num">7</span>
         <span class="stat-label">Companies</span>
       </div>
       <div class="stat-item">
@@ -306,6 +317,10 @@ footer a:hover{color:var(--ink-3);}
       <div class="stat-item">
         <span class="stat-num">2</span>
         <span class="stat-label">Countries operated</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Languages</span>
       </div>
     </div>
   </div>
@@ -359,6 +374,37 @@ footer a:hover{color:var(--ink-3);}
       </div>
     </div>
 
+    <!-- Aedificium -->
+    <div class="t-entry">
+      <button class="t-header" onclick="toggle(this)" aria-expanded="false">
+        <div class="t-period">
+          2024 — Now
+          <span class="t-current">Current</span>
+        </div>
+        <div class="t-main">
+          <div class="t-company">Aedificium</div>
+          <div class="t-role">Investor &amp; Board Member</div>
+          <div class="t-summary">First ETA-style bet. Governance over execution.</div>
+        </div>
+        <div class="t-toggle">+</div>
+      </button>
+      <div class="t-body">
+        <div class="t-decision">
+          I wasn't looking for a passive investment. I was looking for a company where the constraint wasn't capital — it was structure.
+        </div>
+        <div class="t-block">
+          <div class="t-block-label">What I did</div>
+          <p>During my sabbatical, I came across Aedificium — a SaaS startup digitizing the management of residential buildings, condominiums, and offices. The financials were scattered across disconnected spreadsheets with no consolidated view. I rebuilt the P&amp;L from scratch, modeled the business, spoke to customers, sellers, and support agents, and ran full due diligence.</p>
+          <p>My recommendation: this company needs capital and a proper governance structure, not just someone to execute. I invested, proposed building a board, and joined it. Revenue has grown to $250K+ ARR since.</p>
+        </div>
+        <div class="t-results">
+          <span class="t-chip strong">$250K+ ARR</span>
+          <span class="t-chip">Board member</span>
+          <span class="t-chip">SaaS · Real estate management</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Sabbatical -->
     <div class="t-entry">
       <button class="t-header" onclick="toggle(this)" aria-expanded="false">
@@ -366,7 +412,7 @@ footer a:hover{color:var(--ink-3);}
         <div class="t-main">
           <div class="t-company">Sabbatical</div>
           <div class="t-role">Three months between Favo and iO</div>
-          <div class="t-summary">A deliberate pause to invest, build, and reset.</div>
+          <div class="t-summary">Deliberate pause — training, investing, learning, deciding.</div>
         </div>
         <div class="t-toggle">+</div>
       </button>
@@ -376,18 +422,22 @@ footer a:hover{color:var(--ink-3);}
         </div>
 
         <div class="t-phase">
-          <div class="t-phase-title">Investing</div>
-          <p>Made my first ETA-style bet: identified a SaaS company with unclear financials and a real opportunity, rebuilt the P&amp;L from scratch, spoke to customers and support agents, and assessed the actual size of the opportunity. My recommendation was that it needed capital and governance, not just execution. I invested, proposed building a board, and joined it. Also self-taught crypto investing fundamentals — +500% ROI.</p>
+          <div class="t-phase-title">Sports</div>
+          <p>Ran an Ironman relay (April 2024) and a marathon (May 2024). Started training open water swimming and Muay Thai. After 3.5 years of building at full intensity, the body needed recalibration as much as the head did.</p>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Investing &amp; learning</div>
+          <p>Made my first crypto bets — researched fundamentals, built a position, reached +500% ROI. Enrolled in a front-end coding bootcamp and built real things with HTML, CSS, and JS (this site included). Read extensively on entrepreneurship through acquisition and search funds, and had conversations with operators and investors who had walked that path.</p>
           <div class="t-results">
-            <span class="t-chip strong">SaaS investment: ~$200K ARR</span>
-            <span class="t-chip">Board member</span>
             <span class="t-chip">Crypto: +500% ROI</span>
+            <span class="t-chip">Front-end bootcamp</span>
           </div>
         </div>
 
         <div class="t-phase">
-          <div class="t-phase-title">Physical &amp; learning</div>
-          <p>Completed an Ironman relay, ran a marathon, trained open water swimming and Muay Thai. Finished a front-end coding bootcamp (HTML, CSS, JS) — enough to build and ship real things, which I'm still doing.</p>
+          <div class="t-phase-title">The decision</div>
+          <p>I wanted to go back to a startup where I could apply my full toolkit — growth, strategy, P&amp;L ownership — and add real value from day one. That search led me to iO.</p>
         </div>
       </div>
     </div>
@@ -472,17 +522,43 @@ footer a:hover{color:var(--ink-3);}
           As my role grew in visibility, my actual ownership reduced. I was controlling, not building. So I made the deliberate bet that changed everything.
         </div>
 
-        <div class="t-block">
-          <div class="t-block-label">What I did</div>
-          <p>Joined BCP's strategy team straight out of university. Led a joint BCG engagement — a ~$50M digital transformation program across seven work streams, with C-level reporting, overseeing 40+ people across four squads. Managed a PEN 2.3B public infrastructure projects portfolio. Led retail banking strategy redesign and later a team of four to streamline call center operations — reducing volume, creating new sales channels, and generating significant cost savings and new revenue.</p>
+        <div class="t-phase">
+          <div class="t-phase-title">BCG joint program — Digital operations</div>
+          <p>Co-led a joint BCG engagement: a ~$50M digital transformation program across seven work streams with C-level reporting. Oversaw 40+ people across four squads. Three promotions across three years.</p>
+          <div class="t-results">
+            <span class="t-chip strong">~$50M program · 7 work streams</span>
+            <span class="t-chip">40+ people across 4 squads</span>
+            <span class="t-chip">C-level reporting</span>
+          </div>
         </div>
 
-        <div class="t-results">
-          <span class="t-chip strong">~$50M program — 7 work streams</span>
-          <span class="t-chip">PEN 2.3B portfolio managed</span>
-          <span class="t-chip">$20M+ in personnel cost savings</span>
-          <span class="t-chip">~$6M MRR from call center</span>
-          <span class="t-chip">~$100M non-payments recovered</span>
+        <div class="t-phase">
+          <div class="t-phase-title">Financial &amp; retail strategy</div>
+          <p>Managed a PEN 2.3B public infrastructure investment portfolio — recovering $100M in non-payments, renegotiating $20M in deals, reducing operational costs by $550K, and delivering $2.5M in capital savings. Redesigned the compensation scheme for BCP's retail relationship managers, a model affecting thousands of bankers. Led efficiency analysis across the bank's cost-to-income ratio.</p>
+          <div class="t-results">
+            <span class="t-chip">PEN 2.3B portfolio managed</span>
+            <span class="t-chip">$100M non-payments recovered</span>
+            <span class="t-chip">$15M + $8M in cost impact</span>
+          </div>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Call center innovation</div>
+          <p>Led a 4-person team applying A/B testing and machine learning to call routing and proactive notification logic. Redesigned the channel to reduce inbound volume, create new outbound sales flows, and generate net new revenue.</p>
+          <div class="t-results">
+            <span class="t-chip">~$500K additional MRR</span>
+            <span class="t-chip">~$100K personnel savings</span>
+          </div>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Parallel ventures</div>
+          <p>While building at BCP, I founded <strong>Simple Fitness</strong> (2019–2020) — a personalized nutrition and training startup. The premise: most people fail at diet not because of willpower, but because the guidance is too generic. Built a product people paid for; learned what building from zero actually feels like before you have resources, a team, or a playbook. Before that, I explored <strong>Wellbe</strong> (2018–2019) — an early health and wellness venture that was my first test of the entrepreneurial instinct.</p>
+          <div class="t-results">
+            <span class="t-chip">Simple Fitness · 2019–2020</span>
+            <span class="t-chip">Wellbe · 2018–2019</span>
+            <span class="t-chip">First zero-to-one experience</span>
+          </div>
         </div>
       </div>
     </div>
@@ -490,11 +566,11 @@ footer a:hover{color:var(--ink-3);}
     <!-- Early -->
     <div class="t-entry">
       <button class="t-header" onclick="toggle(this)" aria-expanded="false">
-        <div class="t-period">2015 — 2017</div>
+        <div class="t-period">2016 — 2017</div>
         <div class="t-main">
           <div class="t-company">Apoyo Consultoría &amp; 3M</div>
           <div class="t-role">Consulting Intern · Business Intelligence Intern</div>
-          <div class="t-summary">Building the analytical foundation. Two companies, in parallel, finishing university.</div>
+          <div class="t-summary">Building the analytical foundation. Two companies, finishing university.</div>
         </div>
         <div class="t-toggle">+</div>
       </button>
@@ -505,7 +581,7 @@ footer a:hover{color:var(--ink-3);}
 
         <div class="t-phase">
           <div class="t-phase-title">3M — Industrial Business Group</div>
-          <p>Built commercial models for performance tracking. Re-engaged lapsed customers through direct outreach, recovering meaningful ARR. Launched weekly sales cadences and competitive market share analysis across the industrial division.</p>
+          <p>Built commercial models for performance tracking. Re-engaged lapsed customers through direct outreach. Launched weekly sales cadences and competitive market share analysis across the industrial division. This is where I built my first real analytical muscle — the data work that makes strategy possible: building models, tracking cohorts, understanding where revenue was coming from and where it was leaking.</p>
           <div class="t-results">
             <span class="t-chip">$1.2M ARR recovered</span>
           </div>
@@ -513,7 +589,7 @@ footer a:hover{color:var(--ink-3);}
 
         <div class="t-phase">
           <div class="t-phase-title">Apoyo Consultoría</div>
-          <p>Four industry engagements: structured problems, built hypotheses, delivered recommendations. Presented to a partner committee as an intern — rare at the time. Developed strategic plans for companies up to $1.5B in revenue. Identified $2M in merger synergies.</p>
+          <p>Four industry engagements across consumer goods, hospitality, construction, and mining. Built strategic plans for clients up to $300M in revenue. Contributed to a merger analysis that surfaced $2M in synergies. Presented to a partner committee as an intern — rare at the time. It was also the moment I realized that recommendations without execution weren't enough for me.</p>
           <div class="t-results">
             <span class="t-chip">$2M synergies identified</span>
             <span class="t-chip">4 industry engagements</span>
@@ -524,28 +600,40 @@ footer a:hover{color:var(--ink-3);}
 
   </div><!-- /timeline -->
 
-  <!-- CLOSING -->
+  <!-- HOW I THINK -->
   <div class="closing">
     <h2 class="closing-title">How I <em>think.</em></h2>
-    <p>I am not going to overclaim technical depth. What I can claim is a consistent operating pattern: walk into an ambiguous situation, understand the unit economics, identify the real constraint, and build the fix. I think in processes — I document systems so they can be handed off, replicated, or automated.</p>
-    <p>The proof is in the replication: the same playbook worked at Favo and at iO, in social commerce and neobanking. Different industries, same diagnosis. That is what an operator does.</p>
+    <p>I run on data first, experience when data is inconclusive, and informed intuition as a last resort. That is not a philosophy — it is a practical constraint. Every time I have cut corners on the diagnostic, I have paid for it downstream. Every time I have stayed rigorous, the answer eventually became obvious.</p>
+    <p>My problem-solving has a pattern: <strong>diagnose with real data, not impressions</strong> → <strong>find the one or two metrics that actually move the system</strong> → <strong>test a hypothesis before scaling</strong> → <strong>iterate fast and document what works</strong> → <strong>hand off with a repeatable playbook</strong>. It sounds linear. In practice, it runs in parallel across three or four workstreams at once, with a team that owns each.</p>
+    <p>I think in unit economics. Not as a finance habit — as a mental model. The question I always ask first is: does this make sense at the per-transaction level? If it does not, no amount of volume will save it. I learned that lesson at Favo when I inherited a business that was losing money on half its revenue and no one had built the model to see it clearly.</p>
+    <p>I think in systems. When I build something, I ask from the start: what does the repeatable, scalable version of this look like? That is how I operated at BCP when I designed a compensation scheme for thousands of retail bankers, at Favo when I built per-macrozone P&amp;L tracking across entrepreneur types, and at iO when I rebuilt the full acquisition → activation → retention structure from scratch.</p>
+    <p>I have a low tolerance for delay and a high tolerance for being wrong. Moving fast and making mistakes you learn from is not recklessness — it is the only way to close the gap between hypothesis and reality. The bottleneck is rarely the decision; it is the willingness to decide without perfect information.</p>
+  </div>
 
-    <div class="pillars">
-      <div class="pillar">
-        <div class="pillar-title">Sell</div>
-        <p>Sold 50 wholesalers a worse deal and convinced them anyway. Built sales forces from zero. Sold ideas to CEOs with no authority — only the strength of the argument.</p>
+  <!-- HOW I LEAD -->
+  <div class="closing">
+    <h2 class="closing-title">How I <em>lead.</em></h2>
+    <p>I lead from trust and high standards. Those two things are not in tension — they are the whole model. I give people real ownership from day one, stay close enough to stay honest, and far enough to let them grow. I do not micromanage. I am never absent.</p>
+    <div class="principles">
+      <div class="principle">
+        <div class="principle-title">Judgment, not control</div>
+        <p>I make decisions based on impact and data. I do not seek permanent consensus. I expect people to understand the reasoning behind a decision and execute with excellence — even when the work is not glamorous or visible.</p>
       </div>
-      <div class="pillar">
-        <div class="pillar-title">Hire</div>
-        <p>Built multiple teams from scratch. Hired for roles I'd never held. Made the hard calls to cut people I recruited when the data required it.</p>
+      <div class="principle">
+        <div class="principle-title">Challenge what deserves it</div>
+        <p>A well-structured challenge — with data, context, and a better alternative — is genuinely welcome. Systematic questioning of decisions already made is not. There is a difference, and I am direct about it.</p>
       </div>
-      <div class="pillar">
-        <div class="pillar-title">Solve</div>
-        <p>The Mayoristas turnaround is the clearest proof. But also the Peru expansion, the bodega model, the iO growth engine. Each time: understand the unit economics first.</p>
+      <div class="principle">
+        <div class="principle-title">Own the full system</div>
+        <p>The people who thrive working with me anticipate problems before they surface, escalate early when something is at risk, and take responsibility for the outcome — not just the visible parts of their role. If something fails, someone should have seen it coming.</p>
       </div>
-      <div class="pillar">
-        <div class="pillar-title">Own the P&amp;L</div>
-        <p>At Favo, I owned the P&amp;L for 50% of company revenue. At iO, managed economics on a $20M/month base. I don't optimize metrics — I understand what drives the business.</p>
+      <div class="principle">
+        <div class="principle-title">Error vs. lack of rigor</div>
+        <p>I do not penalize honest mistakes or public learning. I do penalize intellectual sloppiness, avoidable time waste, and shallow thinking. The standard is high because I believe in the people I work with.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-title">Direct, specific feedback</div>
+        <p>I coach 1:1. I do not shame publicly. When I invest significant time in detailed feedback, it is because I see real potential — not because I am managing performance.</p>
       </div>
     </div>
   </div>
