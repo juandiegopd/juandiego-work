@@ -14,6 +14,7 @@
   --serif:'DM Serif Display',Georgia,serif;
   --mono:'DM Mono',monospace;
   --sans:'DM Sans',sans-serif;
+  --dur:200ms;--ease:cubic-bezier(.2,.6,.2,1);
 }
 html,body{height:100%;}
 body{
@@ -28,108 +29,102 @@ body{
 /* NAV */
 nav{
   border-bottom:1px solid var(--cream-3);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 3rem;
-  height:56px;
-  flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;height:56px;flex-shrink:0;
+  background:rgba(248,247,244,0.92);
+  backdrop-filter:blur(8px);
+  position:sticky;top:0;z-index:10;
 }
-.nav-logo{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);}
-.nav-right{font-family:var(--mono);font-size:11px;color:var(--ink-4);}
+.nav-logo{
+  font-family:var(--mono);font-size:13px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink);
+  text-decoration:none;
+}
+.nav-links{display:flex;gap:2rem;align-items:center;}
+.nav-link{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);
+  text-decoration:none;
+  display:flex;align-items:center;gap:.4rem;
+  transition:color var(--dur) var(--ease);
+}
+.nav-link::before{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--cream-3);flex-shrink:0;
+  transition:background var(--dur) var(--ease);
+}
+.nav-link:hover{color:var(--ink);}
+.nav-link:hover::before{background:var(--ink);}
 
 /* MAIN */
-main{
-  flex:1;
-  display:flex;
-  align-items:center;
-  padding:4rem 3rem;
-}
+main{flex:1;display:flex;align-items:center;padding:4rem 3rem;}
 .inner{max-width:780px;margin:0 auto;width:100%;}
-.grid{
-  display:grid;
-  grid-template-columns:200px 1fr;
-  gap:5rem;
-  align-items:center;
-}
+.grid{display:grid;grid-template-columns:200px 1fr;gap:5rem;align-items:center;}
 
-/* NFT */
+/* PHOTO */
 .nft{
-  width:200px;
-  height:200px;
-  border-radius:6px;
-  image-rendering:pixelated;
-  display:block;
-  flex-shrink:0;
-  object-fit:cover;
+  width:200px;height:200px;border-radius:6px;
+  image-rendering:pixelated;display:block;
+  flex-shrink:0;object-fit:cover;
 }
 
 /* TEXT */
 .eyebrow{
-  font-family:var(--mono);
-  font-size:11px;
-  font-weight:500;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--ink-3);
-  margin-bottom:1.25rem;
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:1.25rem;
 }
 .name{
-  font-family:var(--serif);
-  font-size:3rem;
-  font-weight:400;
-  line-height:1.05;
-  letter-spacing:-.01em;
-  margin-bottom:.75rem;
+  font-family:var(--serif);font-size:3rem;font-weight:400;
+  line-height:1.05;letter-spacing:-.01em;margin-bottom:.75rem;
 }
 .name em{font-style:italic;color:var(--ink-2);}
 .tagline{
-  font-family:var(--serif);
-  font-style:italic;
-  font-size:1.1rem;
-  color:var(--ink-2);
-  margin-bottom:2.5rem;
-  line-height:1.55;
+  font-family:var(--serif);font-style:italic;
+  font-size:1.05rem;color:var(--ink-2);
+  margin-bottom:2.5rem;line-height:1.6;
 }
 
-/* SECTION DOTS */
+/* SECTION LINKS */
 .sections{
-  display:flex;
-  gap:2rem;
+  display:flex;gap:2rem;
   border-top:1px solid var(--cream-3);
-  padding-top:1.25rem;
-  flex-wrap:wrap;
+  padding-top:1.25rem;flex-wrap:wrap;
 }
 .sec{
-  font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--ink-4);
-  display:flex;
-  align-items:center;
-  gap:.4rem;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-4);
+  display:flex;align-items:center;gap:.4rem;
+  text-decoration:none;
+  transition:color var(--dur) var(--ease);
 }
 .sec::before{
-  content:'';
-  width:5px;height:5px;
-  border-radius:50%;
-  background:var(--cream-3);
-  flex-shrink:0;
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--cream-3);flex-shrink:0;
+  transition:background var(--dur) var(--ease);
+}
+.sec:hover{color:var(--ink);}
+.sec:hover::before{background:var(--ink);}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--cream-3);
+  padding:1.25rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-4);flex-shrink:0;
 }
 
 /* RESPONSIVE */
 @media(max-width:768px){
   nav{padding:0 1.5rem;}
-  main{padding:3rem 1.5rem;align-items:center;}
-  .grid{
-    grid-template-columns:1fr;
-    gap:2rem;
-    text-align:center;
-  }
+  .nav-links{gap:1.25rem;}
+  main{padding:3rem 1.5rem;align-items:flex-start;}
+  .grid{grid-template-columns:1fr;gap:2rem;text-align:center;}
   .nft{width:140px;height:140px;margin:0 auto;}
   .name{font-size:2.4rem;}
   .sections{justify-content:center;}
+  footer{padding:1rem 1.5rem;flex-direction:column;gap:.5rem;text-align:center;}
 }
 @media(max-width:400px){
   nav{padding:0 1.25rem;}
@@ -142,8 +137,11 @@ main{
 <body>
 
 <nav>
-  <div class="nav-logo">JD</div>
-  <div class="nav-right">juandiego.work</div>
+  <a class="nav-logo" href="/">JD</a>
+  <div class="nav-links">
+    <a class="nav-link" href="/experience">Experience</a>
+    <a class="nav-link" href="/blog">Writing</a>
+  </div>
 </nav>
 
 <main>
@@ -153,16 +151,20 @@ main{
       <div>
         <div class="eyebrow">JD Peñaherrera</div>
         <h1 class="name">Operator.<br><em>Builder.</em></h1>
-        <p class="tagline">This space is under construction.<br>More soon.</p>
+        <p class="tagline">Operator with a track record of scaling<br>businesses across Latin America.</p>
         <div class="sections">
-          <div class="sec">Experience</div>
-          <div class="sec">Writing</div>
-          <div class="sec">Projects</div>
+          <a class="sec" href="/experience">Experience</a>
+          <a class="sec" href="/blog">Writing</a>
         </div>
       </div>
     </div>
   </div>
 </main>
+
+<footer>
+  <span>juandiego.work</span>
+  <span>© 2026 JD Peñaherrera</span>
+</footer>
 
 </body>
 </html>

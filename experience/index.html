@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experience — JD Peñaherrera</title>
+<link rel="icon" type="image/jpeg" href="/JD_PFP.jpeg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F8F7F4;--cream-2:#EFEDE8;--cream-3:#E0DDD7;--cream-4:#C9C5BD;
+  --ink:#1C1B19;--ink-2:#4a4641;--ink-3:#6B6861;--ink-4:#9a9088;
+  --serif:'DM Serif Display',Georgia,serif;
+  --mono:'DM Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+  --dur:200ms;--ease:cubic-bezier(.2,.6,.2,1);
+}
+html,body{min-height:100%;}
+body{
+  font-family:var(--sans);
+  background:var(--cream);
+  color:var(--ink);
+  display:flex;flex-direction:column;
+}
+
+/* ── NAV ── */
+nav{
+  border-bottom:1px solid var(--cream-3);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;height:56px;flex-shrink:0;
+  background:rgba(248,247,244,0.92);
+  backdrop-filter:blur(8px);
+  position:sticky;top:0;z-index:10;
+}
+.nav-logo{
+  font-family:var(--mono);font-size:13px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);text-decoration:none;
+}
+.nav-links{display:flex;gap:2rem;align-items:center;}
+.nav-link{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);
+  text-decoration:none;display:flex;align-items:center;gap:.4rem;
+  transition:color var(--dur) var(--ease);
+}
+.nav-link::before{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--cream-3);flex-shrink:0;
+  transition:background var(--dur) var(--ease);
+}
+.nav-link:hover{color:var(--ink);}
+.nav-link:hover::before{background:var(--ink);}
+.nav-link.active{color:var(--ink);}
+.nav-link.active::before{background:var(--ink);}
+
+/* ── LAYOUT ── */
+main{flex:1;padding:5rem 3rem 6rem;}
+.page{max-width:680px;margin:0 auto;width:100%;}
+
+/* ── HERO ── */
+.hero{margin-bottom:4rem;}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:1.25rem;
+}
+.hero-title{
+  font-family:var(--serif);font-size:clamp(2rem,3.6vw,3rem);
+  font-weight:400;line-height:1.05;letter-spacing:-.01em;
+  margin-bottom:1.5rem;
+}
+.hero-title em{font-style:italic;color:var(--ink-2);}
+.hero-lede{
+  font-family:var(--serif);font-style:italic;
+  font-size:1.1rem;color:var(--ink-2);line-height:1.6;
+  max-width:560px;margin-bottom:1.5rem;
+}
+.hero-body{
+  font-size:.975rem;color:var(--ink-2);line-height:1.7;
+  max-width:560px;
+}
+.hero-body p+p{margin-top:.9em;}
+
+/* ── STAT ROW ── */
+.stats{
+  display:flex;gap:3rem;flex-wrap:wrap;
+  border-top:1px solid var(--cream-3);
+  border-bottom:1px solid var(--cream-3);
+  padding:1.25rem 0;margin:2.5rem 0 0;
+}
+.stat-item{display:flex;flex-direction:column;gap:.25rem;}
+.stat-num{
+  font-family:var(--serif);font-size:1.75rem;
+  line-height:1;letter-spacing:-.02em;color:var(--ink);
+}
+.stat-label{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);
+}
+
+/* ── SECTION HEADING ── */
+.section-heading{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:2rem;
+  padding-top:3.5rem;
+}
+
+/* ── TIMELINE ── */
+.timeline{display:flex;flex-direction:column;}
+
+.t-entry{border-top:1px solid var(--cream-3);}
+.t-entry:last-child{border-bottom:1px solid var(--cream-3);}
+
+/* Header row — always visible */
+.t-header{
+  width:100%;background:none;border:none;cursor:pointer;
+  display:grid;grid-template-columns:110px 1fr 28px;
+  gap:1.5rem;align-items:start;
+  padding:1.5rem 0;text-align:left;
+  transition:background var(--dur) var(--ease);
+}
+.t-header:hover{background:var(--cream-2);margin:0 -1.5rem;padding:1.5rem;width:calc(100% + 3rem);border-radius:6px;}
+
+.t-period{
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-4);
+  padding-top:.2rem;line-height:1.5;
+}
+.t-current{
+  display:inline-block;margin-top:.35rem;
+  font-size:9px;letter-spacing:.1em;
+  background:var(--ink);color:var(--cream);
+  padding:.15rem .4rem;border-radius:2px;
+}
+
+.t-main{display:flex;flex-direction:column;gap:.3rem;}
+.t-company{
+  font-family:var(--serif);font-size:1.25rem;
+  line-height:1.2;color:var(--ink);
+}
+.t-role{
+  font-family:var(--sans);font-size:.875rem;
+  color:var(--ink-3);line-height:1.4;
+}
+.t-summary{
+  font-family:var(--serif);font-style:italic;
+  font-size:.9rem;color:var(--ink-3);
+  line-height:1.5;margin-top:.3rem;
+}
+
+.t-toggle{
+  font-family:var(--mono);font-size:14px;
+  color:var(--ink-4);line-height:1;
+  padding-top:.25rem;text-align:right;
+  transition:transform var(--dur) var(--ease), color var(--dur) var(--ease);
+  flex-shrink:0;
+}
+
+/* Expanded body */
+.t-body{
+  display:none;
+  padding:0 0 2rem 7.5rem; /* align with t-main */
+}
+.t-body.open{display:block;}
+
+/* Within expanded */
+.t-decision{
+  font-family:var(--serif);font-style:italic;
+  font-size:.975rem;color:var(--ink-2);line-height:1.65;
+  margin-bottom:1.5rem;
+  padding-left:1rem;
+  border-left:2px solid var(--cream-3);
+}
+.t-block{margin-bottom:1.5rem;}
+.t-block-label{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-4);margin-bottom:.6rem;
+}
+.t-block p{
+  font-size:.925rem;color:var(--ink-2);line-height:1.7;
+}
+.t-block p+p{margin-top:.6em;}
+
+/* Results chips */
+.t-results{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem;}
+.t-chip{
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  background:var(--cream-2);border:1px solid var(--cream-3);
+  color:var(--ink-2);padding:.3rem .65rem;border-radius:3px;
+  white-space:nowrap;
+}
+.t-chip.strong{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+
+/* Phase dividers within Favo */
+.t-phase{margin-bottom:1.75rem;}
+.t-phase-title{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+  margin-bottom:.6rem;display:flex;align-items:center;gap:.6rem;
+}
+.t-phase-title::after{
+  content:'';flex:1;height:1px;background:var(--cream-3);
+}
+.t-phase p{font-size:.925rem;color:var(--ink-2);line-height:1.7;}
+.t-phase p+p{margin-top:.6em;}
+.t-phase .t-results{margin-top:.6rem;}
+
+/* ── CLOSING SECTION ── */
+.closing{
+  margin-top:4rem;padding-top:3rem;
+  border-top:1px solid var(--cream-3);
+}
+.closing-title{
+  font-family:var(--serif);font-size:1.5rem;
+  letter-spacing:-.01em;margin-bottom:1rem;
+}
+.closing-title em{font-style:italic;color:var(--ink-2);}
+.closing p{
+  font-size:.975rem;color:var(--ink-2);
+  line-height:1.7;max-width:540px;
+}
+.closing p+p{margin-top:.9em;}
+
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:2rem;}
+.pillar{
+  border:1px solid var(--cream-3);border-radius:6px;
+  padding:1.25rem 1.5rem;background:var(--cream);
+}
+.pillar-title{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);margin-bottom:.5rem;
+}
+.pillar p{font-size:.875rem;color:var(--ink-3);line-height:1.6;}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--cream-3);padding:1.25rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-4);flex-shrink:0;
+}
+footer a{color:var(--ink-4);text-decoration:none;transition:color var(--dur) var(--ease);}
+footer a:hover{color:var(--ink-3);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:0 1.5rem;}
+  .nav-links{gap:1.25rem;}
+  main{padding:3.5rem 1.5rem 5rem;}
+  .t-header{grid-template-columns:90px 1fr 24px;gap:1rem;}
+  .t-body{padding-left:0;padding-top:.75rem;}
+  .t-decision{margin-top:.5rem;}
+  .pillars{grid-template-columns:1fr;}
+  .stats{gap:2rem;}
+  footer{padding:1rem 1.5rem;flex-direction:column;gap:.5rem;text-align:center;}
+}
+@media(max-width:400px){
+  nav{padding:0 1.25rem;}
+  main{padding:2.5rem 1.25rem 4rem;}
+  .t-header{grid-template-columns:80px 1fr 20px;gap:.75rem;}
+  .hero-title{font-size:1.85rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">JD</a>
+  <div class="nav-links">
+    <a class="nav-link active" href="/experience">Experience</a>
+    <a class="nav-link" href="/blog">Writing</a>
+  </div>
+</nav>
+
+<main>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">Experience</div>
+    <h1 class="hero-title">Eight years.<br><em>One approach.</em></h1>
+    <p class="hero-lede">Every career decision has followed the same logic: find the hardest available challenge, go all in, figure it out.</p>
+    <div class="hero-body">
+      <p>I started in consulting and banking — learning how to structure problems and work at scale. Then I made the deliberate bet that changed everything: joining a twenty-person startup in the middle of a pandemic, because I was certain I had more to give than a large institution was asking for.</p>
+      <p>What followed was 3.5 years of building Favo across Peru and Brazil — running growth, operations, logistics, sales, P&amp;L — more distinct roles than most people hold across a decade. Then I took that exact playbook to iO, Peru's first neobank, and ran it again.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-num">8</span>
+        <span class="stat-label">Years operating</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">5</span>
+        <span class="stat-label">Companies</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">55+</span>
+        <span class="stat-label">People led</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">2</span>
+        <span class="stat-label">Countries operated</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section-heading">Career timeline</div>
+  <div class="timeline">
+
+    <!-- iO -->
+    <div class="t-entry">
+      <button class="t-header" onclick="toggle(this)" aria-expanded="false">
+        <div class="t-period">
+          2024 — Now
+          <span class="t-current">Current</span>
+        </div>
+        <div class="t-main">
+          <div class="t-company">iO — Credicorp</div>
+          <div class="t-role">Product Manager, Loyalty &amp; Growth</div>
+          <div class="t-summary">Peru's first neobank. Same diagnosis, different industry.</div>
+        </div>
+        <div class="t-toggle">+</div>
+      </button>
+      <div class="t-body">
+        <div class="t-decision">
+          I found the same pattern: a team spending without data, a declining trend nobody had analyzed, and no structure to solve the problem.
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Growth turnaround</div>
+          <p>Acquisition was down 30% MoM when I joined. I cut paid media by 80%, restored customer incentives, and rebuilt the growth structure from first principles — establishing an acquisition → activation → retention framework that hadn't existed. Then built an outbound sales team of 12 from zero, which became 30%+ of total acquisition at 25% lower CAC.</p>
+          <div class="t-results">
+            <span class="t-chip strong">4× acquisition in 6 months</span>
+            <span class="t-chip strong">CAC −80% in 8 months</span>
+            <span class="t-chip">−30% MoM → +30% MoM</span>
+            <span class="t-chip">Outbound: 30% of acq. at −25% CAC</span>
+          </div>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Loyalty &amp; retention</div>
+          <p>Promoted to Product Manager. Designed and launched iO's loyalty program from scratch — a three-tier system (Maestro, Experto, Aprendiz) built on customer research and partnerships. Rebuilt the economics of retention: reduced incentive spend from 2.7% to 1.35% of billing on a $20M/month base while improving every engagement metric.</p>
+          <div class="t-results">
+            <span class="t-chip strong">Churn: 2.2% → 1.1%</span>
+            <span class="t-chip strong">M0 activation: 60% → 80%</span>
+            <span class="t-chip">30-day activation: 68% → 85%</span>
+            <span class="t-chip">Time to first purchase: 6 → 4 days</span>
+            <span class="t-chip">Incentive spend: 2.7% → 1.35% of billing</span>
+            <span class="t-chip">Transactions/user: ~14 → ~16.5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sabbatical -->
+    <div class="t-entry">
+      <button class="t-header" onclick="toggle(this)" aria-expanded="false">
+        <div class="t-period">2024</div>
+        <div class="t-main">
+          <div class="t-company">Sabbatical</div>
+          <div class="t-role">Three months between Favo and iO</div>
+          <div class="t-summary">A deliberate pause to invest, build, and reset.</div>
+        </div>
+        <div class="t-toggle">+</div>
+      </button>
+      <div class="t-body">
+        <div class="t-decision">
+          I've never believed in drifting between jobs. This was three months I used with intention.
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Investing</div>
+          <p>Made my first ETA-style bet: identified a SaaS company with unclear financials and a real opportunity, rebuilt the P&amp;L from scratch, spoke to customers and support agents, and assessed the actual size of the opportunity. My recommendation was that it needed capital and governance, not just execution. I invested, proposed building a board, and joined it. Also self-taught crypto investing fundamentals — +500% ROI.</p>
+          <div class="t-results">
+            <span class="t-chip strong">SaaS investment: ~$200K ARR</span>
+            <span class="t-chip">Board member</span>
+            <span class="t-chip">Crypto: +500% ROI</span>
+          </div>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Physical &amp; learning</div>
+          <p>Completed an Ironman relay, ran a marathon, trained open water swimming and Muay Thai. Finished a front-end coding bootcamp (HTML, CSS, JS) — enough to build and ship real things, which I'm still doing.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Favo -->
+    <div class="t-entry">
+      <button class="t-header" onclick="toggle(this)" aria-expanded="false">
+        <div class="t-period">2020 — 2024</div>
+        <div class="t-main">
+          <div class="t-company">Favo</div>
+          <div class="t-role">Generalist → Head of New Business</div>
+          <div class="t-summary">Latin America's first social commerce platform. Five distinct roles in 3.5 years.</div>
+        </div>
+        <div class="t-toggle">+</div>
+      </button>
+      <div class="t-body">
+        <div class="t-decision">
+          I joined Favo — twenty people, pandemic, no playbook — because I was certain that I had more to give than BCP was asking for. I left a stable corporate career and took a significant pay cut. It was the most important decision I have made.
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Growth &amp; strategy — 2020–2021</div>
+          <p>Joined as one of ~25 employees. Built the entrepreneur tier model that structured all of Favo's commercial logic from scratch. Designed and launched the "Compra en Comunidad" mechanic — the community buy system that became Favo's growth engine. Scaled from $0 to $60M ARR in the first year. When growth stalled and experienced leaders couldn't fix it, I co-led the turnaround: diagnosed that direct acquisition wasn't scalable, pivoted to leader-driven growth. Contributed to the Series A process ($27M) alongside the CFO — financial modeling and data room — because of the trust earned.</p>
+          <div class="t-results">
+            <span class="t-chip strong">$0 → $60M ARR in year one</span>
+            <span class="t-chip strong">CAC −40%</span>
+            <span class="t-chip">Series A: $27M</span>
+            <span class="t-chip">Activation: 11%→14% (BR), 12%→17% (PE)</span>
+          </div>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Expansion — 2021–2022</div>
+          <p>Sent to Brazil to lead the Campinas launch. Returned two months later promoted to lead Peru expansion. Selected Trujillo as Favo's first city outside Lima — based on structured analysis: food consumption density, smartphone and banking penetration, logistics viability, proximity to next target. Built an 8-person team. Coordinated across Legal, Finance, ERP, Logistics, Commercial, and Marketing simultaneously, from T-minus-3-months to soft launch.</p>
+          <div class="t-results">
+            <span class="t-chip strong">$2M MRR in 3 months</span>
+            <span class="t-chip strong">1,000+ stores onboarded</span>
+            <span class="t-chip">8-person team built</span>
+            <span class="t-chip">2 country launches</span>
+          </div>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Mayoristas P&amp;L — 2022</div>
+          <p>Took over Sales &amp; CX (55+ people) when Brazil operations struggled. Immediately diagnosed a structural problem hiding in plain sight: wholesalers were receiving 15% commissions while generating 50% of GMV — Favo was losing money on half its revenue. I built a per-customer P&amp;L that allocated logistics costs by SKU, drop, and distribution method. Presented to the CEO and COO. They handed it back: "fix it."</p>
+          <p>I was the youngest person in the room by a decade when I sat with the logistics director, commercial director, and CFO to redesign the model. Called every one of the 50 major wholesalers personally. Eliminated the commission entirely, gave cost-price access instead, consolidated logistics around bigger trucks, optimized routes. The result extended Favo's runway by over a year.</p>
+          <div class="t-results">
+            <span class="t-chip strong">Margin: −6% → +6% in 4 months</span>
+            <span class="t-chip strong">Breakeven in 2 months</span>
+            <span class="t-chip">Logistics: ~14% → under 6% of GMV</span>
+            <span class="t-chip">50% of company revenue affected</span>
+            <span class="t-chip">MercadoPago deal: +30% purchasing power</span>
+          </div>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">New business — 2022–2023</div>
+          <p>Once the wholesaler business was stable, I transferred it to a C-level director and built the next business from scratch: a direct-to-bodega fulfillment model. Hired 15+ sales reps, built the playbook, created a SKU catalog optimized for bodega demand, structured new logistics, ran due diligence on a potential acquisition. When the model hit structural limits competing against Alicorp's distribution arm, I recommended shutting it down — including cutting the team I had built. The hardest decision of my time at Favo.</p>
+          <div class="t-results">
+            <span class="t-chip strong">$50K+ MRR in 3 months</span>
+            <span class="t-chip">3,500+ bodegas onboarded</span>
+            <span class="t-chip">15+ sales reps hired</span>
+            <span class="t-chip">LAC −50%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BCP -->
+    <div class="t-entry">
+      <button class="t-header" onclick="toggle(this)" aria-expanded="false">
+        <div class="t-period">2017 — 2020</div>
+        <div class="t-main">
+          <div class="t-company">Banco de Crédito del Perú</div>
+          <div class="t-role">Business Analyst → Junior Project Leader</div>
+          <div class="t-summary">Peru's largest bank. Strategy with real implementation. Then the ownership reduced.</div>
+        </div>
+        <div class="t-toggle">+</div>
+      </button>
+      <div class="t-body">
+        <div class="t-decision">
+          As my role grew in visibility, my actual ownership reduced. I was controlling, not building. So I made the deliberate bet that changed everything.
+        </div>
+
+        <div class="t-block">
+          <div class="t-block-label">What I did</div>
+          <p>Joined BCP's strategy team straight out of university. Led a joint BCG engagement — a ~$50M digital transformation program across seven work streams, with C-level reporting, overseeing 40+ people across four squads. Managed a PEN 2.3B public infrastructure projects portfolio. Led retail banking strategy redesign and later a team of four to streamline call center operations — reducing volume, creating new sales channels, and generating significant cost savings and new revenue.</p>
+        </div>
+
+        <div class="t-results">
+          <span class="t-chip strong">~$50M program — 7 work streams</span>
+          <span class="t-chip">PEN 2.3B portfolio managed</span>
+          <span class="t-chip">$20M+ in personnel cost savings</span>
+          <span class="t-chip">~$6M MRR from call center</span>
+          <span class="t-chip">~$100M non-payments recovered</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Early -->
+    <div class="t-entry">
+      <button class="t-header" onclick="toggle(this)" aria-expanded="false">
+        <div class="t-period">2015 — 2017</div>
+        <div class="t-main">
+          <div class="t-company">Apoyo Consultoría &amp; 3M</div>
+          <div class="t-role">Consulting Intern · Business Intelligence Intern</div>
+          <div class="t-summary">Building the analytical foundation. Two companies, in parallel, finishing university.</div>
+        </div>
+        <div class="t-toggle">+</div>
+      </button>
+      <div class="t-body">
+        <div class="t-decision">
+          I needed analytical hard skills first — then strategic thinking. Then I needed to go somewhere those two things could actually be used.
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">3M — Industrial Business Group</div>
+          <p>Built commercial models for performance tracking. Re-engaged lapsed customers through direct outreach, recovering meaningful ARR. Launched weekly sales cadences and competitive market share analysis across the industrial division.</p>
+          <div class="t-results">
+            <span class="t-chip">$1.2M ARR recovered</span>
+          </div>
+        </div>
+
+        <div class="t-phase">
+          <div class="t-phase-title">Apoyo Consultoría</div>
+          <p>Four industry engagements: structured problems, built hypotheses, delivered recommendations. Presented to a partner committee as an intern — rare at the time. Developed strategic plans for companies up to $1.5B in revenue. Identified $2M in merger synergies.</p>
+          <div class="t-results">
+            <span class="t-chip">$2M synergies identified</span>
+            <span class="t-chip">4 industry engagements</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <h2 class="closing-title">How I <em>think.</em></h2>
+    <p>I am not going to overclaim technical depth. What I can claim is a consistent operating pattern: walk into an ambiguous situation, understand the unit economics, identify the real constraint, and build the fix. I think in processes — I document systems so they can be handed off, replicated, or automated.</p>
+    <p>The proof is in the replication: the same playbook worked at Favo and at iO, in social commerce and neobanking. Different industries, same diagnosis. That is what an operator does.</p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-title">Sell</div>
+        <p>Sold 50 wholesalers a worse deal and convinced them anyway. Built sales forces from zero. Sold ideas to CEOs with no authority — only the strength of the argument.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-title">Hire</div>
+        <p>Built multiple teams from scratch. Hired for roles I'd never held. Made the hard calls to cut people I recruited when the data required it.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-title">Solve</div>
+        <p>The Mayoristas turnaround is the clearest proof. But also the Peru expansion, the bodega model, the iO growth engine. Each time: understand the unit economics first.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-title">Own the P&amp;L</div>
+        <p>At Favo, I owned the P&amp;L for 50% of company revenue. At iO, managed economics on a $20M/month base. I don't optimize metrics — I understand what drives the business.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+</main>
+
+<footer>
+  <a href="/">← juandiego.work</a>
+  <span>© 2026 JD Peñaherrera</span>
+</footer>
+
+<script>
+function toggle(btn) {
+  const entry = btn.closest('.t-entry');
+  const body  = entry.querySelector('.t-body');
+  const tog   = btn.querySelector('.t-toggle');
+  const isOpen = body.classList.contains('open');
+
+  // Close all others
+  document.querySelectorAll('.t-body.open').forEach(b => {
+    b.classList.remove('open');
+    b.closest('.t-entry').querySelector('.t-toggle').textContent = '+';
+    b.closest('.t-entry').querySelector('.t-header').setAttribute('aria-expanded','false');
+  });
+
+  if (!isOpen) {
+    body.classList.add('open');
+    tog.textContent = '−';
+    btn.setAttribute('aria-expanded','true');
+  }
+}
+</script>
+
+</body>
+</html>
