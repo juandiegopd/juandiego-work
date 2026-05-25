@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /viventis
+Disallow: /kast
+
+Sitemap: https://juandiego.work/sitemap.xml
