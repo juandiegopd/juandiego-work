@@ -1,5 +1,6 @@
 User-agent: *
 Disallow: /viventis
 Disallow: /kast
+Disallow: /io-loyalty-benchmark
 
 Sitemap: https://juandiego.work/sitemap.xml

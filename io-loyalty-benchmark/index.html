@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iO Loyalty Benchmark — May 2026</title>
+<link rel="icon" type="image/jpeg" href="/JD_PFP.jpeg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F8F7F4;--cream-2:#EFEDE8;--cream-3:#E0DDD7;--cream-4:#C9C5BD;
+  --ink:#1C1B19;--ink-2:#4a4641;--ink-3:#6B6861;--ink-4:#9a9088;
+  --serif:'DM Serif Display',Georgia,serif;
+  --mono:'DM Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+  --dur:200ms;--ease:cubic-bezier(.2,.6,.2,1);
+  --region-crypto:#C8A96E;
+  --region-latam:#6B9E78;
+  --region-na:#6B8BAE;
+  --region-eu:#8B7BAE;
+  --region-ref:#1C1B19;
+}
+html,body{min-height:100%;}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);display:flex;flex-direction:column;}
+
+/* NAV */
+nav{border-bottom:1px solid var(--cream-3);display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:56px;flex-shrink:0;background:rgba(248,247,244,0.92);backdrop-filter:blur(8px);position:sticky;top:0;z-index:100;}
+.nav-logo{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);text-decoration:none;}
+.nav-links{display:flex;gap:2rem;align-items:center;}
+.nav-link{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;display:flex;align-items:center;gap:.4rem;transition:color var(--dur) var(--ease);}
+.nav-link::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cream-3);flex-shrink:0;transition:background var(--dur) var(--ease);}
+.nav-link:hover{color:var(--ink);}
+.nav-link:hover::before{background:var(--ink);}
+
+/* LAYOUT */
+main{flex:1;padding:5rem 3rem 6rem;}
+.page{max-width:1080px;margin:0 auto;width:100%;}
+.page-narrow{max-width:720px;margin:0 auto;width:100%;}
+
+/* HERO */
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1.25rem;}
+.hero-title{font-family:var(--serif);font-size:clamp(2rem,3.6vw,3rem);font-weight:400;line-height:1.05;letter-spacing:-.01em;margin-bottom:1.25rem;}
+.hero-title em{font-style:italic;color:var(--ink-2);}
+.hero-lede{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--ink-2);line-height:1.65;max-width:560px;}
+
+/* STATS */
+.stats{display:flex;gap:0;margin-top:3.5rem;border-top:1px solid var(--cream-3);border-bottom:1px solid var(--cream-3);}
+.stat{flex:1;padding:1.5rem 0;border-right:1px solid var(--cream-3);padding-left:1.5rem;}
+.stat:last-child{border-right:none;}
+.stat-num{font-family:var(--serif);font-size:2rem;color:var(--ink);line-height:1;}
+.stat-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);margin-top:.4rem;}
+
+/* METHODOLOGY ACCORDION */
+.method{margin-top:3rem;}
+.method-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:none;border-top:1px solid var(--cream-3);border-bottom:1px solid var(--cream-3);padding:1rem 0;cursor:pointer;text-align:left;}
+.method-toggle-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);}
+.method-toggle-icon{font-family:var(--mono);font-size:14px;color:var(--ink-4);transition:transform var(--dur) var(--ease);}
+.method-toggle[aria-expanded="true"] .method-toggle-icon{transform:rotate(45deg);}
+.method-body{display:none;padding:1.5rem 0 2rem;border-bottom:1px solid var(--cream-3);}
+.method-body.open{display:block;}
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.method-section{margin-bottom:1.25rem;}
+.method-section h4{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.6rem;}
+.method-section p,.method-section li{font-family:var(--sans);font-size:.8rem;color:var(--ink-3);line-height:1.6;}
+.method-section ul{padding-left:1rem;}
+.method-section li{margin-bottom:.2rem;}
+.method-formula{font-family:var(--mono);font-size:.8rem;background:var(--cream-2);padding:.75rem 1rem;border-radius:4px;color:var(--ink-2);margin-bottom:1rem;border-left:3px solid var(--cream-4);}
+.conf-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;}
+.conf-icon{font-size:.9rem;}
+.conf-text{font-family:var(--sans);font-size:.8rem;color:var(--ink-3);}
+
+/* GLOBE */
+.globe-section{margin-top:3.5rem;}
+.globe-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);margin-bottom:1rem;}
+.globe-wrap{position:relative;width:100%;height:420px;border-radius:8px;overflow:hidden;background:#0d0d0d;}
+#globe-container{width:100%;height:100%;}
+.globe-legend{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:1rem;}
+.legend-item{display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4);}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* FILTER + CARDS */
+.filter-section{margin-top:3.5rem;}
+.filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem;}
+.filter-btn{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .9rem;border-radius:2px;border:1px solid var(--cream-3);background:transparent;color:var(--ink-4);cursor:pointer;transition:all var(--dur) var(--ease);}
+.filter-btn:hover{border-color:var(--ink-4);color:var(--ink-3);}
+.filter-btn.active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+.company-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;}
+.company-card{border:1px solid var(--cream-3);border-radius:4px;padding:1rem;background:var(--cream);transition:all var(--dur) var(--ease);cursor:pointer;text-decoration:none;display:block;}
+.company-card:hover{border-color:var(--ink-4);transform:translateY(-1px);}
+.company-card.io-card{border-color:var(--ink);border-width:2px;}
+.company-card.hidden{display:none;}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.5rem;}
+.card-name{font-family:var(--serif);font-size:.95rem;color:var(--ink);line-height:1.2;}
+.card-ref-badge{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--cream);padding:.15rem .4rem;border-radius:2px;}
+.card-hq{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.5rem;}
+.card-badges{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.5rem;}
+.badge-cc{background:var(--ink);color:var(--cream);font-size:9px;padding:.15rem .4rem;border-radius:2px;font-family:var(--mono);letter-spacing:.06em;}
+.badge-dc{background:var(--cream-3);color:var(--ink-2);font-size:9px;padding:.15rem .4rem;border-radius:2px;font-family:var(--mono);letter-spacing:.06em;}
+.badge-hybrid{background:var(--cream-4);color:var(--ink-2);font-size:9px;padding:.15rem .4rem;border-radius:2px;font-family:var(--mono);letter-spacing:.06em;}
+.card-ear{font-family:var(--mono);font-size:.75rem;color:var(--ink-3);}
+.card-ear span{color:var(--ink-2);font-weight:500;}
+.region-stripe{width:3px;height:100%;border-radius:2px 0 0 2px;position:absolute;left:0;top:0;}
+.company-card{position:relative;padding-left:1.25rem;}
+.region-ref{background:var(--region-ref);}
+.region-crypto{background:var(--region-crypto);}
+.region-latam{background:var(--region-latam);}
+.region-na{background:var(--region-na);}
+.region-eu{background:var(--region-eu);}
+
+/* SECTION HEADERS */
+.section-header{margin-top:4rem;margin-bottom:.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--cream-3);}
+.section-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.4rem;}
+.section-title{font-family:var(--serif);font-size:1.5rem;color:var(--ink);}
+.section-title em{font-style:italic;}
+
+/* TABLES PLACEHOLDER */
+#tables-section{margin-top:1rem;}
+
+/* ACCORDIONS PLACEHOLDER */
+#accordions-section{margin-top:4rem;}
+
+/* SYNTHESIS PLACEHOLDER */
+#synthesis-section{margin-top:4rem;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--cream-3);padding:1.25rem 3rem;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;color:var(--ink-4);letter-spacing:.06em;flex-shrink:0;}
+footer a{color:var(--ink-3);text-decoration:none;transition:color var(--dur) var(--ease);}
+footer a:hover{color:var(--ink);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:0 1.25rem;}
+  main{padding:3.5rem 1.25rem 5rem;}
+  footer{padding:1.25rem;flex-direction:column;gap:.5rem;text-align:center;}
+  .stats{flex-wrap:wrap;}
+  .stat{flex:1 1 40%;border-right:none;border-bottom:1px solid var(--cream-3);padding:.75rem 1rem;}
+  .method-grid{grid-template-columns:1fr;}
+  .globe-wrap{height:300px;}
+  .company-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">JD</a>
+  <div class="nav-links">
+    <a class="nav-link" href="/experience">Experience</a>
+    <a class="nav-link" href="/blog">Writing</a>
+  </div>
+</nav>
+
+<main>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="eyebrow">iO Loyalty Benchmark — May 2026</div>
+  <h1 class="hero-title">39 programs. 4 regions.<br><em>One question.</em></h1>
+  <p class="hero-lede">What does the global loyalty landscape look like — and where does iO's Niveles iO program sit within it? A structured benchmark across crypto neobanks, LATAM, North America, and Europe to inform iO's next product decisions.</p>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">39</div>
+      <div class="stat-label">Programs analyzed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Regions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">−3.5% → 4.7%</div>
+      <div class="stat-label">EAR range observed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">May 2026</div>
+      <div class="stat-label">Research date</div>
+    </div>
+  </div>
+
+  <!-- METHODOLOGY -->
+  <div class="method">
+    <button class="method-toggle" id="method-btn" aria-expanded="false" onclick="toggleMethod()">
+      <span class="method-toggle-label">Methodology &amp; definitions</span>
+      <span class="method-toggle-icon">+</span>
+    </button>
+    <div class="method-body" id="method-body">
+      <div class="method-grid">
+        <div>
+          <div class="method-section">
+            <h4>EAR Formula</h4>
+            <div class="method-formula">EAR (%) = [(Gross Rewards − Annual Fee) / Annual Spend] × 100</div>
+            <p>Effective Annual Return. Modeled on three spend tiers, net of all fees. Rewards valued at face cash value unless otherwise noted.</p>
+          </div>
+          <div class="method-section">
+            <h4>Spending Tiers</h4>
+            <ul>
+              <li><strong>Light</strong> — $12,000/yr (~$1,000/mo)</li>
+              <li><strong>Mid</strong> — $36,000/yr (~$3,000/mo)</li>
+              <li><strong>Heavy</strong> — $120,000/yr (~$10,000/mo)</li>
+            </ul>
+          </div>
+          <div class="method-section">
+            <h4>Exchange Rate</h4>
+            <p>3.5 PEN/USD used for all soles-denominated figures.</p>
+          </div>
+        </div>
+        <div>
+          <div class="method-section">
+            <h4>Redemption Friction Score (RFS)</h4>
+            <ul>
+              <li><strong>Low</strong> — Auto statement credit or instant discount. No manual steps.</li>
+              <li><strong>Medium</strong> — Manual redemption required; portal or category selection needed.</li>
+              <li><strong>High</strong> — Complex transfer, staking lock-up, or crypto conversion required.</li>
+            </ul>
+          </div>
+          <div class="method-section">
+            <h4>Confidence Tags</h4>
+            <div class="conf-row"><span class="conf-icon">✅</span><span class="conf-text">Verified from official public source</span></div>
+            <div class="conf-row"><span class="conf-icon">⚠️</span><span class="conf-text">Estimated or inferred; directionally correct</span></div>
+            <div class="conf-row"><span class="conf-icon">❓</span><span class="conf-text">Low confidence — not publicly documented</span></div>
+          </div>
+          <div class="method-section">
+            <h4>Sources</h4>
+            <p>Claude (Crypto neobanks), Grok (LATAM + Asia), ChatGPT (North America + Europe). Cross-referenced with official program pages where available.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOBE -->
+  <div class="globe-section">
+    <div class="globe-label">Geographic distribution</div>
+    <div class="globe-wrap">
+      <div id="globe-container"></div>
+    </div>
+    <div class="globe-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#F8F7F4;border:2px solid #1C1B19;width:10px;height:10px;"></div>iO (Reference)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--region-crypto);"></div>Crypto neobanks</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--region-latam);"></div>LATAM + Asia</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--region-na);"></div>North America</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--region-eu);"></div>Europe</div>
+    </div>
+  </div>
+
+  <!-- FILTER + COMPANY GRID -->
+  <div class="filter-section">
+    <div class="section-header">
+      <div class="section-eyebrow">Company directory</div>
+      <div class="section-title">All 40 programs <em>at a glance</em></div>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterCards('all',this)">All</button>
+      <button class="filter-btn" onclick="filterCards('reference',this)">iO</button>
+      <button class="filter-btn" onclick="filterCards('crypto',this)">Crypto</button>
+      <button class="filter-btn" onclick="filterCards('latam',this)">LATAM + Asia</button>
+      <button class="filter-btn" onclick="filterCards('na',this)">North America</button>
+      <button class="filter-btn" onclick="filterCards('eu',this)">Europe</button>
+    </div>
+    <div class="company-grid" id="company-grid">
+
+      <!-- iO — REFERENCE -->
+      <a class="company-card io-card" data-region="reference" href="#acc-io" id="card-io">
+        <div class="region-stripe region-ref"></div>
+        <div class="card-top">
+          <div class="card-name">iO</div>
+          <div class="card-ref-badge">Reference</div>
+        </div>
+        <div class="card-hq">Lima, Peru</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>1.0% – 4.7%</span></div>
+      </a>
+
+      <!-- CRYPTO -->
+      <a class="company-card" data-region="crypto" href="#acc-kast" id="card-kast">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">KAST</div></div>
+        <div class="card-hq">San Francisco, USA</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>0.3% – 1.5%</span></div>
+      </a>
+
+      <a class="company-card" data-region="crypto" href="#acc-cryptocom" id="card-cryptocom">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">Crypto.com</div></div>
+        <div class="card-hq">Singapore</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>0% – 1.5%</span></div>
+      </a>
+
+      <a class="company-card" data-region="crypto" href="#acc-gemini" id="card-gemini">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">Gemini</div></div>
+        <div class="card-hq">New York, USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>2.4% – 4.6%</span></div>
+      </a>
+
+      <a class="company-card" data-region="crypto" href="#acc-coinbase" id="card-coinbase">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">Coinbase</div></div>
+        <div class="card-hq">San Francisco, USA</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>1.0% – 4.0%</span> ⚠️ volatile</div>
+      </a>
+
+      <a class="company-card" data-region="crypto" href="#acc-binance" id="card-binance">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">Binance</div></div>
+        <div class="card-hq">Cayman Islands</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>0.4% – 2.0%</span></div>
+      </a>
+
+      <a class="company-card" data-region="crypto" href="#acc-nexo" id="card-nexo">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">Nexo</div></div>
+        <div class="card-hq">Sofia, Bulgaria</div>
+        <div class="card-badges"><span class="badge-hybrid">Hybrid</span></div>
+        <div class="card-ear">EAR <span>~2.0%</span></div>
+      </a>
+
+      <a class="company-card" data-region="crypto" href="#acc-etherfi" id="card-etherfi">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">Ether.fi</div></div>
+        <div class="card-hq">USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>3.0%</span></div>
+      </a>
+
+      <a class="company-card" data-region="crypto" href="#acc-avici" id="card-avici">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">Avici</div></div>
+        <div class="card-hq">USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>0.0%</span> ❓ early stage</div>
+      </a>
+
+      <a class="company-card" data-region="crypto" href="#acc-plasma" id="card-plasma">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">Plasma</div></div>
+        <div class="card-hq">USA</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>❓</span></div>
+      </a>
+
+      <a class="company-card" data-region="crypto" href="#acc-lemon" id="card-lemon">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">Lemon Card</div></div>
+        <div class="card-hq">Buenos Aires, Argentina</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>2.0%</span></div>
+      </a>
+
+      <a class="company-card" data-region="crypto" href="#acc-brex" id="card-brex">
+        <div class="region-stripe region-crypto"></div>
+        <div class="card-top"><div class="card-name">Brex</div></div>
+        <div class="card-hq">San Francisco, USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>3.0%</span> (B2B)</div>
+      </a>
+
+      <!-- LATAM + ASIA -->
+      <a class="company-card" data-region="latam" href="#acc-nubank" id="card-nubank">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">Nubank</div></div>
+        <div class="card-hq">São Paulo, Brazil</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>0.7% – 2.5%</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-picpay" id="card-picpay">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">PicPay</div></div>
+        <div class="card-hq">São Paulo, Brazil</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>~2.0%</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-tenpo" id="card-tenpo">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">Tenpo</div></div>
+        <div class="card-hq">Santiago, Chile</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>2% – 4%</span> ⚠️ mission-based</div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-rappi" id="card-rappi">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">Rappi</div></div>
+        <div class="card-hq">Bogotá, Colombia</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>up to 4%</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-mercadopago" id="card-mercadopago">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">Mercado Pago</div></div>
+        <div class="card-hq">Buenos Aires, Argentina</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>~1% – 2%</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-bcp" id="card-bcp">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">BCP</div></div>
+        <div class="card-hq">Lima, Peru</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>~0.5% – 1%</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-interbank" id="card-interbank">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">Interbank</div></div>
+        <div class="card-hq">Lima, Peru</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>~0.5% – 1%</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-scotiabank" id="card-scotiabank">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">Scotiabank Peru</div></div>
+        <div class="card-hq">Lima, Peru</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>~0.5% – 1%</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-bbva" id="card-bbva">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">BBVA Peru</div></div>
+        <div class="card-hq">Lima, Peru</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>~0.5% – 1%</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-itau" id="card-itau">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">Itaú</div></div>
+        <div class="card-hq">São Paulo, Brazil</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>~1% – 2%</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-tbank" id="card-tbank">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">T-Bank</div></div>
+        <div class="card-hq">Bangkok, Thailand</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>❓</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-wio" id="card-wio">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">Wio Bank</div></div>
+        <div class="card-hq">Abu Dhabi, UAE</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>❓</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-trust" id="card-trust">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">Trust Bank</div></div>
+        <div class="card-hq">Singapore</div>
+        <div class="card-badges"><span class="badge-cc">CC</span><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>❓</span></div>
+      </a>
+
+      <a class="company-card" data-region="latam" href="#acc-uob" id="card-uob">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">UOB</div></div>
+        <div class="card-hq">Singapore</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>❓</span></div>
+      </a>
+
+      <!-- NORTH AMERICA -->
+      <a class="company-card" data-region="na" href="#acc-bofa" id="card-bofa">
+        <div class="region-stripe region-na"></div>
+        <div class="card-top"><div class="card-name">Bank of America</div></div>
+        <div class="card-hq">Charlotte, USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>1.1% – 1.7%</span></div>
+      </a>
+
+      <a class="company-card" data-region="na" href="#acc-chase" id="card-chase">
+        <div class="region-stripe region-na"></div>
+        <div class="card-top"><div class="card-name">Chase</div></div>
+        <div class="card-hq">New York, USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>0.9% – 1.6%</span></div>
+      </a>
+
+      <a class="company-card" data-region="na" href="#acc-capitalone" id="card-capitalone">
+        <div class="region-stripe region-na"></div>
+        <div class="card-top"><div class="card-name">Capital One</div></div>
+        <div class="card-hq">McLean, USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>1.2% – 1.9%</span></div>
+      </a>
+
+      <a class="company-card" data-region="na" href="#acc-amex" id="card-amex">
+        <div class="region-stripe region-latam"></div>
+        <div class="card-top"><div class="card-name">American Express</div></div>
+        <div class="card-hq">New York, USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>1.8% – 2.2%</span></div>
+      </a>
+
+      <a class="company-card" data-region="na" href="#acc-citi" id="card-citi">
+        <div class="region-stripe region-na"></div>
+        <div class="card-top"><div class="card-name">Citi</div></div>
+        <div class="card-hq">New York, USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>2.0%</span></div>
+      </a>
+
+      <a class="company-card" data-region="na" href="#acc-venmo" id="card-venmo">
+        <div class="region-stripe region-na"></div>
+        <div class="card-top"><div class="card-name">Venmo</div></div>
+        <div class="card-hq">San Jose, USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>1.7%</span></div>
+      </a>
+
+      <a class="company-card" data-region="na" href="#acc-robinhood" id="card-robinhood">
+        <div class="region-stripe region-na"></div>
+        <div class="card-top"><div class="card-name">Robinhood</div></div>
+        <div class="card-hq">Menlo Park, USA</div>
+        <div class="card-badges"><span class="badge-cc">CC</span></div>
+        <div class="card-ear">EAR <span>2.4% – 2.9%</span></div>
+      </a>
+
+      <a class="company-card" data-region="na" href="#acc-chime" id="card-chime">
+        <div class="region-stripe region-na"></div>
+        <div class="card-top"><div class="card-name">Chime</div></div>
+        <div class="card-hq">San Francisco, USA</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>0.0%</span> (fee-free model)</div>
+      </a>
+
+      <a class="company-card" data-region="na" href="#acc-cashapp" id="card-cashapp">
+        <div class="region-stripe region-na"></div>
+        <div class="card-top"><div class="card-name">Cash App</div></div>
+        <div class="card-hq">San Francisco, USA</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>❓</span> (offer-based)</div>
+      </a>
+
+      <!-- EUROPE -->
+      <a class="company-card" data-region="eu" href="#acc-revolut" id="card-revolut">
+        <div class="region-stripe region-eu"></div>
+        <div class="card-top"><div class="card-name">Revolut</div></div>
+        <div class="card-hq">London, UK</div>
+        <div class="card-badges"><span class="badge-cc">CC</span><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>−3.5% – 0.6%</span></div>
+      </a>
+
+      <a class="company-card" data-region="eu" href="#acc-monzo" id="card-monzo">
+        <div class="region-stripe region-eu"></div>
+        <div class="card-top"><div class="card-name">Monzo</div></div>
+        <div class="card-hq">London, UK</div>
+        <div class="card-badges"><span class="badge-cc">CC</span><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>❓</span> (offer-based)</div>
+      </a>
+
+      <a class="company-card" data-region="eu" href="#acc-n26" id="card-n26">
+        <div class="region-stripe region-eu"></div>
+        <div class="card-top"><div class="card-name">N26</div></div>
+        <div class="card-hq">Berlin, Germany</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>−1.6% – 0.0%</span></div>
+      </a>
+
+      <a class="company-card" data-region="eu" href="#acc-bunq" id="card-bunq">
+        <div class="region-stripe region-eu"></div>
+        <div class="card-top"><div class="card-name">Bunq</div></div>
+        <div class="card-hq">Amsterdam, Netherlands</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>❓</span></div>
+      </a>
+
+      <a class="company-card" data-region="eu" href="#acc-starling" id="card-starling">
+        <div class="region-stripe region-eu"></div>
+        <div class="card-top"><div class="card-name">Starling Bank</div></div>
+        <div class="card-hq">London, UK</div>
+        <div class="card-badges"><span class="badge-dc">DC</span></div>
+        <div class="card-ear">EAR <span>❓</span></div>
+      </a>
+
+    </div><!-- /company-grid -->
+  </div><!-- /filter-section -->
+
+  <!-- TABLES (Part 2) -->
+  <div id="tables-section">
+    <!-- comparison tables will be added in Part 2 -->
+  </div>
+
+  <!-- ACCORDIONS (Part 3) -->
+  <div id="accordions-section">
+    <!-- company deep-dives will be added in Part 3 -->
+  </div>
+
+  <!-- SYNTHESIS (Part 3) -->
+  <div id="synthesis-section">
+    <!-- synthesis panels will be added in Part 3 -->
+  </div>
+
+</div><!-- /page -->
+</main>
+
+<footer>
+  <a href="/">← juandiego.work</a>
+  <span>© 2026 JD Peñaherrera</span>
+</footer>
+
+<!-- Globe.gl -->
+<script src="https://unpkg.com/globe.gl@2.30.0/dist/globe.gl.min.js"></script>
+<script>
+// ── METHODOLOGY ACCORDION ──
+function toggleMethod() {
+  const btn = document.getElementById('method-btn');
+  const body = document.getElementById('method-body');
+  const open = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', !open);
+  body.classList.toggle('open', !open);
+}
+
+// ── FILTER BAR ──
+function filterCards(region, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.company-card').forEach(card => {
+    if (region === 'all' || card.dataset.region === region) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// ── GLOBE ──
+(function() {
+  const regionColors = {
+    reference: '#F8F7F4',
+    crypto:    '#C8A96E',
+    latam:     '#6B9E78',
+    na:        '#6B8BAE',
+    eu:        '#8B7BAE',
+  };
+
+  const companies = [
+    { id:'io',          name:'iO',              region:'reference', lat:-12.05, lng:-77.04, ear:'1.0% – 4.7%',  hq:'Lima, Peru' },
+    { id:'kast',        name:'KAST',             region:'crypto',    lat:37.77,  lng:-122.41,ear:'0.3% – 1.5%',  hq:'USA' },
+    { id:'cryptocom',   name:'Crypto.com',       region:'crypto',    lat:1.35,   lng:103.82, ear:'0% – 1.5%',    hq:'Singapore' },
+    { id:'gemini',      name:'Gemini',           region:'crypto',    lat:40.72,  lng:-74.01, ear:'2.4% – 4.6%',  hq:'New York, USA' },
+    { id:'coinbase',    name:'Coinbase',         region:'crypto',    lat:37.78,  lng:-122.40,ear:'1.0% – 4.0%',  hq:'San Francisco, USA' },
+    { id:'binance',     name:'Binance',          region:'crypto',    lat:19.31,  lng:-81.24, ear:'0.4% – 2.0%',  hq:'Cayman Islands' },
+    { id:'nexo',        name:'Nexo',             region:'crypto',    lat:42.70,  lng:23.32,  ear:'~2.0%',         hq:'Sofia, Bulgaria' },
+    { id:'etherfi',     name:'Ether.fi',         region:'crypto',    lat:37.46,  lng:-122.17,ear:'3.0%',          hq:'USA' },
+    { id:'avici',       name:'Avici',            region:'crypto',    lat:37.75,  lng:-122.39,ear:'0.0%',          hq:'USA' },
+    { id:'plasma',      name:'Plasma',           region:'crypto',    lat:37.80,  lng:-122.43,ear:'❓',             hq:'USA' },
+    { id:'lemon',       name:'Lemon Card',       region:'crypto',    lat:-34.60, lng:-58.38, ear:'2.0%',          hq:'Buenos Aires, Argentina' },
+    { id:'brex',        name:'Brex',             region:'crypto',    lat:37.76,  lng:-122.41,ear:'3.0%',          hq:'San Francisco, USA' },
+    { id:'nubank',      name:'Nubank',           region:'latam',     lat:-23.55, lng:-46.63, ear:'0.7% – 2.5%',  hq:'São Paulo, Brazil' },
+    { id:'picpay',      name:'PicPay',           region:'latam',     lat:-23.57, lng:-46.65, ear:'~2.0%',         hq:'São Paulo, Brazil' },
+    { id:'tenpo',       name:'Tenpo',            region:'latam',     lat:-33.46, lng:-70.65, ear:'2% – 4%',       hq:'Santiago, Chile' },
+    { id:'rappi',       name:'Rappi',            region:'latam',     lat:4.71,   lng:-74.07, ear:'up to 4%',      hq:'Bogotá, Colombia' },
+    { id:'mercadopago', name:'Mercado Pago',     region:'latam',     lat:-34.62, lng:-58.40, ear:'~1% – 2%',      hq:'Buenos Aires, Argentina' },
+    { id:'bcp',         name:'BCP',              region:'latam',     lat:-12.08, lng:-77.05, ear:'~0.5% – 1%',   hq:'Lima, Peru' },
+    { id:'interbank',   name:'Interbank',        region:'latam',     lat:-12.06, lng:-77.03, ear:'~0.5% – 1%',   hq:'Lima, Peru' },
+    { id:'scotiabank',  name:'Scotiabank Peru',  region:'latam',     lat:-12.10, lng:-77.02, ear:'~0.5% – 1%',   hq:'Lima, Peru' },
+    { id:'bbva',        name:'BBVA Peru',        region:'latam',     lat:-12.04, lng:-77.06, ear:'~0.5% – 1%',   hq:'Lima, Peru' },
+    { id:'itau',        name:'Itaú',             region:'latam',     lat:-23.53, lng:-46.61, ear:'~1% – 2%',      hq:'São Paulo, Brazil' },
+    { id:'tbank',       name:'T-Bank',           region:'latam',     lat:13.76,  lng:100.50, ear:'❓',             hq:'Bangkok, Thailand' },
+    { id:'wio',         name:'Wio Bank',         region:'latam',     lat:24.47,  lng:54.37,  ear:'❓',             hq:'Abu Dhabi, UAE' },
+    { id:'trust',       name:'Trust Bank',       region:'latam',     lat:1.36,   lng:103.83, ear:'❓',             hq:'Singapore' },
+    { id:'uob',         name:'UOB',              region:'latam',     lat:1.34,   lng:103.81, ear:'❓',             hq:'Singapore' },
+    { id:'bofa',        name:'Bank of America',  region:'na',        lat:35.23,  lng:-80.84, ear:'1.1% – 1.7%',  hq:'Charlotte, USA' },
+    { id:'chase',       name:'Chase',            region:'na',        lat:40.74,  lng:-74.00, ear:'0.9% – 1.6%',  hq:'New York, USA' },
+    { id:'capitalone',  name:'Capital One',      region:'na',        lat:38.94,  lng:-77.18, ear:'1.2% – 1.9%',  hq:'McLean, USA' },
+    { id:'amex',        name:'American Express', region:'na',        lat:40.76,  lng:-73.98, ear:'1.8% – 2.2%',  hq:'New York, USA' },
+    { id:'citi',        name:'Citi',             region:'na',        lat:40.73,  lng:-73.99, ear:'2.0%',          hq:'New York, USA' },
+    { id:'venmo',       name:'Venmo',            region:'na',        lat:37.34,  lng:-121.89,ear:'1.7%',          hq:'San Jose, USA' },
+    { id:'robinhood',   name:'Robinhood',        region:'na',        lat:37.45,  lng:-122.18,ear:'2.4% – 2.9%',  hq:'Menlo Park, USA' },
+    { id:'chime',       name:'Chime',            region:'na',        lat:37.79,  lng:-122.42,ear:'0.0%',          hq:'San Francisco, USA' },
+    { id:'cashapp',     name:'Cash App',         region:'na',        lat:37.77,  lng:-122.43,ear:'❓',             hq:'San Francisco, USA' },
+    { id:'revolut',     name:'Revolut',          region:'eu',        lat:51.51,  lng:-0.13,  ear:'−3.5% – 0.6%', hq:'London, UK' },
+    { id:'monzo',       name:'Monzo',            region:'eu',        lat:51.52,  lng:-0.12,  ear:'❓',             hq:'London, UK' },
+    { id:'n26',         name:'N26',              region:'eu',        lat:52.52,  lng:13.40,  ear:'−1.6% – 0.0%', hq:'Berlin, Germany' },
+    { id:'bunq',        name:'Bunq',             region:'eu',        lat:52.37,  lng:4.90,   ear:'❓',             hq:'Amsterdam, Netherlands' },
+    { id:'starling',    name:'Starling Bank',    region:'eu',        lat:51.50,  lng:-0.14,  ear:'❓',             hq:'London, UK' },
+  ];
+
+  const globe = Globe({ animateIn: false })
+    .width(document.getElementById('globe-container').offsetWidth)
+    .height(document.getElementById('globe-container').offsetHeight)
+    .backgroundColor('rgba(0,0,0,0)')
+    .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
+    .pointsData(companies)
+    .pointLat('lat')
+    .pointLng('lng')
+    .pointColor(d => d.region === 'reference' ? '#FFFFFF' : regionColors[d.region])
+    .pointRadius(d => d.region === 'reference' ? 0.7 : 0.35)
+    .pointAltitude(0.01)
+    .pointLabel(d => `<div style="font-family:'DM Mono',monospace;font-size:12px;background:rgba(28,27,25,0.9);color:#F8F7F4;padding:6px 10px;border-radius:4px;white-space:nowrap;"><strong>${d.name}</strong><br>${d.hq}<br>EAR: ${d.ear}</div>`)
+    .onPointClick(d => {
+      const el = document.getElementById('acc-' + d.id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    })
+    (document.getElementById('globe-container'));
+
+  // Auto-rotate
+  globe.controls().autoRotate = true;
+  globe.controls().autoRotateSpeed = 0.5;
+  globe.controls().enableZoom = true;
+
+  // Point of view on Lima
+  globe.pointOfView({ lat: -10, lng: -65, altitude: 2.2 }, 0);
+
+  // Resize
+  window.addEventListener('resize', () => {
+    const c = document.getElementById('globe-container');
+    globe.width(c.offsetWidth).height(c.offsetHeight);
+  });
+})();
+</script>
+
+</body>
+</html>
