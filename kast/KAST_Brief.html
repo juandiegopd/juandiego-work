@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAST — Intelligence Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:   #F8F7F4;
+  --off:     #EFEDE8;
+  --border:  #E0DDD7;
+  --mid:     #B8B4AD;
+  --text:    #1C1B19;
+  --muted:   #6B6861;
+  --accent:  #C8A96E;   /* warm gold — stablecoin money */
+  --danger:  #C45C5C;
+  --signal:  #4A7C6F;   /* forest green — opportunity */
+  --mono:    'DM Mono', monospace;
+  --serif:   'DM Serif Display', serif;
+  --sans:    'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* ── NAVIGATION ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(248, 247, 244, 0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 3rem;
+  gap: 3rem;
+}
+
+.nav-brand {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.nav-items {
+  display: flex;
+  gap: 0.2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-items::-webkit-scrollbar { display: none; }
+
+.nav-items a {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.3rem 0.7rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+.nav-items a:hover { color: var(--text); background: var(--off); }
+.nav-items a.src-c { border-bottom: 1.5px solid var(--accent); }
+.nav-items a.src-g { border-bottom: 1.5px solid var(--signal); }
+.nav-items a.src-x { border-bottom: 1.5px solid var(--danger); }
+
+/* ── LAYOUT ── */
+main { padding-top: 52px; }
+
+.section {
+  padding: 5rem 3rem;
+  max-width: 960px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+
+.section:last-child { border-bottom: none; }
+
+/* ── SOURCE LABEL ── */
+.src {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.src::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+}
+
+.src-claude { color: var(--accent); }
+.src-claude::before { background: var(--accent); }
+.src-gpt { color: var(--signal); }
+.src-gpt::before { background: var(--signal); }
+.src-grok { color: var(--danger); }
+.src-grok::before { background: var(--danger); }
+
+/* ── TYPOGRAPHY ── */
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  line-height: 1.1;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  margin-top: 2rem;
+}
+
+h3:first-child { margin-top: 0; }
+
+p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+p strong { color: var(--text); font-weight: 500; }
+
+p:last-child { margin-bottom: 0; }
+
+/* ── HERO ── */
+.hero {
+  padding: 6rem 3rem 5rem;
+  max-width: 960px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-meta {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 2rem;
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.kpi {
+  padding: 1.4rem 1.6rem;
+  border-right: 1px solid var(--border);
+}
+.kpi:last-child { border-right: none; }
+
+.kpi-val {
+  font-family: var(--serif);
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.kpi-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+/* ── CONTENT BLOCKS ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+
+@media (max-width: 640px) {
+  .two-col { grid-template-columns: 1fr; }
+  nav { padding: 0 1.5rem; }
+  .section, .hero { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+
+.block {
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+/* ── LISTS ── */
+ul.plain {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+ul.plain li {
+  font-size: 0.88rem;
+  color: var(--muted);
+  padding-left: 1rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+ul.plain li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--border);
+  font-family: var(--mono);
+}
+
+ul.plain li strong { color: var(--text); font-weight: 500; }
+
+/* ── TABLE ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin: 1rem 0;
+}
+
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid var(--off);
+  color: var(--muted);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+td strong { color: var(--text); font-weight: 500; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--off); }
+
+.win { color: var(--signal); }
+.lose { color: var(--danger); }
+.neutral { color: var(--mid); }
+
+/* ── QUOTE / VERBATIM ── */
+.verbatim {
+  border-left: 2px solid var(--border);
+  padding: 0.8rem 1.2rem;
+  margin: 1.2rem 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.65;
+  background: var(--off);
+  border-radius: 0 3px 3px 0;
+}
+
+.verbatim .attr {
+  display: block;
+  margin-top: 0.5rem;
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+/* ── OPPORTUNITY CALLOUTS ── */
+.opp {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--signal);
+  border-radius: 0 4px 4px 0;
+  padding: 1.2rem 1.4rem;
+  margin: 1rem 0;
+  background: var(--white);
+}
+
+.opp-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--signal);
+  margin-bottom: 0.4rem;
+}
+
+.opp-title {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+
+.opp-body {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── RISK CALLOUTS ── */
+.risk {
+  border-left: 3px solid var(--danger);
+  padding: 0.8rem 1.2rem;
+  margin: 0.6rem 0;
+  background: var(--off);
+  border-radius: 0 3px 3px 0;
+}
+
+.risk-title {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+
+.risk-body {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ── MATH BLOCK ── */
+.math {
+  background: var(--off);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1rem 1.2rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.9;
+  color: var(--muted);
+  margin: 1rem 0;
+}
+
+.math .val { color: var(--accent); font-weight: 500; }
+.math .result {
+  color: var(--text);
+  font-weight: 500;
+  border-top: 1px solid var(--border);
+  margin-top: 0.4rem;
+  padding-top: 0.4rem;
+}
+
+/* ── INLINE TAG ── */
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+  margin-right: 0.3rem;
+  margin-bottom: 0.2rem;
+}
+
+.tag-gold { background: #F5EDD4; color: #9A7A3A; }
+.tag-green { background: #DFF0EB; color: #3A6B60; }
+.tag-red { background: #F5E0E0; color: #9A3A3A; }
+.tag-grey { background: var(--off); color: var(--muted); }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 2rem 0;
+}
+
+/* ── FUNNEL ── */
+.funnel-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--off);
+}
+.funnel-row:last-child { border-bottom: none; }
+
+.funnel-num {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--mid);
+  width: 20px;
+  flex-shrink: 0;
+  padding-top: 0.15rem;
+}
+
+.funnel-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  width: 160px;
+  flex-shrink: 0;
+}
+
+.funnel-status {
+  font-size: 0.8rem;
+  color: var(--muted);
+  flex: 1;
+  line-height: 1.55;
+}
+
+.dot-win { color: var(--signal); font-family: var(--mono); margin-right: 0.3rem; }
+.dot-lose { color: var(--danger); font-family: var(--mono); margin-right: 0.3rem; }
+
+/* ── SECTION INTRO ── */
+.section-intro {
+  margin-bottom: 2.5rem;
+}
+
+.section-num {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.5rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 3rem;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mid);
+  border-top: 1px solid var(--border);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero { animation: fadeIn 0.5s ease both; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">KAST Brief</div>
+  <div class="nav-items">
+    <a href="#company"   class="src-c">Company</a>
+    <a href="#product"   class="src-c">Product</a>
+    <a href="#economics" class="src-c">Economics</a>
+    <a href="#competitive" class="src-c">Competitive</a>
+    <a href="#latam"     class="src-c">LatAm</a>
+    <a href="#role"      class="src-c">Role</a>
+    <a href="#risks"     class="src-c">Risks</a>
+    <a href="#valuation" class="src-g">Valuation</a>
+    <a href="#macro"     class="src-g">Macro</a>
+    <a href="#b2b"       class="src-g">B2B</a>
+    <a href="#ceo"       class="src-x">CEO</a>
+    <a href="#users"     class="src-x">Users</a>
+    <a href="#trust"     class="src-x">Trust Gap</a>
+    <a href="#opportunities">Opportunities</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-meta">Intelligence Brief · May 19, 2026 · Claude + ChatGPT + SuperGrok</div>
+  <h1>KAST<br><em>Full Picture</em></h1>
+  <p class="hero-sub">Stablecoin-native global neobank. Founded July 2024. 18 months from launch to Series A. The bet: digital dollars for everyone left behind by traditional banking.</p>
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-val">$600M</div>
+      <div class="kpi-label">Series A Valuation</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">1M+</div>
+      <div class="kpi-label">Users</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">$5B</div>
+      <div class="kpi-label">Ann. Volume</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">15–20%</div>
+      <div class="kpi-label">MoM Growth</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">$100M</div>
+      <div class="kpi-label">2026 ARR Target</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">18mo</div>
+      <div class="kpi-label">Launch to Series A</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── M1: COMPANY ── -->
+<section class="section" id="company">
+  <div class="src src-claude">Claude · Module 01</div>
+  <div class="section-intro">
+    <div class="section-num">01 / 14</div>
+    <h2>The Company</h2>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3>Founder</h3>
+      <p><strong>Raagulan Pathy</strong> — VP APAC & CEO Singapore at Circle (Feb 2022–Apr 2024). Watched USDC infrastructure mature. Saw the gap: infrastructure existed, consumer product didn't. Also: Head of Enterprise APAC at Zoom, Enterprise Director at Facebook (Workplace APAC), co-founded Lazu Cloud and OnShop. Also runs JaffCap family office.</p>
+      <p>Co-founder: <strong>Daniel B.</strong> (public profile limited).</p>
+      <p>His stress test for any stablecoin product: <em>"Track your business model forward and think what happens if the rate is cut to zero. Can you sustain this for reasons apart from yield?"</em></p>
+
+      <h3>Funding</h3>
+      <ul class="plain">
+        <li><strong>Dec 2024 — $10M Seed:</strong> HSG (HongShan/ex-Sequoia China) + Peak XV. Angels from DST Global, Goodwater Capital.</li>
+        <li><strong>Mar 2026 — $80M Series A @ $600M:</strong> QED Investors + Left Lane Capital co-lead. Peak XV, HSG, DST Global Partners return.</li>
+        <li>Total raised: $90M. 18 months from founding to Series A.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Structure</h3>
+      <ul class="plain">
+        <li><strong>Legal entity:</strong> Registered Cayman Islands, HQ Singapore. Operating as KAST Tech / Troia Corp as KAST®.</li>
+        <li><strong>Not a bank.</strong> Fintech layered on licensed partners. Card issued by Rain (Visa Principal Member). Wallets via Privy (Stripe company). Custody via Fireblocks + BitGo.</li>
+        <li><strong>Team:</strong> 250+ employees. Background: Stripe, Revolut, Binance, Circle, Airwallex.</li>
+        <li><strong>Blockchain:</strong> Solana primary. Also Arbitrum, Avalanche, Base, Ethereum, Optimism, Polygon.</li>
+      </ul>
+
+      <h3>Product Evolution</h3>
+      <ul class="plain">
+        <li><strong>V1:</strong> Stablecoin card. Simple USD spend.</li>
+        <li><strong>V2:</strong> "Better than a bank." USD accounts, earn, tiers.</li>
+        <li><strong>Now:</strong> Full financial OS. USDK + USDKY stablecoins. B2B. LatAm expansion.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── M2: PRODUCT ── -->
+<section class="section" id="product">
+  <div class="src src-claude">Claude · Module 02</div>
+  <div class="section-intro">
+    <div class="section-num">02 / 14</div>
+    <h2>Product Surface</h2>
+  </div>
+
+  <h3>Core Infrastructure — How a Transaction Works</h3>
+  <p>User holds USDC on Solana → taps card at merchant → KAST deducts spending balance → Rain (Visa Principal Member) authorizes transaction → Rain converts stablecoin to fiat at POS → merchant receives local currency → cashback credited immediately in USD.</p>
+  <p>KAST is the brand and UX layer. Rain is the regulated card plumbing. Same model as Chime on Bancorp, Nubank on Caixa.</p>
+
+  <div class="divider"></div>
+
+  <h3>Product Lines</h3>
+  <table>
+    <tr>
+      <th>Product</th>
+      <th>What It Does</th>
+      <th>Job-to-Be-Done</th>
+    </tr>
+    <tr>
+      <td><strong>USD Account</strong></td>
+      <td>Real US routing + account number. No residency required. ACH, FedWire. Pay-ins/payouts to 190+ countries.</td>
+      <td>Hold and move digital dollars without a US bank account</td>
+    </tr>
+    <tr>
+      <td><strong>Visa Card</strong></td>
+      <td>Virtual (instant) + physical ($40 shipping). 150M+ merchants, 170+ countries. Apple Pay + Google Pay. Stablecoins convert 1:1, crypto at 2–5% fee.</td>
+      <td>Spend stablecoin balance anywhere, today</td>
+    </tr>
+    <tr>
+      <td><strong>KAST Earn — Alpha Vault</strong></td>
+      <td>DeFi strategies on Base via Gauntlet. $73.8M TVL. 3–7% APY variable. 100% yield passed to users (fees may come later).</td>
+      <td>Earn yield on idle USD without touching tradfi</td>
+    </tr>
+    <tr>
+      <td><strong>KAST Earn — USD Prime (USDKY)</strong></td>
+      <td>T-bill backed, M0 protocol, self-custodial on Solana via Privy. Yield accrues as USDKY value. Redeemable anytime.</td>
+      <td>Risk-minimal stablecoin savings with guaranteed backing</td>
+    </tr>
+    <tr>
+      <td><strong>KAST Business</strong></td>
+      <td>Multicurrency accounts, global payouts, virtual team cards, cross-border spending, white-glove concierge. KYB, multi-user, API not yet fully public.</td>
+      <td>Pay global teams and operate across borders without a bank</td>
+    </tr>
+    <tr>
+      <td><strong>Global Payouts + KAST Tag</strong></td>
+      <td>Send to bank accounts worldwide. KAST-to-KAST instant via phone/email/tag. Brazil Pix live.</td>
+      <td>Send money home or to teams instantly</td>
+    </tr>
+    <tr>
+      <td><strong>USDK / USDKY</strong></td>
+      <td>KAST's own stablecoins. Launching on Solana via M0 (issued $160M+ for partners). USDK = payments, USDKY = savings.</td>
+      <td>Reduce Rain + third-party dependency. Improve Earn unit economics.</td>
+    </tr>
+  </table>
+
+  <h3>Card Tiers</h3>
+  <table>
+    <tr>
+      <th>Tier</th><th>Annual Fee</th><th>USD Cashback</th><th>Spend Cap</th><th>KastPoints</th>
+    </tr>
+    <tr><td><strong>Standard</strong></td><td>Free</td><td>1.5%</td><td>$2K/mo</td><td>1% (SOL)</td></tr>
+    <tr><td><strong>Premium</strong></td><td>$1,000/yr</td><td>2%</td><td>$10K/mo</td><td>4% (SOL)</td></tr>
+    <tr><td><strong>Limited Edition</strong></td><td>$5,000 one-time</td><td>2%</td><td>$10K/mo</td><td>4% (SOL)</td></tr>
+    <tr><td><strong>Private</strong></td><td>$10,000/yr</td><td>3%</td><td>$40K/mo</td><td>6% (SOL)</td></tr>
+    <tr><td><strong>Luxe</strong></td><td>$10,000/yr</td><td>—</td><td>—</td><td>8% (SOL) + gold card</td></tr>
+  </table>
+</section>
+
+
+<!-- ── M3: ECONOMICS ── -->
+<section class="section" id="economics">
+  <div class="src src-claude">Claude · Module 03</div>
+  <div class="section-intro">
+    <div class="section-num">03 / 14</div>
+    <h2>Unit Economics</h2>
+  </div>
+
+  <h3>The Headline Number</h3>
+  <p><strong>$100M ARR ÷ 1M users = $100 ARPU.</strong> Nubank at scale earns $30–50/user. Revolut ~$60. $100 ARPU would be exceptional — implying a self-selecting base of high-activity users who've funded, activated, and spend regularly. True active users may be 200–300K (20–30% MAU rate typical for neobanks), making active ARPU closer to $400.</p>
+
+  <h3>Revenue Streams by Priority</h3>
+  <ul class="plain">
+    <li><strong>1. Membership subscriptions (highest margin):</strong> Premium $1K/yr, Private $10K/yr. Near-zero variable cost. This line is what makes cashback viable. Without subscription revenue, cashback creates negative unit economics at scale.</li>
+    <li><strong>2. Card interchange:</strong> ~0.5–0.8% per transaction. At $5B annualized volume, ~$25M gross. Net interchange after cashback payout is thin or negative at premium tiers — subscriptions must cover the gap.</li>
+    <li><strong>3. FX conversion fees:</strong> 0.5–1.75% on non-USD spend. Zero for USD purchases. Meaningful for LatAm users spending in local currency.</li>
+    <li><strong>4. Deposit + transaction fees:</strong> ACH $2, FedWire $15, non-stablecoin crypto conversion 2–5%, ATM $3 + 2%, declined transaction $0.50, inactivity $1/month.</li>
+    <li><strong>5. Payout fees:</strong> Global bank payouts. Corridor-variable.</li>
+    <li><strong>6. Earn (future):</strong> Currently 0% fee, 100% yield to users. Optionality: 0.5% fee on $1B TVL = $5M/year at near-zero marginal cost.</li>
+    <li><strong>7. Float / treasury (implicit):</strong> T-bill yield on USDKY reserves, spread on stablecoin positions held in custody.</li>
+  </ul>
+
+  <h3>The Cashback Math (Verified)</h3>
+  <div class="math">
+    PREMIUM ($1,000/yr) · 2% cashback · $10K/mo cap<br>
+    Max monthly cashback: 2% × $10,000 = <span class="val">$200</span><br>
+    Annual cashback: $200 × 12 = <span class="val">$2,400</span><br>
+    Net after membership fee: $2,400 − $1,000 = <span class="val">$1,400</span><br>
+    On $120K annual eligible spend:<br>
+    <span class="result">Effective net USD rate = 1.17% (not 2%)</span>
+  </div>
+  <div class="math">
+    PRIVATE ($10,000/yr) · 3% cashback · $40K/mo cap<br>
+    Max monthly cashback: 3% × $40,000 = <span class="val">$1,200</span><br>
+    Annual cashback: $1,200 × 12 = <span class="val">$14,400</span><br>
+    Net after membership fee: $14,400 − $10,000 = <span class="val">$4,400</span><br>
+    On $480K annual eligible spend:<br>
+    <span class="result">Effective net USD rate = 0.92% (not 3%)</span>
+  </div>
+  <p>Math verified by SuperGrok from @KASTxyz official posts May 11–19. This is the #1 perception problem in the upgrade funnel. Note: KastPoints (SOL-redeemable) and Earn yield are additional value not captured in these numbers — but power users are ignoring them and comparing USD cashback alone to 2% tradfi credit cards.</p>
+
+  <h3>Growth Trajectory</h3>
+  <ul class="plain">
+    <li>Revenue doubled September 2025 → March 2026 (6 months).</li>
+    <li>15–20% MoM user and revenue growth sustained.</li>
+    <li>At 15% MoM from ~$18M ARR in Sep 2025: ~$42M ARR by Mar 2026. Reaching $100M by end-2026 requires sustaining ~12–15% MoM revenue growth.</li>
+  </ul>
+</section>
+
+
+<!-- ── M4: COMPETITIVE ── -->
+<section class="section" id="competitive">
+  <div class="src src-claude">Claude · Module 04</div>
+  <div class="section-intro">
+    <div class="section-num">04 / 14</div>
+    <h2>Competitive Landscape</h2>
+  </div>
+
+  <table>
+    <tr>
+      <th>Competitor</th>
+      <th>Core Wedge</th>
+      <th>KAST Wins</th>
+      <th>KAST Loses</th>
+    </tr>
+    <tr>
+      <td><strong>EtherFi</strong></td>
+      <td>Non-custodial, borrow-to-spend, 3% wETH cashback, no annual fee</td>
+      <td class="win">Simpler UX, USD account + routing, stablecoin-first, broader country coverage</td>
+      <td class="lose">EtherFi wins on effective cashback (3% vs 1.17%), self-custody, no capital gains trigger</td>
+    </tr>
+    <tr>
+      <td><strong>Avici</strong></td>
+      <td>0% FX, up to 8% cashback, zero-fee disputes, Visa Credit BIN</td>
+      <td class="win">Scale, KAST ecosystem, Earn, USD account, stablecoin depth</td>
+      <td class="lose">Avici wins on fraud protection — the #1 churn driver. Users switching post-fraud explicitly name Avici.</td>
+    </tr>
+    <tr>
+      <td><strong>RedotPay</strong></td>
+      <td>Simple setup, zero cashback, high limits, USDT-focused</td>
+      <td class="win">Cashback, Earn yield, USD account with routing, KAST ecosystem</td>
+      <td class="lose">RedotPay has no rewards so users who want simplicity only don't need KAST</td>
+    </tr>
+    <tr>
+      <td><strong>Crypto.com</strong></td>
+      <td>5% cashback, 80M+ users, exchange ecosystem, CRO staking</td>
+      <td class="win">No staking required, USD cashback (not CRO), simpler stablecoin-first design</td>
+      <td class="lose">Massive distribution, brand trust, merchant coverage, if CRO staking removed it's a direct fight</td>
+    </tr>
+    <tr>
+      <td><strong>Ready Metal</strong></td>
+      <td>0% FX globally, $800/mo free ATM, 3% STRK cashback, self-custody</td>
+      <td class="win">USD account + routing, Earn yield, payouts, LatAm on-ramps</td>
+      <td class="lose">Ready wins on FX-free travel and ATM access — the KAST fees are higher here</td>
+    </tr>
+    <tr>
+      <td><strong>Rain</strong></td>
+      <td>B2B stablecoin card infrastructure, $1.95B valuation, 200+ partners</td>
+      <td class="win">KAST owns the consumer brand and relationship</td>
+      <td class="lose">Rain is KAST's own infrastructure — partner today, potential competitor as Rain expands direct</td>
+    </tr>
+  </table>
+
+  <p><strong>Summary:</strong> KAST's defensible space is stablecoin-native USD account + card + Earn + payouts in one product, globally accessible, with active LatAm expansion. No single competitor offers all four at this scale. Critical vulnerability: fraud protection (Avici) and effective cashback transparency (EtherFi).</p>
+</section>
+
+
+<!-- ── M5: LATAM ── -->
+<section class="section" id="latam">
+  <div class="src src-claude">Claude · Module 05</div>
+  <div class="section-intro">
+    <div class="section-num">05 / 14</div>
+    <h2>The LatAm Opportunity</h2>
+  </div>
+
+  <p><strong>Why LatAm is structurally the right market for this product:</strong> Average annual inflation across LatAm's five largest economies over 15 years: 13%. US equivalent: 2.3%. Argentina hit 220% in 2024. This isn't a trend — it's a durable macroeconomic condition that makes USD stablecoin accounts a necessity, not a feature.</p>
+
+  <h3>LatAm Stablecoin by the Numbers (2025)</h3>
+  <ul class="plain">
+    <li>$324B in stablecoin volume in LatAm in 2025 — <strong>+89% YoY.</strong></li>
+    <li>Total LatAm crypto volume: $730B (+60% YoY). Monthly active users +18% — 3× faster than the US.</li>
+    <li>Brazil: 90%+ of crypto flows are stablecoin-related. 12% of population uses crypto.</li>
+    <li>Argentina: 24% crypto adoption rate, 60%+ stablecoin activity. 5.4M crypto app downloads in 2025.</li>
+    <li>Peru: Crypto app downloads grew 50% in 2025 (2.9M downloads). Yape/Plin + bank transfers: 540M transactions, +120% YoY.</li>
+  </ul>
+
+  <div class="divider"></div>
+
+  <h3>Country-by-Country</h3>
+  <table>
+    <tr>
+      <th>Country</th>
+      <th>Primary Driver</th>
+      <th>KAST Wedge</th>
+      <th>On-Ramp Gap</th>
+      <th>Competitive Risk</th>
+    </tr>
+    <tr>
+      <td><strong>🇧🇷 Brazil</strong></td>
+      <td>Stablecoin-dominant crypto flows, Pix habit, Nubank-trained UX expectations</td>
+      <td>Pix top-up → USD account → card → Earn. Working.</td>
+      <td class="win">Pix live ✓</td>
+      <td class="lose">Nubank (90M users), Mercado Pago, Brazil Virtual Assets Law tightening</td>
+    </tr>
+    <tr>
+      <td><strong>🇦🇷 Argentina</strong></td>
+      <td>220% inflation 2024, capital controls limit official $USD to $200/mo, dollar savings culture</td>
+      <td>USD account as inflation hedge. Earn vault. Card for global spend.</td>
+      <td class="neutral">Under expansion (Raagulan traveling)</td>
+      <td class="lose">Lemon, Belo (raised $14M Apr 2026 Tether-led, expanding to Peru/Colombia)</td>
+    </tr>
+    <tr>
+      <td><strong>🇵🇪 Peru</strong></td>
+      <td>1.7% GDP remittances (42% from US), dollar savings culture, Yape/Plin native payment habit, yield-seeking users</td>
+      <td>Receive USD remittances → USD account → spend with card → earn 3–7% APY</td>
+      <td class="lose">Yape/Plin not yet integrated ← highest-priority gap</td>
+      <td class="neutral">Bybit Pay already on Yape/Plin (Jan 2026). Belo incoming.</td>
+    </tr>
+    <tr>
+      <td><strong>🇲🇽 Mexico</strong></td>
+      <td>$60B+ US-Mexico remittance corridor, 3.5% GDP, 97% from US, nearshoring workers</td>
+      <td>Receive USD from US → local payout via SPEI → card for daily spend</td>
+      <td class="lose">SPEI not yet integrated</td>
+      <td class="lose">Bitso, Remitly, Western Union USDPT incoming</td>
+    </tr>
+    <tr>
+      <td><strong>🇨🇴 Colombia</strong></td>
+      <td>$10B remittances 2024, yield-seeking market (stablecoin Earn resonates), Bre-B launching</td>
+      <td>USD receiving + Earn yield + local payout via PSE/Nequi</td>
+      <td class="lose">PSE/Nequi not yet integrated</td>
+      <td class="neutral">Revolut launching. New DIAN crypto tax reporting.</td>
+    </tr>
+  </table>
+
+  <div class="opp">
+    <div class="opp-label">Opportunity</div>
+    <div class="opp-title">The Pix Playbook — Replicate for Each Country</div>
+    <div class="opp-body">Pix integration unlocked Brazil. Yape/Plin unlocks Peru. PSE/Nequi unlocks Colombia. SPEI unlocks Mexico. Each local instant payment rail integration is a funnel unlock, not a feature. Peru is the highest-priority gap: 50% app download growth in 2025, Bybit Pay already integrated with Yape/Plin in January 2026, and 540M wallet-to-bank transfers (+120% YoY) show the payment habit is fully formed.</div>
+  </div>
+</section>
+
+
+<!-- ── M6: ROLE ── -->
+<section class="section" id="role">
+  <div class="src src-claude">Claude · Module 06</div>
+  <div class="section-intro">
+    <div class="section-num">06 / 14</div>
+    <h2>The Role</h2>
+  </div>
+
+  <h3>What the JD Says (Verbatim)</h3>
+  <div class="verbatim">
+    "Lead our growth development squad with a laser focus on building capabilities that drive user acquisition, activation, and retention, doing whatever it takes to scale KAST to the moon. Reporting to the CPO, you'll steer the product growth strategy and roadmap, collaborating closely with Growth, Compliance, Design and Engineering teams. Orchestrate and streamline KYC workflows like SumSub, Jumio, Onfido, or FrankieOne. Optimize the user experience to cut registration-to-card onboarding time to under 2 minutes."
+    <span class="attr">Principal Growth PM · Solana job board · Now closed</span>
+  </div>
+
+  <p><strong>"Under 2 minutes"</strong> is unusual specificity for a JD. They know exactly where the problem is. This is the Day 1 deliverable.</p>
+
+  <div class="divider"></div>
+
+  <h3>The Full Funnel — What's Working, What's Broken</h3>
+  <div class="funnel-row">
+    <div class="funnel-num">01</div>
+    <div class="funnel-label">Awareness</div>
+    <div class="funnel-status"><span class="dot-win">✓</span> Working. Organic referrals, influencer card moments (Dubai Bling, 8.5K views), Pengu Card collab, Stripe 2025 annual letter shoutout. Authentic user testimonials on homepage.</div>
+  </div>
+  <div class="funnel-row">
+    <div class="funnel-num">02</div>
+    <div class="funnel-label">Sign-up / KYC</div>
+    <div class="funnel-status"><span class="dot-lose">✗</span> Broken. Excessive doc re-requests. Support says "completed" while still ongoing. Bank detail confusion. App updates triggering 2FA + PIN reset. Raagulan personally responding to complaints about this.</div>
+  </div>
+  <div class="funnel-row">
+    <div class="funnel-num">03</div>
+    <div class="funnel-label">Fund Account</div>
+    <div class="funnel-status"><span class="dot-win">✓</span> Working in Brazil (Pix, instant, no IOF). <span class="dot-lose">✗</span> Gap everywhere else — no Yape, no SPEI, no PSE yet.</div>
+  </div>
+  <div class="funnel-row">
+    <div class="funnel-num">04</div>
+    <div class="funnel-label">First Card Spend</div>
+    <div class="funnel-status"><span class="dot-win">✓</span> Working well. Virtual card issued in minutes. Apple Pay immediate. Users report "it just worked" across Toronto, Panama, Argentina, Japan, UK.</div>
+  </div>
+  <div class="funnel-row">
+    <div class="funnel-num">05</div>
+    <div class="funnel-label">Earn Vault</div>
+    <div class="funnel-status"><span class="dot-lose">✗</span> Friction. Gauntlet vault withdrawals "get stuck." No status transparency. Directly erodes trust in the DeFi product layer. Users citing "fragile DeFi reputation."</div>
+  </div>
+  <div class="funnel-row">
+    <div class="funnel-num">06</div>
+    <div class="funnel-label">Tier Upgrade</div>
+    <div class="funnel-status"><span class="dot-lose">✗</span> Perception problem. Power users do the math: 1.17% effective (Premium), 0.92% (Private). "Not a lot at all" is the direct quote. USD cashback alone doesn't justify $1K/yr without seeing full value.</div>
+  </div>
+  <div class="funnel-row">
+    <div class="funnel-num">07</div>
+    <div class="funnel-label">Referral Loop</div>
+    <div class="funnel-status"><span class="dot-win">✓</span> Active and working. Prize pools praised for making KYC worthwhile. Underoptimized — referrer reward should trigger at first spend, not signup.</div>
+  </div>
+  <div class="funnel-row">
+    <div class="funnel-num">08</div>
+    <div class="funnel-label">Retention</div>
+    <div class="funnel-status"><span class="dot-lose">✗</span> Churn triggers: fraud incident → no recovery → switch to Avici/tradfi. App update fatigue. Account freezes without explanation. Pattern: retains casual users, loses high-value power users at first operational failure.</div>
+  </div>
+</section>
+
+
+<!-- ── M7: RISKS ── -->
+<section class="section" id="risks">
+  <div class="src src-claude">Claude · Module 07</div>
+  <div class="section-intro">
+    <div class="section-num">07 / 14</div>
+    <h2>Risks</h2>
+  </div>
+
+  <div class="risk">
+    <div class="risk-title">1 — Rain Dependency</div>
+    <div class="risk-body">Rain is KAST's Visa Principal Member. Rain's $1.95B valuation is 3.25x KAST's. Rain just became a Mastercard Principal Member too. Rain processes $3B+ for 200+ partners including Western Union. If Rain raises card program pricing, builds a competing consumer product, or realigns toward enterprise-only, KAST's card economics change. Mitigation: KAST's own USDK/USDKY stablecoin issuance, Privy wallet stack, own compliance build — but this takes 2–3 years.</div>
+  </div>
+  <div class="risk">
+    <div class="risk-title">2 — Fraud Trust Gap (Active Churn, Not Latent)</div>
+    <div class="risk-body">Bryan thread: 89K views, April 2026. Fraud → $30–50 chargeback fee → ghosted support → switch to Avici. Avici is marketing against KAST on this gap specifically. This is happening now, not as a future risk.</div>
+  </div>
+  <div class="risk">
+    <div class="risk-title">3 — Cashback Economics Require High Premium Penetration</div>
+    <div class="risk-body">Standard users generate ~$20–50/year net revenue (FX + ATM fees). $100M ARR target with 1M users needs either very high Premium/Private mix or massive Standard volume. Power user perception of 1.17% effective rate directly attacks the subscription upgrade funnel.</div>
+  </div>
+  <div class="risk">
+    <div class="risk-title">4 — LatAm Regulatory Patchwork</div>
+    <div class="risk-body">Brazil: stablecoins now classified as FX operations (Feb 2026). Potential $100K cap under consultation. Colombia: full DIAN crypto tax reporting. Argentina: capital controls. Mexico: stringent Fintech Law licensing. Country-by-country compliance at scale is expensive and operationally complex.</div>
+  </div>
+  <div class="risk">
+    <div class="risk-title">5 — LatAm-Native Competitors with Local Structural Advantages</div>
+    <div class="risk-body">Belo (Tether-led, $14M April 2026) explicitly expanding to Peru, Colombia, Mexico, Chile. Lemon has 130K+ active Earn users in Argentina. Nubank (90M users) now rewards USDC holding. The next wave of LatAm signups may go to locally-embedded products with lower regulatory friction.</div>
+  </div>
+  <div class="risk">
+    <div class="risk-title">6 — USDK/USDKY Stablecoin Issuance + GENIUS Act Compliance</div>
+    <div class="risk-body">Issuing own stablecoins post-GENIUS Act (enacted July 2025) means BSA obligations: AML, customer ID, sanctions verification. May require bank-level compliance infrastructure. Adds meaningful operational overhead before Earn monetization becomes possible.</div>
+  </div>
+  <div class="risk">
+    <div class="risk-title">7 — Earn Monetization Triggers Churn</div>
+    <div class="risk-body">Currently 0% fee, 100% yield to users. When fees are introduced, users earning 5% drop to 4.75% — noticeable. Timing and communication of this transition is a retention event, not a quiet product update.</div>
+  </div>
+</section>
+
+
+<!-- ── M8: VALUATION ── -->
+<section class="section" id="valuation">
+  <div class="src src-gpt">ChatGPT · Module 08</div>
+  <div class="section-intro">
+    <div class="section-num">08 / 14</div>
+    <h2>Valuation & Investment Thesis</h2>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3>The Math</h3>
+      <div class="math">
+        Series A valuation: <span class="val">$600M</span><br>
+        2026 ARR target: <span class="val">$100M</span><br>
+        Implied forward multiple: <span class="val">6.0× ARR</span><br><br>
+        At 15% MoM: ~5.35× annual compounding<br>
+        At 20% MoM: ~8.9× annual compounding<br>
+        <span class="result">Defensible if $100M ARR is actually hit</span>
+      </div>
+
+      <h3>Historical Comparison</h3>
+      <table>
+        <tr><th>Company</th><th>Series A</th><th>Outcome</th></tr>
+        <tr><td><strong>Revolut</strong></td><td>£6.5M · 300K users · 2016</td><td class="win">$75B; $4B 2024 revenue</td></tr>
+        <tr><td><strong>Nubank</strong></td><td>$14.3M · 2014</td><td class="win">$45B IPO 2021</td></tr>
+        <tr><td><strong>KAST</strong></td><td>$80M · 1M+ users · 2026</td><td class="neutral">TBD</td></tr>
+      </table>
+      <p>KAST's absolute Series A is much larger than historical neobank rounds — reflects pricing a platform shift, not just a fintech app.</p>
+    </div>
+    <div>
+      <h3>Why QED Led</h3>
+      <p>QED portfolio pattern: Nubank, Current, SoFi (neobanks) + Remitly, Bitso (cross-border) + Creditas, Konfio (LatAm financial inclusion). 28 unicorns backed. KAST is a rare convergence of all three buckets simultaneously. QED board seat: Sandeep Patil joining, with a stated mandate to help KAST "scale with the discipline of a true financial institution."</p>
+
+      <h3>Left Lane Capital Signal</h3>
+      <p>Matthew Miller (Managing Partner): <em>"We believe consumer platforms will increasingly bring stablecoin infrastructure into everyday financial use."</em> Left Lane evaluates KAST partly as a consumer growth company — which means the product bar must be closer to Revolut than to a crypto wallet.</p>
+
+      <h3>Path to $3B Series B</h3>
+      <table>
+        <tr><th>Metric</th><th>Now</th><th>2027–2028 Target</th></tr>
+        <tr><td>Users</td><td>1M+</td><td>5M–8M</td></tr>
+        <tr><td>ARR</td><td>$100M target</td><td>$250M–$350M</td></tr>
+        <tr><td>B2B Revenue Mix</td><td>Early</td><td>25–40%</td></tr>
+        <tr><td>Volume</td><td>~$5B</td><td>$25B–$50B</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── M9: MACRO ── -->
+<section class="section" id="macro">
+  <div class="src src-gpt">ChatGPT · Module 09</div>
+  <div class="section-intro">
+    <div class="section-num">09 / 14</div>
+    <h2>Stablecoin Macro</h2>
+  </div>
+
+  <p><strong>2026 is the first cycle where stablecoins are not just an asset class — they're becoming a product primitive.</strong> The difference from previous cycles: regulation, institutional adoption, and consumer products are converging simultaneously.</p>
+
+  <div class="two-col">
+    <div>
+      <h3>Volume Reality</h3>
+      <ul class="plain">
+        <li><strong>$33T</strong> in stablecoin on-chain volume 2025 (vs $25.5T Visa + Mastercard combined).</li>
+        <li>USDC + USDT: 95%+ market share.</li>
+        <li>$22T → $33T growth from 2024 to 2025.</li>
+        <li>Caveat: on-chain volume includes exchange transfers, DeFi, bot activity. Not all consumer payments. The correct read: stablecoins are becoming the settlement rail; KAST's job is to put consumer products on top.</li>
+      </ul>
+
+      <h3>GENIUS Act (July 2025)</h3>
+      <ul class="plain">
+        <li>US federal payment stablecoin framework.</li>
+        <li>Subjects issuers to Bank Secrecy Act: AML, sanctions, customer ID.</li>
+        <li>Net positive for serious players: regulatory clarity → institutional adoption → consumer trust.</li>
+        <li>Risk: compliance costs rise, Earn/yield products face stricter scrutiny.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Incumbent Moves</h3>
+      <ul class="plain">
+        <li><strong>Visa:</strong> Stablecoin-linked cards via Bridge in LatAm — including Peru. $3.5B annualized USDC settlement.</li>
+        <li><strong>Mastercard:</strong> Acquiring BVNK for up to $1.8B. Also now a Rain partner.</li>
+        <li><strong>Western Union:</strong> USDPT stablecoin on Solana via Anchorage Digital, targeted May 2026 launch.</li>
+        <li><strong>PayPal PYUSD:</strong> 4% yield to drive adoption. ~$4.1B market cap Apr 2026. Requires strong incentives — validates KAST's cashback approach, but also shows rewards competition is escalating.</li>
+        <li><strong>Stripe:</strong> Stablecoin payment volume doubled to ~$400B, ~60% B2B flows.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── M10: B2B ── -->
+<section class="section" id="b2b">
+  <div class="src src-gpt">ChatGPT · Module 10</div>
+  <div class="section-intro">
+    <div class="section-num">10 / 14</div>
+    <h2>KAST Business</h2>
+  </div>
+
+  <p>B2B is the bridge from viral stablecoin card to durable fintech platform. Consumer KAST can be churned with one fraud incident. A business that has configured payroll, team cards, and vendor payments is structurally stickier.</p>
+
+  <div class="two-col">
+    <div>
+      <h3>Why B2B Changes the Valuation Story</h3>
+      <table>
+        <tr><th></th><th>B2C</th><th>B2B</th></tr>
+        <tr><td>Rev/user</td><td>$20–100</td><td class="win">$1,000–5,000</td></tr>
+        <tr><td>Churn</td><td class="lose">Weak if rewards drop</td><td class="win">High switching cost</td></tr>
+        <tr><td>Valuation multiple</td><td>Consumer fintech</td><td class="win">SaaS/payments infra</td></tr>
+        <tr><td>Gross margin</td><td class="lose">Squeezed by cashback</td><td class="win">Better (software + FX)</td></tr>
+      </table>
+
+      <h3>B2B Competitors for Context</h3>
+      <ul class="plain">
+        <li><strong>Airwallex:</strong> $1B+ ARR, $6.2B valuation, $235B annualized volume. Deep licensing, enterprise trust.</li>
+        <li><strong>Deel:</strong> $1.4B ARR (Feb 2026). $22B payroll, 35K+ customers. Owns compliance-heavy HR/payroll workflows.</li>
+        <li><strong>Wise Business:</strong> £679.5M cross-border revenue FY2023. ~0.65% take rate. Strong mainstream trust.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>KAST Business Current State</h3>
+      <ul class="plain">
+        <li>Multicurrency accounts, global payouts, virtual team cards, cross-border spending confirmed.</li>
+        <li>White-glove concierge support confirmed.</li>
+        <li><strong>Not yet publicly confirmed:</strong> Full KYB onboarding, multi-user permissions, approval workflows, invoicing, accounting integrations, formal payroll vs. payouts distinction, API access.</li>
+      </ul>
+
+      <h3>KAST Business Wedge</h3>
+      <p>KAST doesn't need to out-Airwallex Airwallex. The focused wedge: <strong>crypto-native startups, remote-first founders, contractors paid in USD, global teams with stablecoin treasuries.</strong> This is a high-intent, underserved segment that existing B2B tools ignore or price poorly.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── M11: CEO ── -->
+<section class="section" id="ceo">
+  <div class="src src-grok">SuperGrok · Module 11</div>
+  <div class="section-intro">
+    <div class="section-num">11 / 14</div>
+    <h2>CEO Intelligence</h2>
+  </div>
+
+  <h3>The May 3 All-Company Email (Public — 32K Views)</h3>
+  <div class="verbatim">
+    "If you want to work at @KASTxyz it comes with a high performance culture and expectations. We don't mince our words… Business is ultimately a full-contact sport… We are too slow. We are not in the details enough… We will become a much more data driven, and metrics driven business… The intensity will pick up… Win or die."
+    <span class="attr">@raagulanpathy · May 3, 2026 · 240 likes · 32K views</span>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3>His Behavior Pattern on X</h3>
+      <ul class="plain">
+        <li>Personally responds to user complaints at CEO@kast.xyz. Not delegated.</li>
+        <li>May 18: <em>"Hey @Innerdevcrypto possible to email me on ceo@kast.xyz I'd like to understand any issues personally."</em></li>
+        <li>April 13 fraud thread (89K views): <em>"We will wave the fees to investigate this… Of course we reverse transactions for genuine fraud."</em></li>
+        <li>Traveling to Argentina — LatAm expansion is operational, not a slide.</li>
+        <li>Low post volume, high signal when active. Operator, not content creator.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What This Means for the Interview</h3>
+      <ul class="plain">
+        <li><strong>Don't talk about data-driven culture — demonstrate it.</strong> Show up with specific funnel hypotheses and the metrics you'd track on day 1.</li>
+        <li><strong>Acknowledge the velocity problem directly.</strong> You've shipped fast in a regulated neobank environment. That's specifically relevant.</li>
+        <li><strong>Reference the May 3 email if asked about culture.</strong> It shows you've done real diligence, not read the website.</li>
+        <li><strong>CEO@kast.xyz complaint volume = your first product priority signal.</strong> PM Growth must reduce his support inbox through product, not headcount.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── M12+13: USER FEEDBACK ── -->
+<section class="section" id="users">
+  <div class="src src-grok">SuperGrok · Modules 12–13</div>
+  <div class="section-intro">
+    <div class="section-num">12–13 / 14</div>
+    <h2>User Intelligence</h2>
+  </div>
+
+  <h3>Highest-Signal Critique (May 19, 2026)</h3>
+  <div class="verbatim">
+    "1: your onboarding process, kyc, and especially getting us bank details, is very hard. customer support keeps asking for more data, even if you provide everything, this is excessive. Sometimes they even say a process is completed, while it is still ongoing.<br><br>
+    2: upgrade the cash withdrawal limit to more than 10k per month<br><br>
+    3: issue mastercard cards as well next to visa, some payment terminals do not accept visa<br><br>
+    4: membership upgrades and cashbacks are nice, but yours are actually low if one does the calculations: [Premium real rate = 1.16%, Private = 0.916%]<br><br>
+    5: having to update the app basically everyday is annoying to say the least<br><br>
+    6: sometimes money in the gauntlet vault to earn yield, when one tries to withdraw, gets stuck, this does not inspire confidence, we know how fragile defi's reputation is"
+    <span class="attr">@Innerdevcrypto · 40,284 followers · May 19, 2026 · Raagulan responded personally</span>
+  </div>
+
+  <p>Echoed immediately by @Anon67890657: <em>"I second @Innerdevcrypto on this one. Kast is doing a TERRIBLE job on the customer experience, with KYC process, constant freezing assets and that annoying app update every time requesting 2FA, setup new pin, every time."</em></p>
+
+  <div class="divider"></div>
+
+  <div class="two-col">
+    <div>
+      <h3>What's Working (User Reports)</h3>
+      <ul class="plain">
+        <li>KYC speed when incentivized (prize pools, referrals)</li>
+        <li>Brazil Pix: instant, no IOF, praised repeatedly</li>
+        <li>First card spend: "it just worked" across multiple countries</li>
+        <li>Card freeze: under 2 seconds, no delay</li>
+        <li>USD cashback (not tokens): praised for simplicity</li>
+        <li>USD Prime Vault instant withdrawal in Brazil</li>
+        <li>Apple Pay setup in under 5 minutes</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What's Broken (User Reports)</h3>
+      <ul class="plain">
+        <li>KYC: excessive re-requests, status inconsistency, bank detail confusion</li>
+        <li>Earn vault: withdrawals get stuck, no status visibility</li>
+        <li>Fraud: no OTP/location flags, $30–50 chargeback fees, PDF disputes</li>
+        <li>Tier math: power users calculating 1.17% effective rate</li>
+        <li>App updates: "basically every day" with 2FA + PIN reset cycle</li>
+        <li>Support: tickets ghosted. @MahdiMaza2: "ghosted my ticket."</li>
+        <li>Account freezes: unexplained, KAST Points lost with no resolution</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── M14: TRUST GAP ── -->
+<section class="section" id="trust">
+  <div class="src src-grok">SuperGrok · Module 14</div>
+  <div class="section-intro">
+    <div class="section-num">14 / 14</div>
+    <h2>The Trust Gap</h2>
+  </div>
+
+  <h3>The Bryan Thread — April 13, 2026</h3>
+  <div class="verbatim">
+    "My wife's @KASTxyz card got targeted. Kast has zero fraud protection, she got hit for over $3,500… Kast is charging us $30 per chargeback… Customer service was even more useless… We applied for a normie credit card… Crypto will never face mass adoption if the products continue to be inferior."
+    <span class="attr">@Bryan_TitanA · 539 likes · 89K views · 111 replies · April 13, 2026</span>
+  </div>
+
+  <p>Raagulan's response: <em>"We will wave the fees to investigate this… Of course we reverse transactions for genuine fraud."</em> — Some users got refunds via concierge. But the structural product gap remained unfixed. Avici was tagged in responses as the alternative, citing zero-fee disputes and Visa Credit BIN rights (full chargeback protection vs KAST's debit-level).</p>
+
+  <div class="two-col">
+    <div>
+      <h3>Fraud Product Gaps</h3>
+      <ul class="plain">
+        <li>No OTP or location velocity flags on foreign transactions</li>
+        <li>$30–50 chargeback fee on legitimate fraud claims</li>
+        <li>PDF-based manual dispute process</li>
+        <li>No self-serve dispute flow in-app</li>
+        <li>No auto-freeze on anomalous transaction patterns</li>
+        <li>Support escalation bottlenecks at CEO level</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Competitive Context</h3>
+      <ul class="plain">
+        <li><strong>Avici:</strong> Zero-fee disputes, Visa Credit BIN (full chargeback rights), explicitly winning churned KAST users</li>
+        <li><strong>Tradfi credit cards:</strong> Users switching wives to "normie credit card" for 2% cashback + fraud protection</li>
+        <li><strong>Pattern:</strong> KAST retains casual users. Loses high-value power users at first operational failure — the exact users closest to Premium tier.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── OPPORTUNITIES ── -->
+<section class="section" id="opportunities">
+  <div class="src src-grok">Synthesis · All Sources</div>
+  <div class="section-intro">
+    <div class="section-num">Synthesis</div>
+    <h2>Opportunities from Customer Feedback</h2>
+  </div>
+  <p>These are the product gaps with the clearest signal-to-noise ratio across all three research sources. Each has verbatim user evidence, a competitive consequence, and a specific product hypothesis.</p>
+
+  <div class="opp">
+    <div class="opp-label">Opportunity 01 · KYC</div>
+    <div class="opp-title">Single-pass onboarding with live status tracking</div>
+    <div class="opp-body"><strong>Signal:</strong> @Innerdevcrypto (40K followers), @Anon67890657, and the JD itself ("cut to under 2 minutes") all point to the same problem. Support re-requests documents already submitted. Status shows "completed" while review is ongoing. Bank detail flow is confusing.<br><br><strong>Hypothesis:</strong> Pre-submission checklist that collects everything in one session + in-app status tracker with 4 clear states (Submitted → Under Review → Approved → Card Ready) + zero re-asks after first submission. Estimated impact: if KYC drop-off is 40% (typical for full-KYC crypto products), improving it by 30% = 12% more users reaching first-spend each month.</div>
+  </div>
+
+  <div class="opp">
+    <div class="opp-label">Opportunity 02 · Tier Upgrade</div>
+    <div class="opp-title">Personalized value calculator at the upgrade screen</div>
+    <div class="opp-body"><strong>Signal:</strong> @Innerdevcrypto ran the math live in a 40K-follower post. Effective Premium rate = 1.17%, Private = 0.92%. "Not a lot at all." Power users are ignoring KastPoints and Earn APY because they're not surfaced at the moment of decision.<br><br><strong>Hypothesis:</strong> Replace "upgrade to Premium — 2% cashback" CTA with a personalized screen showing: annual USD cashback at your current spend level + KastPoints value in USD (at today's SOL price) + Earn APY on current balance + withdrawal limit increase + concierge access. Total annual value, personalized. A/B test this against current screen. Hypothesis: personalized total-value framing converts at 2× because it makes the full picture visible at decision moment.</div>
+  </div>
+
+  <div class="opp">
+    <div class="opp-label">Opportunity 03 · Fraud & Disputes</div>
+    <div class="opp-title">Self-serve dispute flow + auto-fraud protection</div>
+    <div class="opp-body"><strong>Signal:</strong> Bryan thread (89K views, April 2026) — $3,500 fraud, $30–50 chargeback fees, manual PDF process, explicit switch to Avici. Avici is winning churned KAST users specifically on this gap.<br><br><strong>Hypothesis:</strong> OTP or location confirmation for first foreign transaction on a new device. Auto-freeze on velocity anomalies (5 transactions in 3 minutes in a different country). In-app dispute flow: tap transaction → dispute → photo evidence → submitted in under 2 minutes. Zero chargeback fee for first verified fraud incident per user. Expected outcome: reduce Bryan-class incidents by 60–80%, eliminate Avici as a named alternative in user complaints.</div>
+  </div>
+
+  <div class="opp">
+    <div class="opp-label">Opportunity 04 · Earn Vault</div>
+    <div class="opp-title">Withdrawal status transparency + real-time notifications</div>
+    <div class="opp-body"><strong>Signal:</strong> @Innerdevcrypto: "money in the gauntlet vault gets stuck, this does not inspire confidence." DeFi fragility is already a trust barrier — a stuck withdrawal makes it worse.<br><br><strong>Hypothesis:</strong> Real-time withdrawal status with estimated time and chain confirmation link. Push notification at each stage: initiated → processing → complete. If stuck >30 minutes, proactive support message sent. Expected outcome: no user ever wonders if their money is lost. Reduces CEO escalations on vault issues by estimated 70%.</div>
+  </div>
+
+  <div class="opp">
+    <div class="opp-label">Opportunity 05 · LatAm On-Ramps</div>
+    <div class="opp-title">Yape / Plin integration for Peru — replicate the Pix playbook</div>
+    <div class="opp-body"><strong>Signal:</strong> Pix unlocked Brazil. Peru's crypto app downloads grew 50% in 2025. Bybit Pay already integrated with Yape/Plin in January 2026. 540M wallet-to-bank transfers in Peru in 2025, +120% YoY. The user behavior is fully formed — KAST just needs the on-ramp.<br><br><strong>Hypothesis:</strong> Yape/Plin top-up for Peru mirrors the Pix integration model: local instant payment → KAST balance funded in USD → virtual card available in 2 minutes. Estimated impact: 5× monthly activations in Peru within 90 days of launch, based on Bybit's Yape/Plin adoption trajectory.</div>
+  </div>
+
+  <div class="opp">
+    <div class="opp-label">Opportunity 06 · App Experience</div>
+    <div class="opp-title">Reduce update fatigue and 2FA reset friction</div>
+    <div class="opp-body"><strong>Signal:</strong> Multiple users independently cite "app updates basically every day" with forced 2FA and PIN reset on each update. @Anon67890657 called this out alongside KYC as a top frustration.<br><br><strong>Hypothesis:</strong> Decouple security updates from full re-authentication cycles. Implement session persistence for trusted devices. Batch non-security updates. Target: zero forced 2FA resets for updates that don't touch security primitives. Secondary: biometric-first re-auth eliminates PIN reset friction entirely.</div>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  KAST Intelligence Brief · May 19, 2026<br>
+  Claude (M01–07) · ChatGPT Deep Research (M08–10) · SuperGrok (M11–14)
+</footer>
+
+</body>
+</html>
