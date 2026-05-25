@@ -2504,12 +2504,956 @@ function switchTab(n, btn) {
 
   <!-- ACCORDIONS (Part 3) -->
   <div id="accordions-section">
-    <!-- company deep-dives will be added in Part 3 -->
+<style>
+.acc-section-header{margin-top:4rem;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--cream-3);}
+.acc-section-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.4rem;}
+.acc-section-title{font-family:var(--serif);font-size:1.5rem;color:var(--ink);}
+.acc-section-title em{font-style:italic;}
+.rgroup-hdr{display:flex;align-items:center;gap:.6rem;padding:1.5rem 0 .75rem;border-bottom:2px solid var(--cream-3);}
+.rgroup-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.rgroup-label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);}
+.rgroup-count{font-family:var(--mono);font-size:10px;color:var(--cream-4);}
+.acc{border-bottom:1px solid var(--cream-3);}
+.acc-hdr{display:flex;align-items:center;gap:.75rem;padding:.9rem 0;cursor:pointer;user-select:none;}
+.acc-hdr:hover .acc-co{color:var(--ink);}
+.acc-co{font-family:var(--serif);font-size:1rem;color:var(--ink-2);flex:1;line-height:1.2;}
+.acc-hdr-right{display:flex;align-items:center;gap:.5rem;flex-shrink:0;}
+.acc-ear-badge{font-family:var(--mono);font-size:9px;color:var(--ink-4);letter-spacing:.04em;white-space:nowrap;}
+.acc-toggle{font-family:var(--mono);font-size:13px;color:var(--ink-4);transition:transform 200ms ease;line-height:1;}
+.acc.open .acc-toggle{transform:rotate(45deg);}
+.acc-body{display:none;padding:0 0 1.25rem;}
+.acc.open .acc-body{display:block;}
+.acc-io .acc-hdr{padding:.9rem .75rem;background:var(--cream-2);margin:0 -.75rem;border-radius:3px;}
+.acc-io .acc-co{color:var(--ink);}
+.ctabs{display:flex;gap:0;border-bottom:1px solid var(--cream-3);margin-bottom:1rem;}
+.ctab-btn{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:.45rem .7rem;border:none;background:transparent;cursor:pointer;color:var(--ink-4);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 150ms ease;}
+.ctab-btn.on{color:var(--ink);border-bottom-color:var(--ink);}
+.ctab{display:none;}
+.ctab.on{display:block;}
+.arow{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+.afield{margin-bottom:.75rem;}
+.afield-lbl{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.25rem;}
+.afield-val{font-family:var(--sans);font-size:.8rem;color:var(--ink-3);line-height:1.55;}
+.afield-val strong{color:var(--ink-2);}
+.afield-val em{color:var(--ink-3);}
+.afield-val ul{padding-left:1rem;margin-top:.2rem;}
+.afield-val li{margin-bottom:.15rem;}
+.aear{width:100%;border-collapse:collapse;margin:.3rem 0;font-size:.75rem;}
+.aear th{font-family:var(--mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4);padding:.25rem .5rem;border-bottom:1px solid var(--cream-3);text-align:center;}
+.aear td{padding:.25rem .5rem;text-align:center;font-family:var(--mono);font-size:.75rem;border-bottom:1px solid var(--cream-2);}
+.aear td:first-child{text-align:left;color:var(--ink-3);font-family:var(--sans);}
+.na-note{font-family:var(--sans);font-size:.8rem;color:var(--ink-4);font-style:italic;padding:.3rem 0;}
+.conf{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.4rem;}
+.conf span{font-family:var(--mono);font-size:8px;background:var(--cream-2);color:var(--ink-4);padding:.1rem .35rem;border-radius:2px;}
+.synth-wrap{display:flex;flex-direction:column;gap:1.75rem;margin-top:1.5rem;}
+.synth{border:1px solid var(--cream-3);border-radius:6px;padding:1.75rem;}
+.synth.synth-io{border-color:var(--ink);border-width:2px;}
+.synth-ey{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.4rem;}
+.synth-ttl{font-family:var(--serif);font-size:1.2rem;color:var(--ink);margin-bottom:.75rem;line-height:1.2;}
+.synth-ttl em{font-style:italic;}
+.synth-body{font-family:var(--sans);font-size:.83rem;color:var(--ink-3);line-height:1.65;}
+.synth-body strong{color:var(--ink-2);}
+.arch-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.75rem;}
+.arch-card{background:var(--cream-2);border-radius:4px;padding:1rem;}
+.arch-name{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.35rem;}
+.arch-cos{font-family:var(--sans);font-size:.78rem;color:var(--ink-4);margin-bottom:.4rem;}
+.arch-note{font-family:var(--sans);font-size:.78rem;color:var(--ink-3);line-height:1.5;}
+.rank-row{display:flex;align-items:baseline;justify-content:space-between;gap:.75rem;padding:.45rem 0;border-bottom:1px solid var(--cream-2);}
+.rank-row:last-child{border-bottom:none;}
+.rank-n{font-family:var(--mono);font-size:9px;color:var(--ink-4);width:1.2rem;flex-shrink:0;}
+.rank-co{font-family:var(--serif);font-size:.95rem;color:var(--ink-2);flex:1;}
+.rank-ear{font-family:var(--mono);font-size:.82rem;font-weight:700;color:var(--ink);white-space:nowrap;}
+.rank-note{font-family:var(--sans);font-size:.74rem;color:var(--ink-4);text-align:right;min-width:140px;}
+.rank-io{background:var(--cream-2);padding:.5rem .75rem;border-radius:3px;border-left:3px solid var(--ink);margin-bottom:.25rem;}
+.gap-list{display:flex;flex-direction:column;gap:.45rem;}
+.gap-item{display:flex;gap:.6rem;align-items:flex-start;}
+.gap-ic{font-size:.85rem;flex-shrink:0;margin-top:.1rem;}
+.gap-txt{font-family:var(--sans);font-size:.82rem;color:var(--ink-3);line-height:1.5;}
+.gap-txt strong{color:var(--ink-2);}
+.rec-list{display:flex;flex-direction:column;}
+.rec-item{display:flex;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--cream-2);align-items:flex-start;}
+.rec-item:last-child{border-bottom:none;}
+.rec-num{font-family:var(--mono);font-size:11px;color:var(--ink-4);flex-shrink:0;width:1.5rem;margin-top:.05rem;}
+.rec-txt{font-family:var(--sans);font-size:.82rem;color:var(--ink-3);line-height:1.55;}
+.rec-txt strong{color:var(--ink-2);}
+@media(max-width:600px){.arow{grid-template-columns:1fr;}.arch-grid{grid-template-columns:1fr;}.rank-note{display:none;}}
+</style>
+<div class="acc-section-header">
+  <div class="acc-section-eyebrow">Company deep-dives</div>
+  <div class="acc-section-title">40 programs, <em>one accordion at a time</em></div>
+</div>
+<div class="rgroup-hdr" style="margin-top:1rem;">
+  <div class="rgroup-dot" style="background:#1C1B19;"></div>
+  <span class="rgroup-label">iO — Reference Company</span>
+</div>
+<div class="acc acc-io" id="acc-io">
+  <div class="acc-hdr" onclick="toggleAcc('acc-io')">
+    <div class="acc-co">iO <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Lima, Peru</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 1.0%–4.7%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-io',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-io',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-io-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Peruvian neobank backed by BCP. Single product: Visa credit card with <strong>Niveles iO</strong> loyalty program. 3 tiers based on monthly billing cycle (25th–24th).</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>1% base</strong> unlimited on all eligible spend. Experto/Maestro bonus: Cines 5% (cap S/10), Minimarket 5% (S/10), Streaming 5% (S/10), Moda 5% (S/20), Uber 10% (S/15), PedidosYa 15% (S/15). Maestro adds: Supermercados 3% (S/20) + Cashback Plus (1 category/mo): AI 20% (S/30) or Viajes/Grifos/Restaurantes 5% (S/30). All caps are independent, monthly reset. Annual fee: S/0.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>4.7% (Maestro+AI)</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>2.2% (Maestro+AI)</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>1.4% (Maestro+AI)</td></tr>
+</tbody></table><small style='color:var(--ink-4);font-size:.75rem;'>Base 1% only: 1.0% flat at all spend levels.</small></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Auto statement credit applied to card balance. <strong>RFS: Low.</strong> No minimum threshold. No expiration.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">App balance tracking. No gamification or streaks. No referral program (as of May 2026). Cashback Plus monthly category selection adds a loyalty touchpoint.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>MCC codes for bonus categories not publicly documented — qualifying transactions unclear</li><li>Cashback Plus carry-over behavior (monthly reset vs. persist) not confirmed</li><li>Exact cashback credit timing within cycle not verified</li></ul></div></div><div class="conf"><span>✅ Accumulation mechanics</span><span>✅ EAR model</span><span>❓ MCC codes</span><span>❓ Credit timing</span></div></div></div></div>
+<div class="ctab " id="ct-acc-io-1"><p class="na-note">N/A — No debit card loyalty program</p></div></div>
+</div>
+<div class="rgroup-hdr" style="margin-top:2rem;">
+  <div class="rgroup-dot" style="background:#C8A96E;"></div>
+  <span class="rgroup-label">Crypto Neobanks</span>
+  <span class="rgroup-count">11 companies</span>
+</div>
+<div class="acc" id="acc-kast">
+  <div class="acc-hdr" onclick="toggleAcc('acc-kast')">
+    <div class="acc-co">KAST <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">San Francisco, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR 0.3%–1.5%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-kast',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-kast',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-kast-0"><p class="na-note">N/A — KAST is a debit/prepaid card product.</p></div>
+<div class="ctab " id="ct-acc-kast-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Crypto-native neobank. Stablecoin (USDC) cashback on debit spend. Multiple subscription tiers from standard to premium.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>Standard:</strong> 1.5% USDC flat on all eligible spend. <strong>Premium tiers:</strong> up to 8%. Annual subscription fee for premium (~$120–240/yr).</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>1.5%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>1.0%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>0.3%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">USDC automatically to KAST wallet. <strong>RFS: Medium</strong> (crypto-to-fiat conversion step). No min. No expiration.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Tier upgrade path visible in app. No gamification or referral found.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Subscription ROI risk at premium tiers</li><li>Premium break-even not always reached at typical spend levels</li></ul></div></div><div class="conf"><span>✅ Standard mechanics</span><span>⚠️ Premium tier rates</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-cryptocom">
+  <div class="acc-hdr" onclick="toggleAcc('acc-cryptocom')">
+    <div class="acc-co">Crypto.com <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Singapore</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR 0%–1.5%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-cryptocom',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-cryptocom',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-cryptocom-0"><p class="na-note">N/A — No CC product in benchmark scope.</p></div>
+<div class="ctab " id="ct-acc-cryptocom-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">One of the world's largest crypto platforms. Metal debit cards with CRO cashback. Five tiers based on CRO staking ($400 → $400K USD equivalent), 6-month lock-up per tier.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">0% (no stake) → 1% (Ruby) → 2% (Jade) → 3% (Royal Indigo/Icy White) → 5% (Rose Gold) → 8% (Obsidian). All earned in CRO.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>0%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>1.5%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>0.45%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">CRO tokens to Crypto.com app. Auto earn. <strong>RFS: High</strong> (staking lock-up + crypto conversion). No min. No expiration.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Staking progress tracking. Tier milestone perks: Spotify/Netflix rebate and airport lounge at higher tiers.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>CRO price crashes reduce effective EAR significantly</li><li>Benefit cuts when CRO falls below staking targets</li><li>Staking lock-in creates churn barrier</li></ul></div></div><div class="conf"><span>✅ Tier mechanics</span><span>⚠️ EAR — CRO price dependent</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-gemini">
+  <div class="acc-hdr" onclick="toggleAcc('acc-gemini')">
+    <div class="acc-co">Gemini <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">New York, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 2.4%–4.6%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-gemini',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-gemini',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-gemini-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">US crypto exchange Mastercard credit card. Simple proposition: 3% back in any of 200+ cryptocurrencies on all purchases. No annual fee.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">3% back in any crypto on all eligible spend. Bonus: 10% dining (monthly cap), 2% grocery, 1% other.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>2.4% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>2.4% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>4.6% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Crypto auto-credited to Gemini account. <strong>RFS: High</strong> (crypto-to-fiat friction). No min. No expiration.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Simple. No gamification or referral found.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Crypto price exposure on all rewards</li><li>Bear market can make real EAR negative in fiat terms</li></ul></div></div><div class="conf"><span>✅ Base mechanics</span><span>⚠️ EAR — crypto price dependent</span></div></div></div></div>
+<div class="ctab " id="ct-acc-gemini-1"><p class="na-note">N/A — No DC product benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-coinbase">
+  <div class="acc-hdr" onclick="toggleAcc('acc-coinbase')">
+    <div class="acc-co">Coinbase <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">San Francisco, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR 1.0%–4.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-coinbase',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-coinbase',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-coinbase-0"><p class="na-note">N/A — No CC product benchmarked.</p></div>
+<div class="ctab " id="ct-acc-coinbase-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Largest US crypto exchange. Coinbase Card (Visa debit) with crypto cashback. Two main earn options: 4% in select altcoins or 1% in Bitcoin.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>4%</strong> in DOGE/XLM/select altcoins <em>or</em> <strong>1%</strong> in BTC on all eligible purchases. No annual fee.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>4.0%/1.0% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>4.0%/1.0% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>4.0%/1.0% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Crypto to Coinbase account. Auto. <strong>RFS: Medium–High.</strong> No min. No expiration.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Simple. No gamification found.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Altcoin EAR is meaningless in a bear market</li><li>Altcoin choice complexity for non-crypto-native users</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>⚠️ EAR — altcoin price dependent</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-binance">
+  <div class="acc-hdr" onclick="toggleAcc('acc-binance')">
+    <div class="acc-co">Binance <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Cayman Islands</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR 0.4%–2.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-binance',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-binance',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-binance-0"><p class="na-note">N/A — No CC product benchmarked.</p></div>
+<div class="ctab " id="ct-acc-binance-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">World's largest crypto exchange by volume. Binance Visa Card with BNB cashback on all spend. Tiered rates based on BNB staking balance.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Up to 8% BNB cashback. Rate determined by BNB staking level. Effective rate for most users: 1%–2%.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>2.0% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>1.4% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>0.42% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">BNB auto-credited to Binance account. <strong>RFS: High.</strong> No min. No expiration.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">BNB balance tracking in app.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Regulatory restrictions in many markets</li><li>BNB price exposure; staking lock-in</li><li>Account access issues in restricted regions</li></ul></div></div><div class="conf"><span>✅ Tier mechanics</span><span>⚠️ EAR</span><span>❓ Regulatory status by country</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-nexo">
+  <div class="acc-hdr" onclick="toggleAcc('acc-nexo')">
+    <div class="acc-co">Nexo <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Sofia, Bulgaria</small></div>
+    <div class="acc-hdr-right"><span class="badge-hybrid">Hybrid</span><span class="acc-ear-badge">EAR ~2.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn " onclick="switchCtab('acc-nexo',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn on" onclick="switchCtab('acc-nexo',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab " id="ct-acc-nexo-0"><p class="na-note">N/A — No credit card product benchmarked</p></div>
+<div class="ctab on" id="ct-acc-nexo-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">EU-based crypto lending platform. Card functions as both debit and credit against crypto collateral. Four loyalty tiers based on % of portfolio held in NEXO tokens.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Base (0% NEXO): 0.5% cashback or 2% in NEXO. Platinum (≥10% portfolio in NEXO): 2% cashback or 5% NEXO. Very high asset threshold for top tier.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>2.0% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>2.0% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>2.0% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Cashback to Nexo account or NEXO tokens. Auto. <strong>RFS: Medium.</strong> No min. Expiration: ❓</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Portfolio tier monitoring; NEXO token staking progress.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Very high staking threshold for Platinum (significant NEXO holding required)</li><li>Token price crash wipes tier status</li></ul></div></div><div class="conf"><span>⚠️ Tier mechanics</span><span>❓ Platinum EAR at realistic portfolio sizes</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-etherfi">
+  <div class="acc-hdr" onclick="toggleAcc('acc-etherfi')">
+    <div class="acc-co">Ether.fi <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR ~3.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-etherfi',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-etherfi',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-etherfi-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">DeFi staking protocol expanding into consumer cards. Pinnacle card offers EtherPoints on spend, backed by ETH staking yield. ETH staking required for access.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>3%</strong> EtherPoints on all purchases; 5% on travel. ETH staking required. No announced annual fee.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>3.0% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>3.0% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>3.0% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">EtherPoints → cashback. Manual. <strong>RFS: Medium.</strong> Expiration: ❓</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">ETH staking progress. DeFi ecosystem integration.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>ETH staking requirement is a significant adoption barrier</li><li>EtherPoints redemption mechanics not fully public</li></ul></div></div><div class="conf"><span>⚠️ All figures estimated</span><span>❓ Redemption process</span></div></div></div></div>
+<div class="ctab " id="ct-acc-etherfi-1"><p class="na-note">N/A — No DC product benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-avici">
+  <div class="acc-hdr" onclick="toggleAcc('acc-avici')">
+    <div class="acc-co">Avici <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 0.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-avici',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-avici',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-avici-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Early-stage crypto-native credit card. Rewards program not fully live as of May 2026. No verified earn data available.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">❓ Not yet live as of May 2026.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>0.0%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>0.0%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>0.0%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">❓ N/A (program not live)</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">N/A</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Early-stage — program details not confirmed</li></ul></div></div><div class="conf"><span>❓ Low — early stage, limited public data</span></div></div></div></div>
+<div class="ctab " id="ct-acc-avici-1"><p class="na-note">N/A — No DC product benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-plasma">
+  <div class="acc-hdr" onclick="toggleAcc('acc-plasma')">
+    <div class="acc-co">Plasma <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR ❓</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-plasma',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-plasma',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-plasma-0"><p class="na-note">N/A — No CC product benchmarked.</p></div>
+<div class="ctab " id="ct-acc-plasma-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Stablecoin-native debit card product. Limited public data available as of May 2026.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">❓ Not publicly documented.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Limited public documentation</li></ul></div></div><div class="conf"><span>❓ Low confidence — limited data</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-lemon">
+  <div class="acc-hdr" onclick="toggleAcc('acc-lemon')">
+    <div class="acc-co">Lemon Card <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Buenos Aires, Argentina</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR 2.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-lemon',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-lemon',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-lemon-0"><p class="na-note">N/A — No CC product benchmarked.</p></div>
+<div class="ctab " id="ct-acc-lemon-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Argentina-based crypto fintech. Prepaid card offering flat 2% USDC cashback. Designed for LATAM users seeking USD-denominated rewards as a hedge against local currency risk.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>2% USDC</strong> on all eligible spend. No cap. No annual fee.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>2.0%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>2.0%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>2.0%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">USDC to Lemon wallet. Auto. <strong>RFS: Low–Medium.</strong> No min. No expiration.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Simple. Crypto wallet integration.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Argentina regulatory/exchange rate risk adds friction</li><li>Limited to Argentina market</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>⚠️ Regulatory stability</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-brex">
+  <div class="acc-hdr" onclick="toggleAcc('acc-brex')">
+    <div class="acc-co">Brex <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">San Francisco, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR ~3.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-brex',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-brex',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-brex-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val"><strong>B2B product only — not a consumer card.</strong> Benchmarked for structural reference. Expense management platform for startups with strong flat-rate points earning and no annual fee.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">1pt/$ base; 7x travel; 4x restaurant; 3x recurring software. No annual fee. No caps.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>3.0% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>3.0% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>3.0% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Cash / points / travel. Manual. <strong>RFS: Low.</strong> No min.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Spend analytics, team expense controls, accounting integrations.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>B2B only — not directly applicable to consumer programs</li><li>Rates may differ by business size/stage</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>⚠️ EAR comparable to consumer context</span><span>ℹ️ B2B, not consumer</span></div></div></div></div>
+<div class="ctab " id="ct-acc-brex-1"><p class="na-note">N/A — No DC product benchmarked.</p></div></div>
+</div>
+<div class="rgroup-hdr" style="margin-top:2rem;">
+  <div class="rgroup-dot" style="background:#6B9E78;"></div>
+  <span class="rgroup-label">LATAM + Asia</span>
+  <span class="rgroup-count">14 companies</span>
+</div>
+<div class="acc" id="acc-nubank">
+  <div class="acc-hdr" onclick="toggleAcc('acc-nubank')">
+    <div class="acc-co">Nubank <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">São Paulo, Brazil</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 0.7%–2.5%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-nubank',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-nubank',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-nubank-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Largest digital bank in Latin America, 100M+ customers across Brazil, Mexico, Colombia. <strong>Ultravioleta</strong> is the premium CC with 1% unlimited cashback. Base Roxinho card has no cashback.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Ultravioleta: <strong>1% NuCoins</strong> on all eligible spend (1 NuCoin ≈ R$0.01). Redeemable as statement credit or invested. Annual fee: R$540/yr (~$110). Base card: 0%.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>0.72%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>2.48%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>2.48%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">NuCoins → statement credit or CDB investment. Auto. <strong>RFS: Low.</strong> No min. No expiration.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Strong multi-product app (savings, insurance, investing, lending). Financial health UX. 100M+ user scale creates strong referral network.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Annual fee makes light-spend EAR very low (0.72%)</li><li>NuCoins complexity vs simple cashback preference for some users</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>✅ EAR model</span></div></div></div></div>
+<div class="ctab " id="ct-acc-nubank-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-picpay">
+  <div class="acc-hdr" onclick="toggleAcc('acc-picpay')">
+    <div class="acc-co">PicPay <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">São Paulo, Brazil</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR ~2.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-picpay',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-picpay',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-picpay-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Brazil's leading social payment app with a growing fintech stack. PicPay Black credit card offers flat ~2% cashback. Social payment integration is core UX.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">~<strong>2% flat cashback</strong> on eligible spend. No annual fee.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>1.98% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>1.99% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>1.99% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Statement credit. Auto. <strong>RFS: Low.</strong> No min. No expiration.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Social payment feed; P2P transfers; PicPay ecosystem cross-sell. Referral program.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>❓ Limited specific failure mode data publicly available</li></ul></div></div><div class="conf"><span>⚠️ Rates estimated from public sources</span></div></div></div></div>
+<div class="ctab " id="ct-acc-picpay-1"><p class="na-note">N/A — No DC product benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-tenpo">
+  <div class="acc-hdr" onclick="toggleAcc('acc-tenpo')">
+    <div class="acc-co">Tenpo <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Santiago, Chile</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR 2%–4%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-tenpo',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-tenpo',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-tenpo-0"><p class="na-note">N/A — No CC product benchmarked.</p></div>
+<div class="ctab " id="ct-acc-tenpo-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Chilean neobank focused on financial inclusion. Cashback driven by completing spending missions — not a flat rate. Mission UX is core product differentiation.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>0% base;</strong> up to 4% when spending missions completed. Missions are time-limited challenges (e.g., 'spend $X at partner merchants'). No annual fee.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>2–4% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>2–4% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>2–4% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Discount/cashback automatically applied. Auto. <strong>RFS: Low.</strong> No min. Expiration: offer-specific.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Mission board and progress tracking are central UX. High engagement through challenge completion. Referral program.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Mission fatigue — users who don't engage earn 0%</li><li>Mission availability not always guaranteed</li></ul></div></div><div class="conf"><span>⚠️ EAR depends on mission completion</span><span>❓ Steady-state EAR uncertain</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-rappi">
+  <div class="acc-hdr" onclick="toggleAcc('acc-rappi')">
+    <div class="acc-co">Rappi <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Bogotá, Colombia</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR up to 4%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-rappi',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-rappi',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-rappi-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">LATAM super-app (delivery, grocery, travel, fintech). RappiCard credit card offers RappiCash rewards, highest on Rappi orders. Deeply integrated with Rappi app ecosystem.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>1.5% base</strong> on all spend; up to 4% on Rappi orders. Optional Rappi Prime subscription enhances rates.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>up to 4% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>up to 4% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>up to 4% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">RappiCash auto-applied to Rappi orders or statement credit. Auto. <strong>RFS: Low.</strong> Expiration: ❓</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Fully integrated with Rappi delivery, grocery, restaurant UX. Gamified missions and referral program.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Platform risk — loyalty tied to Rappi delivery app usage</li><li>App uninstall = loyalty loss</li></ul></div></div><div class="conf"><span>⚠️ Rates estimated</span><span>❓ Exact EAR by spend mix</span></div></div></div></div>
+<div class="ctab " id="ct-acc-rappi-1"><p class="na-note">N/A — No DC product benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-mercadopago">
+  <div class="acc-hdr" onclick="toggleAcc('acc-mercadopago')">
+    <div class="acc-co">Mercado Pago <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Buenos Aires, Argentina</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR ~1%–2%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-mercadopago',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-mercadopago',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-mercadopago-0"><p class="na-note">N/A — No CC product benchmarked.</p></div>
+<div class="ctab " id="ct-acc-mercadopago-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Latin America's dominant payments platform (part of MercadoLibre). Prepaid/debit card with Mercado Puntos rewards redeemable within the ML ecosystem.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">~1%–2% Mercado Puntos on eligible spend. Exact rate varies by country and product.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>~1.5% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>~1.5% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>~1.5% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Mercado Puntos → ML marketplace or MP balance. Auto. <strong>RFS: Low</strong> within ML ecosystem. No min.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Cross-sell to MercadoLibre marketplace, MercadoCredito, MercadoShops. Strong ecosystem lock-in. Referral program.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Points only fully valuable inside the ML ecosystem</li><li>Argentina macro risk affects platform stability</li></ul></div></div><div class="conf"><span>⚠️ Rates estimated</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-bcp">
+  <div class="acc-hdr" onclick="toggleAcc('acc-bcp')">
+    <div class="acc-co">BCP <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Lima, Peru</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR ~0.75%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-bcp',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-bcp',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-bcp-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Peru's largest bank (Banco de Crédito del Perú). Traditional points-based rewards (Puntos BCP) on credit cards.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Puntos BCP on eligible spend. Effective cashback equivalent: ~0.5%–1% depending on card tier.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>~0.75% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>~0.75% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>~0.75% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Points → cashback / airline miles / gift catalog. Manual. <strong>RFS: Medium.</strong> Min threshold required.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Standard bank app. Co-branded travel cards.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Points catalog complexity vs simple cashback</li><li>Low redemption value perception vs modern neobanks</li></ul></div></div><div class="conf"><span>⚠️ Rates estimated</span></div></div></div></div>
+<div class="ctab " id="ct-acc-bcp-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-interbank">
+  <div class="acc-hdr" onclick="toggleAcc('acc-interbank')">
+    <div class="acc-co">Interbank <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Lima, Peru</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR ~0.75%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-interbank',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-interbank',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-interbank-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Peru's fourth-largest bank. Points program linked to LifeMiles (Avianca FFP) or own rewards platform.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Points on eligible spend; LifeMiles earn on select cards. Effective rate: ~0.5%–1%.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>~0.75% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>~0.75% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>~0.75% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Points → cashback / LifeMiles / rewards. Manual. <strong>RFS: Medium.</strong></div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Standard bank app. LifeMiles integration for travel-focused users.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Points catalog friction</li><li>LifeMiles complexity for non-travelers</li></ul></div></div><div class="conf"><span>⚠️ Estimated</span></div></div></div></div>
+<div class="ctab " id="ct-acc-interbank-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-scotiabank">
+  <div class="acc-hdr" onclick="toggleAcc('acc-scotiabank')">
+    <div class="acc-co">Scotiabank Peru <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Lima, Peru</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR ~0.75%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-scotiabank',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-scotiabank',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-scotiabank-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Canadian bank with significant Peru retail banking operations. Traditional points rewards on credit cards.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Points on eligible spend. Effective rate: ~0.5%–1%.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>~0.75% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>~0.75% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>~0.75% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Points → rewards catalog. Manual. <strong>RFS: Medium.</strong></div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Standard bank app.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Standard traditional bank limitations — catalog complexity, friction</li></ul></div></div><div class="conf"><span>⚠️ Estimated</span></div></div></div></div>
+<div class="ctab " id="ct-acc-scotiabank-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-bbva">
+  <div class="acc-hdr" onclick="toggleAcc('acc-bbva')">
+    <div class="acc-co">BBVA Peru <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Lima, Peru</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR ~0.75%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-bbva',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-bbva',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-bbva-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Spanish bank with large Peru retail presence. Points-based rewards on credit cards.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Points on eligible spend. Effective rate: ~0.5%–1%.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>~0.75% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>~0.75% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>~0.75% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Points → rewards. Manual. <strong>RFS: Medium.</strong></div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Standard bank app.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Traditional bank limitations vs neobank cashback simplicity</li></ul></div></div><div class="conf"><span>⚠️ Estimated</span></div></div></div></div>
+<div class="ctab " id="ct-acc-bbva-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-itau">
+  <div class="acc-hdr" onclick="toggleAcc('acc-itau')">
+    <div class="acc-co">Itaú <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">São Paulo, Brazil</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR ~1.5%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-itau',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-itau',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-itau-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Brazil's largest private bank. Itaú Rewards program with points on credit card spend. Strong premium tier for high-spend customers.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Itaú Rewards points on eligible spend. Effective rate: ~1%–2% depending on card tier and redemption choice.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>~1.5% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>~1.5% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>~1.5% ⚠️</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Points → cashback / travel / partners. Manual. <strong>RFS: Medium.</strong></div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Multi-product app. Travel co-brands.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Points catalog friction</li><li>Complexity vs simple cashback</li></ul></div></div><div class="conf"><span>⚠️ Estimated</span></div></div></div></div>
+<div class="ctab " id="ct-acc-itau-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-tbank">
+  <div class="acc-hdr" onclick="toggleAcc('acc-tbank')">
+    <div class="acc-co">T-Bank <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Bangkok, Thailand</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR ❓</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-tbank',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-tbank',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-tbank-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Thai digital bank. Limited public data available for loyalty program specifics as of May 2026.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">❓ Not publicly documented.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Limited public documentation</li></ul></div></div><div class="conf"><span>❓ Low confidence — limited data</span></div></div></div></div>
+<div class="ctab " id="ct-acc-tbank-1"><p class="na-note">N/A — No DC product benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-wio">
+  <div class="acc-hdr" onclick="toggleAcc('acc-wio')">
+    <div class="acc-co">Wio Bank <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Abu Dhabi, UAE</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR ❓</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn " onclick="switchCtab('acc-wio',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn on" onclick="switchCtab('acc-wio',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab " id="ct-acc-wio-0"><p class="na-note">N/A — No credit card product benchmarked</p></div>
+<div class="ctab on" id="ct-acc-wio-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">UAE digital bank targeting SMEs and consumers. Limited public loyalty program data available as of May 2026.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">❓ Not publicly documented.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Limited public documentation</li></ul></div></div><div class="conf"><span>❓ Low confidence — limited data</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-trust">
+  <div class="acc-hdr" onclick="toggleAcc('acc-trust')">
+    <div class="acc-co">Trust Bank <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Singapore</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR ❓</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-trust',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-trust',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-trust-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Singapore digital bank backed by Standard Chartered + NTUC. Limited public loyalty data as of May 2026.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">❓ Not publicly documented.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Limited public documentation</li></ul></div></div><div class="conf"><span>❓ Low confidence</span></div></div></div></div>
+<div class="ctab " id="ct-acc-trust-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Trust Bank also offers debit products. Limited public loyalty data available.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Limited public documentation</li></ul></div></div><div class="conf"><span>❓ Low confidence</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-uob">
+  <div class="acc-hdr" onclick="toggleAcc('acc-uob')">
+    <div class="acc-co">UOB <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Singapore</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR ❓</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-uob',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-uob',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-uob-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Singapore's United Overseas Bank. UNI$ points program on credit cards with bonus categories in dining and shopping.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">UNI$ on eligible spend. Bonus categories for dining and shopping. Exact effective rate varies by card tier.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Points → miles / cashback / partners. Manual. <strong>RFS: Medium.</strong></div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Standard bank app. Travel co-brands.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Points complexity</li></ul></div></div><div class="conf"><span>❓ Rates not verified</span></div></div></div></div>
+<div class="ctab " id="ct-acc-uob-1"><p class="na-note">N/A — No DC product benchmarked.</p></div></div>
+</div>
+<div class="rgroup-hdr" style="margin-top:2rem;">
+  <div class="rgroup-dot" style="background:#6B8BAE;"></div>
+  <span class="rgroup-label">North America</span>
+  <span class="rgroup-count">9 companies</span>
+</div>
+<div class="acc" id="acc-bofa">
+  <div class="acc-hdr" onclick="toggleAcc('acc-bofa')">
+    <div class="acc-co">Bank of America <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Charlotte, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 1.1%–1.7%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-bofa',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-bofa',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-bofa-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Major US bank. <strong>Customized Cash Rewards:</strong> user selects 3% bonus category monthly (online shopping, dining, travel, gas, drug stores, or home improvement). 2% grocery/wholesale. 1% all else.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>3%</strong> chosen category (quarterly cap $2,500 combined 2%+3% spend), <strong>2%</strong> grocery/wholesale, <strong>1%</strong> base. No annual fee. Preferred Rewards members get enhanced rates.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>1.70%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>1.39%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>1.12%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Statement credit / direct deposit. Manual. <strong>RFS: Low.</strong> No min. No expiration (while open).</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Category selection in app. Preferred Rewards links to banking/investment balances for enhanced earn.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Shared quarterly cap between 2%+3% categories creates confusion</li><li>EAR drops significantly at heavy spend after cap exhaustion</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>✅ EAR model</span></div></div></div></div>
+<div class="ctab " id="ct-acc-bofa-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-chase">
+  <div class="acc-hdr" onclick="toggleAcc('acc-chase')">
+    <div class="acc-co">Chase <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">New York, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 0.9%–1.6%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-chase',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-chase',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-chase-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">US market leader in premium card ecosystem. Ultimate Rewards (UR) powers both Freedom Unlimited ($0 fee, 1.5% flat) and Sapphire Preferred ($95/yr, strong travel earn). Card pairing is the dominant value strategy.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Sapphire Preferred: 5x Chase Travel, 3x dining/streaming/online grocery, 1x all else. Annual fee: $95. Freedom Unlimited: 1.5x flat, 5% Chase Travel, 3% dining/drugstores — $0 fee.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>0.91%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>1.44%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>1.62%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Cash / travel portal / transfer partners (airlines + hotels). Manual. <strong>RFS: Medium.</strong> No min. Expiration: while account open.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Chase Offers activation. UR hub. Referral bonuses. Card-pairing ecosystem (Freedom earns, Sapphire redeems at higher value).</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>$95 annual fee hard to justify for non-travelers</li><li>Travel portal redemption rules have changed (reducing old 1.25x value)</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>✅ EAR model (Sapphire Preferred)</span></div></div></div></div>
+<div class="ctab " id="ct-acc-chase-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-capitalone">
+  <div class="acc-hdr" onclick="toggleAcc('acc-capitalone')">
+    <div class="acc-co">Capital One <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">McLean, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 1.2%–1.9%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-capitalone',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-capitalone',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-capitalone-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Strong mass-market rewards. <strong>Venture:</strong> simple 2x miles on all purchases. <strong>Quicksilver:</strong> 1.5% flat cashback. No category management required.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>2x miles</strong> on all purchases; 5x on Capital One Travel. Annual fee: Venture $95 / Quicksilver $0.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>1.21%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>1.74%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>1.92%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Travel statement credit / transfer partners / cash. Manual. <strong>RFS: Medium.</strong> No min.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Simple flat-rate = low cognitive load. Capital One Travel portal and Entertainment.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>$95 Venture fee harder to justify for lighter spenders</li><li>Maximum value requires travel planning sophistication</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>✅ EAR model (Venture)</span></div></div></div></div>
+<div class="ctab " id="ct-acc-capitalone-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-amex">
+  <div class="acc-hdr" onclick="toggleAcc('acc-amex')">
+    <div class="acc-co">American Express <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">New York, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 1.8%–2.2%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-amex',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-amex',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-amex-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Premium card issuer with strong everyday-category cashback. <strong>Blue Cash Preferred:</strong> 6% supermarkets + streaming, 3% gas/transit, 1% base. Annual fee $95.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">BCP: <strong>6%</strong> US supermarkets (cap $6K/yr), 6% select streaming, 3% gas/transit, 1% all else. Annual fee: $95. Blue Cash Everyday (BCE): 3% supermarkets/gas/online retail ($6K cap each), $0 fee.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>1.81%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>2.17%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>1.77%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Statement credit (Reward Dollars). Manual. <strong>RFS: Low.</strong> No min.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Amex Offers (merchant-funded targeted discounts in app). Referral bonuses. Purchase protection.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Annual fee + grocery cap reduces value for heavy spenders</li><li>Users downgrade to BCE when grocery spend is below break-even</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>✅ EAR model (BCP)</span></div></div></div></div>
+<div class="ctab " id="ct-acc-amex-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-citi">
+  <div class="acc-hdr" onclick="toggleAcc('acc-citi')">
+    <div class="acc-co">Citi <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">New York, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 2.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-citi',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-citi',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-citi-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Simple flat 2% cashback. No annual fee. No caps. No categories. <strong>The benchmark for simplicity</strong> in the US market.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>2% flat</strong> (1% at purchase + 1% when paid). Unlimited. No annual fee.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>2.0%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>2.0%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>2.0%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Statement credit / direct deposit / ThankYou points. Manual. <strong>RFS: Low.</strong> No min.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Minimal by design — simplicity is the value proposition. ThankYou ecosystem for users with paired premium Citi cards.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Low excitement = churn risk from category-optimizing competitors</li><li>1%+1% split creates minor cognitive friction for some users</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>✅ EAR model</span></div></div></div></div>
+<div class="ctab " id="ct-acc-citi-1"><p class="na-note">N/A — No DC loyalty program benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-venmo">
+  <div class="acc-hdr" onclick="toggleAcc('acc-venmo')">
+    <div class="acc-co">Venmo <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">San Jose, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 1.7%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-venmo',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-venmo',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-venmo-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Auto-optimizing credit card tied to Venmo's social payments ecosystem. 3% on top spend category, 2% on second, 1% all else — automatically detected, no manual selection needed.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>Dynamic:</strong> 3% top eligible category, 2% second category, 1% all else. No caps found. No annual fee.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>1.70%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>1.70%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>1.70%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Venmo balance (auto). <strong>RFS: Low.</strong> No min. Expiration: ❓</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Social payment feed; optional crypto auto-purchase of cashback; QR code on physical card links to Venmo profile.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Flat 2% cards (Citi) can beat Venmo for users without concentrated category spend</li><li>Uncertainty about promotional vs steady-state rates among users</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>✅ EAR model</span></div></div></div></div>
+<div class="ctab " id="ct-acc-venmo-1"><p class="na-note">N/A — No DC product benchmarked in this scope.</p></div></div>
+</div>
+<div class="acc" id="acc-robinhood">
+  <div class="acc-hdr" onclick="toggleAcc('acc-robinhood')">
+    <div class="acc-co">Robinhood <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Menlo Park, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="acc-ear-badge">EAR 2.4%–2.9%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-robinhood',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-robinhood',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-robinhood-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Subscription-gated flat 3% cashback. <strong>Highest flat-rate credit card in the US benchmarked sample.</strong> Requires Robinhood Gold membership ($75/yr). 5% on Robinhood Travel portal.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>3% flat</strong> on all purchases; 5% on Robinhood Travel. <strong>Gold subscription: $75/yr</strong> required.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>2.38%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>2.79%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>2.94%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Robinhood account balance. Manual. <strong>RFS: Medium</strong> (tied to brokerage ecosystem). No min.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Cashback-to-investing positioning reinforces brokerage engagement. Robinhood Gold perks bundled (larger IRA matches, higher cash sweep rates).</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Subscription break-even risk at light spend</li><li>Past waitlist friction created adoption delays at launch</li><li>Entire value prop collapses if Gold rate is reduced</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>✅ EAR model</span></div></div></div></div>
+<div class="ctab " id="ct-acc-robinhood-1"><p class="na-note">N/A — No DC loyalty product benchmarked.</p></div></div>
+</div>
+<div class="acc" id="acc-chime">
+  <div class="acc-hdr" onclick="toggleAcc('acc-chime')">
+    <div class="acc-co">Chime <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">San Francisco, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR 0.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn " onclick="switchCtab('acc-chime',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn on" onclick="switchCtab('acc-chime',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab " id="ct-acc-chime-0"><p class="na-note">N/A — No credit card product benchmarked</p></div>
+<div class="ctab on" id="ct-acc-chime-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">No-fee neobank competing on utility, not cashback. <strong>Value proposition:</strong> no monthly fees, SpotMe overdraft, early direct deposit, Credit Builder. 8.6M active members.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>0% cashback.</strong> No rewards program. Value delivered through fee avoidance and financial access tools.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>0.0%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>0.0%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>0.0%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">N/A — no rewards currency.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Credit Builder progress; SpotMe limits; savings goals. Financial health UX.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Users with higher spend migrate to rewards cards</li><li>Account freeze complaints common for neobanks</li></ul></div></div><div class="conf"><span>✅ No rewards confirmed</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-cashapp">
+  <div class="acc-hdr" onclick="toggleAcc('acc-cashapp')">
+    <div class="acc-co">Cash App <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">San Francisco, USA</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR ❓</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn " onclick="switchCtab('acc-cashapp',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn on" onclick="switchCtab('acc-cashapp',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab " id="ct-acc-cashapp-0"><p class="na-note">N/A — No credit card product benchmarked</p></div>
+<div class="ctab on" id="ct-acc-cashapp-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">25M+ monthly Cash App Card actives. <strong>Offers model</strong> (formerly Boosts): one personalized merchant discount active at a time. Instant discount at point of sale — no points, no cashback, just immediate savings.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>0% universal base.</strong> Variable merchant discounts via Offers. One offer active at a time; user swaps offers in app.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table><small style='color:var(--ink-4);font-size:.75rem;'>EAR not standardized — offer-dependent, activation-dependent.</small></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Instant discount at POS. Auto. <strong>RFS: Medium</strong> (offer activation required before spend). Min: N/A.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Offer discovery and swap drives app opens. Personalized offer targeting. Instant gratification model vs monthly points accumulation.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Weak universal value if offers don't match user habits</li><li>Reports of offers not applying correctly</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>❓ EAR not published</span></div></div></div></div></div>
+</div>
+<div class="rgroup-hdr" style="margin-top:2rem;">
+  <div class="rgroup-dot" style="background:#8B7BAE;"></div>
+  <span class="rgroup-label">Europe</span>
+  <span class="rgroup-count">5 companies</span>
+</div>
+<div class="acc" id="acc-revolut">
+  <div class="acc-hdr" onclick="toggleAcc('acc-revolut')">
+    <div class="acc-co">Revolut <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">London, UK</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR −3.5%–0.6%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-revolut',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-revolut',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-revolut-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Country-specific credit card with limited availability across EU markets. Promotions exist (e.g., Lithuania: 5% first 3 months, 1% ongoing up to cap). <strong>No universal earn rate</strong> across UK/EU.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Country-specific promotions only; no universal CC rate. RevPoints linkage depends on plan tier.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table><small style='color:var(--ink-4);font-size:.75rem;'>No universal rate — not modeled.</small></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">RevPoints → airline miles / Revolut Stays / Experiences. Manual. <strong>RFS: Medium.</strong> Min: 5,000 pts.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Plan upgrade nudge. Airline transfer partners.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Rates vary by country and promotion period</li><li>No steady-state universal rate to model</li></ul></div></div><div class="conf"><span>⚠️ Country-specific — rates vary</span></div></div></div></div>
+<div class="ctab " id="ct-acc-revolut-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">RevPoints program on debit spend. Points per £/€ varies by plan tier. Standard is free; Ultra is £45/mo. Spare Change roundups → RevPoints. Redeemable via airline miles, Stays, Experiences.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Standard: limited base. Higher plans: up to 1pt/£ (Ultra). Subscription: Standard £0 / Plus £3.99 / Premium £9.99 / Metal £14.99 / Ultra £45/mo.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>−3.5% ⚠️</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>−0.5% ⚠️</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>0.55% ⚠️</td></tr>
+</tbody></table><small style='color:var(--ink-4);font-size:.75rem;'>Illustrative Ultra case, net £540/yr fee.</small></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">RevPoints → airline miles (1:1) / Revolut Stays / Experiences / shopping. Manual. <strong>RFS: Medium.</strong> Min: 5,000 pts.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Spare Change (roundups → points). Plan upgrade gamification. Airline transfer partners. 50+ services in super-app.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Negative EAR for all but heavy Ultra users</li><li>Subscription fatigue; benefit changes by market</li><li>Points value opacity</li></ul></div></div><div class="conf"><span>⚠️ EAR illustrative Ultra case</span><span>⚠️ Benefit changes may affect figures</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-monzo">
+  <div class="acc-hdr" onclick="toggleAcc('acc-monzo')">
+    <div class="acc-co">Monzo <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">London, UK</small></div>
+    <div class="acc-hdr-right"><span class="badge-cc">CC</span><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR ❓</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-monzo',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-monzo',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-monzo-0"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Monzo Flex is BNPL-style credit. Cashback from activated merchant offers only — <strong>no universal flat rate.</strong> Subscription plans (Extra/Perks/Max) add features.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">0% base. Merchant cashback via pre-activated offers only. Rate is offer-specific.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table><small style='color:var(--ink-4);font-size:.75rem;'>Offer-dependent — not modeled.</small></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Cashback on offer transactions. Manual (must activate before spending). <strong>RFS: Medium.</strong></div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Subscription tier nudge. Bill splitting.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>No universal cashback = low perceived value vs flat-rate alternatives</li></ul></div></div><div class="conf"><span>❓ No universal rate available</span></div></div></div></div>
+<div class="ctab " id="ct-acc-monzo-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Monzo current account with debit card. Same offer-based cashback model applies. Subscription plans add product features.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">0% base. Merchant cashback via activated offers. Subscription unlocks additional features (not higher universal earn).</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Offer cashback. Manual. <strong>RFS: Medium.</strong></div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Savings Pots (goal-based); round-ups; bill splitting; spending analytics.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Subscription ROI unclear for users who don't use offers</li></ul></div></div><div class="conf"><span>❓</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-n26">
+  <div class="acc-hdr" onclick="toggleAcc('acc-n26')">
+    <div class="acc-co">N26 <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Berlin, Germany</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR −1.6%–0.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-n26',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-n26',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-n26-0"><p class="na-note">N/A — No CC product benchmarked.</p></div>
+<div class="ctab " id="ct-acc-n26-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">German neobank. N26 Metal offers 0.5% cashback on all spend plus travel insurance. <strong>Heavy subscription drag</strong> makes EAR negative for all but heavy spenders.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">Standard: 0.1% cashback. Metal: <strong>0.5%</strong> all spend. Annual fee: Metal €192/yr. No bonus categories.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>−1.6%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>−0.4%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>0.03%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">Statement credit. Manual. <strong>RFS: Low.</strong> No min.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Simple. No gamification.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Negative EAR at light and mid spend — users pay more in fees than they earn</li><li>€192 fee hard to justify without heavy spend</li></ul></div></div><div class="conf"><span>✅ Mechanics</span><span>✅ EAR model</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-bunq">
+  <div class="acc-hdr" onclick="toggleAcc('acc-bunq')">
+    <div class="acc-co">Bunq <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">Amsterdam, Netherlands</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR ❓</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-bunq',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-bunq',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-bunq-0"><p class="na-note">N/A — No CC product benchmarked.</p></div>
+<div class="ctab " id="ct-acc-bunq-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">Dutch neobank with sustainability focus and automated savings features. Limited public data on cashback program specifics as of May 2026.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val">❓ Not publicly documented.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>❓</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>❓</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>❓</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">❓</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Limited public documentation</li></ul></div></div><div class="conf"><span>❓ Low confidence — limited data</span></div></div></div></div></div>
+</div>
+<div class="acc" id="acc-starling">
+  <div class="acc-hdr" onclick="toggleAcc('acc-starling')">
+    <div class="acc-co">Starling Bank <small style="font-family:var(--mono);font-size:9px;color:var(--ink-4);font-weight:400;">London, UK</small></div>
+    <div class="acc-hdr-right"><span class="badge-dc">DC</span><span class="acc-ear-badge">EAR 0.0%</span><span class="acc-toggle">+</span></div>
+  </div>
+  <div class="acc-body"><div class="ctabs">
+  <button class="ctab-btn on" onclick="switchCtab('acc-starling',0,this)">&#x1F4B3; Credit Card</button>
+  <button class="ctab-btn " onclick="switchCtab('acc-starling',1,this)">&#x1F3E6; Debit Card</button>
+</div>
+<div class="ctab on" id="ct-acc-starling-0"><p class="na-note">N/A — No CC product benchmarked.</p></div>
+<div class="ctab " id="ct-acc-starling-1"><div class="arow"><div><div class="afield"><div class="afield-lbl">Overview</div><div class="afield-val">UK neobank. <strong>No traditional cashback rewards program.</strong> Competes on UX, fee-free banking, and Spaces savings features. Consistently top-rated UK banking app.</div></div><div class="afield"><div class="afield-lbl">Accumulation</div><div class="afield-val"><strong>0% cashback.</strong> No rewards currency. Value through savings interest (Spaces) and fee avoidance.</div></div><div class="afield"><div class="afield-lbl">EAR</div><div class="afield-val"><table class="aear">
+<thead><tr><th>Tier</th><th>Spend/yr</th><th>EAR</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>$12K</td><td>0.0%</td></tr>
+<tr><td>Mid</td><td>$36K</td><td>0.0%</td></tr>
+<tr><td>Heavy</td><td>$120K</td><td>0.0%</td></tr>
+</tbody></table></div></div></div><div><div class="afield"><div class="afield-lbl">Redemption</div><div class="afield-val">N/A — no rewards currency.</div></div><div class="afield"><div class="afield-lbl">Engagement</div><div class="afield-val">Spaces (goal-based savings pots); spending analytics; no gamification.</div></div><div class="afield"><div class="afield-lbl">Known Failure Modes</div><div class="afield-val"><ul><li>Users seeking cashback must go elsewhere — no loyalty hook beyond UX quality</li></ul></div></div><div class="conf"><span>✅ No rewards confirmed</span></div></div></div></div></div>
+</div>
+
   </div>
 
   <!-- SYNTHESIS (Part 3) -->
   <div id="synthesis-section">
-    <!-- synthesis panels will be added in Part 3 -->
+
+<div class="acc-section-header" style="margin-top:4rem;">
+  <div class="acc-section-eyebrow">Strategic synthesis</div>
+  <div class="acc-section-title">What iO should <em>build next.</em></div>
+</div>
+<div class="synth-wrap">
+
+<div class="synth">
+<div class="synth-ey">Framework</div>
+<div class="synth-ttl">How loyalty programs are structured <em>across the benchmark.</em></div>
+<div class="synth-body">Every loyalty program in this benchmark falls into one of four structural archetypes. Most companies blend elements, but one archetype dominates their economics. <strong>iO sits in Archetype 2</strong> — bonus category / tiered — closest structurally to Amex BCP, but with soles-denominated caps, zero fee, and auto statement credit.</div>
+<div class="arch-grid">
+  <div class="arch-card">
+    <div class="arch-name">1 · Flat-rate simple</div>
+    <div class="arch-cos">Citi, Lemon, Venmo, PicPay, Freedom Unlimited</div>
+    <div class="arch-note">No category management. Scales linearly with spend. Best EAR for heavy spenders when rates are ≥2%. Weakness: no differentiation, no engagement hook.</div>
+  </div>
+  <div class="arch-card" style="border:1px solid var(--ink);">
+    <div class="arch-name" style="color:var(--ink);">2 · Bonus category / tiered ← iO</div>
+    <div class="arch-cos">iO, Amex BCP, BofA, Nubank, KAST, Rappi</div>
+    <div class="arch-note">High EAR at moderate spend. Fixed caps mean EAR declines as total spend grows past cap threshold. Engagement through category awareness and tier progress.</div>
+  </div>
+  <div class="arch-card">
+    <div class="arch-name">3 · Subscription-gated</div>
+    <div class="arch-cos">Robinhood, Revolut, N26, Crypto.com, Monzo Max</div>
+    <div class="arch-note">Monetizes loyalty directly. Negative EAR at low spend until break-even. Requires users to model ROI before subscribing — high friction at acquisition.</div>
+  </div>
+  <div class="arch-card">
+    <div class="arch-name">4 · Crypto-volatile</div>
+    <div class="arch-cos">Gemini, Coinbase, Binance, Nexo, Ether.fi, KAST</div>
+    <div class="arch-note">Headline EAR is attractive but real value is crypto-price-dependent. High RFS. Not meaningfully comparable to fiat programs. Bear markets create churn and reputational risk.</div>
+  </div>
+</div>
+</div>
+
+<div class="synth">
+<div class="synth-ey">Ranking</div>
+<div class="synth-ttl">Where iO sits <em>in the global EAR landscape.</em></div>
+<div class="synth-body">Ranked by EAR at $120K/yr (Heavy) for non-crypto CC programs. iO is pinned for reference. Crypto programs excluded from this ranking due to price volatility.</div>
+<div style="margin-top:1rem;">
+  <div class="rank-row rank-io">
+    <span class="rank-n">★</span>
+    <span class="rank-co" style="color:var(--ink);font-weight:500;">iO (Maestro + AI)</span>
+    <span class="rank-ear">4.7% light / 2.2% mid / 1.4% heavy</span>
+    <span class="rank-note">$0 fee · LATAM reference · caps limit heavy-spend EAR</span>
+  </div>
+  <div class="rank-row"><span class="rank-n">1</span><span class="rank-co">Robinhood Gold</span><span class="rank-ear">2.94%</span><span class="rank-note">$75/yr Gold sub · flat 3%</span></div>
+  <div class="rank-row"><span class="rank-n">2</span><span class="rank-co">Nubank Ultravioleta</span><span class="rank-ear">2.48%</span><span class="rank-note">$0 fee · 1% flat · LATAM</span></div>
+  <div class="rank-row"><span class="rank-n">3</span><span class="rank-co">Citi Double Cash</span><span class="rank-ear">2.00%</span><span class="rank-note">$0 fee · 2% flat · simplest in benchmark</span></div>
+  <div class="rank-row"><span class="rank-n">4</span><span class="rank-co">American Express BCP</span><span class="rank-ear">2.17% mid / 1.77% heavy</span><span class="rank-note">$95/yr · grocery specialist</span></div>
+  <div class="rank-row"><span class="rank-n">5</span><span class="rank-co">Capital One Venture</span><span class="rank-ear">1.92%</span><span class="rank-note">$95/yr · flat 2x miles</span></div>
+</div>
+<p style="font-family:var(--mono);font-size:10px;color:var(--ink-4);margin-top:1rem;">iO's EAR advantage is at lighter spend levels ($12K/yr = 4.7%). At $120K/yr, fixed soles caps are diluted by base spend and the unlimited 1% base becomes the dominant driver. This is structurally identical to how Amex BCP behaves at heavy spend.</p>
+</div>
+
+<div class="synth synth-io">
+<div class="synth-ey">iO position</div>
+<div class="synth-ttl">What Niveles iO does well — <em>and what it doesn&apos;t have yet.</em></div>
+<div class="synth-body" style="margin-bottom:.75rem;">Structural assessment as of May 2026. Compared against the 39 benchmarked programs.</div>
+<div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.35rem;">Strengths</div>
+<div class="gap-list">
+  <div class="gap-item"><span class="gap-ic">✅</span><div class="gap-txt"><strong>No annual fee</strong> — only Citi, Chime, Venmo, PicPay offer meaningful earn without a fee. iO's S/0 fee is genuinely differentiated.</div></div>
+  <div class="gap-item"><span class="gap-ic">✅</span><div class="gap-txt"><strong>No staking requirement</strong> — 6 crypto competitors require staking; iO has zero participation friction.</div></div>
+  <div class="gap-item"><span class="gap-ic">✅</span><div class="gap-txt"><strong>No crypto volatility</strong> — rewards denominated in soles; real value is guaranteed regardless of market conditions.</div></div>
+  <div class="gap-item"><span class="gap-ic">✅</span><div class="gap-txt"><strong>Lowest redemption friction (RFS: Low)</strong> — auto statement credit matches best-in-class (Nubank, Venmo, PicPay) and beats all traditional Peruvian banks.</div></div>
+  <div class="gap-item"><span class="gap-ic">✅</span><div class="gap-txt"><strong>Highest light-spend EAR in LATAM non-crypto segment</strong> — 4.7% at $12K/yr beats Nubank Ultravioleta (0.72% light), Rappi (~4% but spend-mix dependent), and all Peruvian bank cards (~0.75%).</div></div>
+</div>
+<div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);margin-top:1rem;margin-bottom:.35rem;">Gaps</div>
+<div class="gap-list">
+  <div class="gap-item"><span class="gap-ic">❌</span><div class="gap-txt"><strong>No gamification or missions</strong> — Tenpo, Rappi, Mercado Pago, Cash App all use challenge/mission mechanics to drive transaction frequency with near-zero incremental cost.</div></div>
+  <div class="gap-item"><span class="gap-ic">❌</span><div class="gap-txt"><strong>No referral program</strong> — Nubank, PicPay, Rappi, Mercado Pago all have referral mechanics. Referral is typically the lowest-CAC acquisition channel for neobanks.</div></div>
+  <div class="gap-item"><span class="gap-ic">❌</span><div class="gap-txt"><strong>No real-time progress tracking UX</strong> — users can't see tier progress, distance to next tier, or Cashback Plus selection reminder without manual calculation.</div></div>
+  <div class="gap-item"><span class="gap-ic">❌</span><div class="gap-txt"><strong>No DC loyalty program</strong> — all major Peruvian banks and LATAM neobanks have debit earn. iO is CC-only; the DC segment is growing.</div></div>
+  <div class="gap-item"><span class="gap-ic">❌</span><div class="gap-txt"><strong>No partner-funded merchant boost offers</strong> — Amex Offers, Chase Offers, BofA Deals, Cash App Boosts drive engagement at near-zero loyalty cost by shifting funding to merchants. iO has partner discounts but not cashback-format offers.</div></div>
+</div>
+</div>
+
+<div class="synth">
+<div class="synth-ey">Recommendations</div>
+<div class="synth-ttl">Five things iO should — <em>and should not</em> — replicate.</div>
+<div class="rec-list">
+  <div class="rec-item"><span class="rec-num">1</span><div class="rec-txt"><strong>Do NOT replicate crypto-volatile rewards.</strong> LATAM users are increasingly crypto-aware, but EAR instability creates churn and support burden. iO's soles-denominated cashback is a structural advantage — protect it. Competitors with CRO/BNB/USDC earn cannot guarantee the real value iO delivers on every transaction.</div></div>
+  <div class="rec-item"><span class="rec-num">2</span><div class="rec-txt"><strong>Do replicate mission-based engagement</strong> (Tenpo model). Temporary spend missions are low-cost, high-engagement, and don't dilute base program economics. A mission like "earn 5% on restaurants this weekend" drives incremental spend without changing the permanent structure. Tenpo proves this works at scale in LATAM.</div></div>
+  <div class="rec-item"><span class="rec-num">3</span><div class="rec-txt"><strong>Do replicate referral mechanics</strong> (Nubank, Rappi, Mercado Pago). Cost-per-acquisition via referral is typically lower than paid channels and creates social proof loops. Referral rewards can be funded from new-customer lifetime value — the economics are almost always positive.</div></div>
+  <div class="rec-item"><span class="rec-num">4</span><div class="rec-txt"><strong>Watch the DC program gap.</strong> All major Peruvian banks (BCP, Interbank, BBVA) and LATAM neobanks (Mercado Pago, Tenpo) have debit earn. iO's CC-only model is viable as differentiation today, but the debit segment is growing. Not urgent, but worth tracking as a potential second product.</div></div>
+  <div class="rec-item"><span class="rec-num">5</span><div class="rec-txt"><strong>Avoid subscription-gated loyalty</strong> (Revolut, N26, Robinhood model). European subscription loyalty has high negative EAR at low spend and requires break-even analysis that confuses users. iO's zero-fee structure is genuinely differentiated in LATAM — adding a subscription tier risks undermining it without proportional engagement gain.</div></div>
+</div>
+</div>
+
+</div>
+<script>
+function toggleAcc(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+function switchCtab(accId, n, btn) {
+  const acc = document.getElementById(accId);
+  if (!acc) return;
+  acc.querySelectorAll('.ctab-btn').forEach(b => b.classList.remove('on'));
+  acc.querySelectorAll('.ctab').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  const panel = document.getElementById('ct-' + accId + '-' + n);
+  if (panel) panel.classList.add('on');
+}
+</script>
   </div>
 
 </div><!-- /page -->
