@@ -595,7 +595,1911 @@ footer a:hover{color:var(--ink);}
 
   <!-- TABLES (Part 2) -->
   <div id="tables-section">
-    <!-- comparison tables will be added in Part 2 -->
+<style>
+.tab-nav{display:flex;gap:0;margin-top:2rem;border-bottom:1px solid var(--cream-3);overflow-x:auto;}
+.tab-btn{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:.75rem 1.1rem;border:none;background:transparent;color:var(--ink-4);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 200ms ease;}
+.tab-btn:hover{color:var(--ink-3);}
+.tab-btn.active{color:var(--ink);border-bottom-color:var(--ink);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.t-scroll{overflow-x:auto;margin-top:1.5rem;-webkit-overflow-scrolling:touch;padding-bottom:.5rem;}
+.bench-table{width:100%;border-collapse:collapse;font-size:.8rem;font-family:var(--sans);}
+.bench-table th{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);border-bottom:2px solid var(--cream-3);padding:.55rem .8rem;text-align:left;white-space:nowrap;background:var(--cream);position:sticky;top:0;}
+.bench-table td{padding:.55rem .8rem;border-bottom:1px solid var(--cream-2);color:var(--ink-3);vertical-align:top;line-height:1.45;}
+.bench-table tr:hover td{background:var(--cream-2);}
+.io-row td{border-left:3px solid var(--ink)!important;background:#f5f4f0;}
+.io-row td:first-child{font-weight:600;color:var(--ink);}
+.t-co{font-weight:500;color:var(--ink-2);white-space:nowrap;min-width:120px;}
+.rdot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:.35rem;vertical-align:middle;flex-shrink:0;}
+.ear-neg{background:#fce9e9;color:#8B3A3A;font-weight:600;}
+.ear-zero{background:#fdf6e3;color:#7A6A2A;font-weight:600;}
+.ear-pos{background:#e8f5eb;color:#2E6A42;font-weight:600;}
+.ear-high{background:#c8edd4;color:#1A5228;font-weight:700;}
+.ear-na{color:var(--ink-4);font-style:italic;}
+.ear-cell{text-align:center;white-space:nowrap;border-radius:3px;}
+.yn-y{color:#2E6A42;font-family:var(--mono);font-size:9px;letter-spacing:.05em;}
+.yn-n{color:var(--ink-4);font-family:var(--mono);font-size:9px;}
+.yn-na{color:var(--ink-4);font-family:var(--mono);font-size:9px;font-style:italic;}
+.sev{font-family:var(--mono);font-size:9px;letter-spacing:.05em;}
+.sev-1{color:#9a9088;}.sev-2{color:#C8A96E;}.sev-3{color:#C8755A;}.sev-4{color:#9B3A2A;}.sev-5{color:#6B1A0A;font-weight:700;}
+.tab-note{font-family:var(--mono);font-size:10px;color:var(--ink-4);margin-top:.75rem;letter-spacing:.04em;}
+</style>
+
+<div class="section-header" style="margin-top:4rem;">
+  <div class="section-eyebrow">Comparative analysis</div>
+  <div class="section-title">Six lenses on <em>every program</em></div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn" onclick="switchTab(0,this)">1 · Accumulation</button>
+  <button class="tab-btn" onclick="switchTab(1,this)">2 · Redemption</button>
+  <button class="tab-btn" onclick="switchTab(2,this)">3 · Tiers</button>
+  <button class="tab-btn active" onclick="switchTab(3,this)">4 · EAR ↕</button>
+  <button class="tab-btn" onclick="switchTab(4,this)">5 · Engagement</button>
+  <button class="tab-btn" onclick="switchTab(5,this)">6 · Failure Modes</button>
+</div>
+
+<!-- Panel 0: Accumulation -->
+<div class="tab-panel" id="panel-0">
+  <div class="t-scroll">
+    <table class="bench-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Region</th>
+          <th>CC/DC</th>
+          <th>Reward Model</th>
+          <th>Base Rate</th>
+          <th>Max Rate</th>
+          <th>Top Category</th>
+          <th>Cap</th>
+          <th>Sub Required</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="io-row">
+          <td class="t-co"><span class="rdot" style="background:#1C1B19;"></span>iO ★</td>
+          <td>Reference</td>
+          <td>CC</td>
+          <td>Tiered bonus + flat base</td>
+          <td>1%</td>
+          <td>20%</td>
+          <td>AI / PedidosYa</td>
+          <td>Yes (soles, monthly)</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>KAST</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>Tiered flat USDC</td>
+          <td>1.5%</td>
+          <td>8%</td>
+          <td>All spend</td>
+          <td>Yes (tier caps)</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Crypto.com</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>Staking-tiered CRO</td>
+          <td>0%</td>
+          <td>8%</td>
+          <td>All spend</td>
+          <td>Yes (staking gate)</td>
+          <td>Staking</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Gemini</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td>Flat crypto + bonus</td>
+          <td>3%</td>
+          <td>10%</td>
+          <td>Dining</td>
+          <td>Yes (monthly)</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Coinbase</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>Flat crypto</td>
+          <td>1% / 4%</td>
+          <td>4%</td>
+          <td>All spend</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Binance</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>Tiered BNB cashback</td>
+          <td>1%</td>
+          <td>8%</td>
+          <td>All spend</td>
+          <td>Yes (BNB stake)</td>
+          <td>Staking</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Nexo</td>
+          <td>Crypto</td>
+          <td>Hybrid</td>
+          <td>Loyalty-tiered</td>
+          <td>0.5%</td>
+          <td>2%</td>
+          <td>All spend</td>
+          <td>No</td>
+          <td>Token hold</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Ether.fi</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td>EtherPoints (flat)</td>
+          <td>3%</td>
+          <td>5%</td>
+          <td>Travel</td>
+          <td>Yes</td>
+          <td>Staking</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Avici</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td>Points (not live)</td>
+          <td>0%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Plasma</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>Stablecoin cashback</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Lemon Card</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>Flat USDC</td>
+          <td>2%</td>
+          <td>2%</td>
+          <td>All spend</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Brex</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td>Flat pts + bonus (B2B)</td>
+          <td>1pt/$</td>
+          <td>7x pts</td>
+          <td>Travel</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Nubank</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Points → cashback</td>
+          <td>0.6%</td>
+          <td>~2.5%</td>
+          <td>All eligible</td>
+          <td>Yes (Ultravioleta)</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>PicPay</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Flat cashback</td>
+          <td>~2%</td>
+          <td>~2%</td>
+          <td>All spend</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Tenpo</td>
+          <td>LATAM</td>
+          <td>DC</td>
+          <td>Mission-based</td>
+          <td>0%</td>
+          <td>4%</td>
+          <td>Missions</td>
+          <td>Yes (mission caps)</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Rappi</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>RappiCash flat</td>
+          <td>1.5%</td>
+          <td>4%</td>
+          <td>Rappi orders</td>
+          <td>Yes</td>
+          <td>Optional</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Mercado Pago</td>
+          <td>LATAM</td>
+          <td>DC</td>
+          <td>Mercado Puntos</td>
+          <td>~1%</td>
+          <td>~2%</td>
+          <td>All spend</td>
+          <td>Yes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>BCP</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Puntos BCP</td>
+          <td>~0.5%</td>
+          <td>~1%</td>
+          <td>All spend</td>
+          <td>Yes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Interbank</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>LifeMiles / own pts</td>
+          <td>~0.5%</td>
+          <td>~1%</td>
+          <td>All spend</td>
+          <td>Yes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Scotiabank Peru</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Points</td>
+          <td>~0.5%</td>
+          <td>~1%</td>
+          <td>All spend</td>
+          <td>Yes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>BBVA Peru</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Points</td>
+          <td>~0.5%</td>
+          <td>~1%</td>
+          <td>All spend</td>
+          <td>Yes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Itaú</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Itaú Rewards pts</td>
+          <td>~1%</td>
+          <td>~2%</td>
+          <td>All spend</td>
+          <td>Yes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>T-Bank</td>
+          <td>Asia</td>
+          <td>CC</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>Wio Bank</td>
+          <td>Asia</td>
+          <td>DC</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>Trust Bank</td>
+          <td>Asia</td>
+          <td>CC/DC</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>UOB</td>
+          <td>Asia</td>
+          <td>CC</td>
+          <td>UNI$ points</td>
+          <td>~1%</td>
+          <td>~3%</td>
+          <td>Dining / Shopping</td>
+          <td>Yes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Bank of America</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Flat + chosen 3% cat</td>
+          <td>1%</td>
+          <td>3%</td>
+          <td>User-chosen</td>
+          <td>Yes ($2.5K/qtr)</td>
+          <td>Optional</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Chase</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>UR pts (flat + bonus)</td>
+          <td>1.5%</td>
+          <td>5%</td>
+          <td>Chase Travel</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Capital One</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Miles flat</td>
+          <td>2x</td>
+          <td>5x</td>
+          <td>Cap1 Travel</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>American Express</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Bonus category</td>
+          <td>1%</td>
+          <td>6%</td>
+          <td>Supermarkets</td>
+          <td>Yes ($6K/yr)</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Citi</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Flat 2% cashback</td>
+          <td>2%</td>
+          <td>2%</td>
+          <td>All spend</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Venmo</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Auto top-category</td>
+          <td>1%</td>
+          <td>3%</td>
+          <td>Auto-detected</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Robinhood</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Flat + travel bonus</td>
+          <td>3%</td>
+          <td>5%</td>
+          <td>All spend</td>
+          <td>No</td>
+          <td>Gold sub</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Chime</td>
+          <td>NA</td>
+          <td>DC</td>
+          <td>None (fee-free model)</td>
+          <td>0%</td>
+          <td>0%</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Cash App</td>
+          <td>NA</td>
+          <td>DC</td>
+          <td>Merchant offer discounts</td>
+          <td>0%</td>
+          <td>Varies</td>
+          <td>Merchant offers</td>
+          <td>Yes (1 active)</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Revolut</td>
+          <td>EU</td>
+          <td>CC/DC</td>
+          <td>Sub-tiered RevPoints</td>
+          <td>0.5 pt/£</td>
+          <td>1 pt/£</td>
+          <td>All spend</td>
+          <td>No</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Monzo</td>
+          <td>EU</td>
+          <td>CC/DC</td>
+          <td>Merchant offers</td>
+          <td>0%</td>
+          <td>Varies</td>
+          <td>Activated offers</td>
+          <td>Yes</td>
+          <td>Optional</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>N26</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td>Flat cashback (Metal)</td>
+          <td>0.1%</td>
+          <td>0.5%</td>
+          <td>All spend</td>
+          <td>No</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Bunq</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Starling Bank</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td>None</td>
+          <td>0%</td>
+          <td>0%</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>No</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Panel 1: Redemption -->
+<div class="tab-panel" id="panel-1">
+  <div class="t-scroll">
+    <table class="bench-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Region</th>
+          <th>CC/DC</th>
+          <th>Redemption Options</th>
+          <th>Auto/Manual</th>
+          <th>RFS</th>
+          <th>Min Threshold</th>
+          <th>Expiration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="io-row">
+          <td class="t-co"><span class="rdot" style="background:#1C1B19;"></span>iO ★</td>
+          <td>Reference</td>
+          <td>CC</td>
+          <td>Statement credit</td>
+          <td>Auto</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>KAST</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>USDC to wallet</td>
+          <td>Auto</td>
+          <td>Medium</td>
+          <td>None</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Crypto.com</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>CRO tokens</td>
+          <td>Auto</td>
+          <td>High</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Gemini</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td>200+ cryptocurrencies</td>
+          <td>Auto</td>
+          <td>High</td>
+          <td>None</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Coinbase</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>Crypto to wallet</td>
+          <td>Auto</td>
+          <td>Medium</td>
+          <td>None</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Binance</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>BNB / crypto</td>
+          <td>Auto</td>
+          <td>High</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Nexo</td>
+          <td>Crypto</td>
+          <td>Hybrid</td>
+          <td>Interest / cashback</td>
+          <td>Auto</td>
+          <td>Medium</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Ether.fi</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td>EtherPoints → cashback</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Avici</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td>N/A (not live)</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Plasma</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Lemon Card</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td>USDC wallet</td>
+          <td>Auto</td>
+          <td>Low–Med</td>
+          <td>None</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Brex</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td>Cash / pts / travel</td>
+          <td>Manual</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Nubank</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Stmt credit / NuCoins</td>
+          <td>Auto</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>PicPay</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Statement credit</td>
+          <td>Auto</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Tenpo</td>
+          <td>LATAM</td>
+          <td>DC</td>
+          <td>Discount at merchant</td>
+          <td>Auto</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>Offer-specific</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Rappi</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>RappiCash (auto)</td>
+          <td>Auto</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Mercado Pago</td>
+          <td>LATAM</td>
+          <td>DC</td>
+          <td>MP balance</td>
+          <td>Auto</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>BCP</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Pts → cashback / miles / gifts</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>Yes</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Interbank</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Pts → cashback / travel</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>Yes</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Scotiabank Peru</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Pts → rewards catalog</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>Yes</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>BBVA Peru</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Pts → rewards</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>Yes</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Itaú</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td>Pts → cashback / travel</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>Yes</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>T-Bank</td>
+          <td>Asia</td>
+          <td>CC</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>Wio Bank</td>
+          <td>Asia</td>
+          <td>DC</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>Trust Bank</td>
+          <td>Asia</td>
+          <td>CC/DC</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>UOB</td>
+          <td>Asia</td>
+          <td>CC</td>
+          <td>Pts → miles / cashback</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>Yes</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Bank of America</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Stmt credit / deposit</td>
+          <td>Manual</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Chase</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Cash / travel / transfers</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>None</td>
+          <td>While open</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Capital One</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Travel eraser / transfer / cash</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>American Express</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Stmt credit (Reward $)</td>
+          <td>Manual</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Citi</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Stmt credit / deposit</td>
+          <td>Manual</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Venmo</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Venmo balance</td>
+          <td>Auto</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Robinhood</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td>Robinhood account</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Chime</td>
+          <td>NA</td>
+          <td>DC</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Cash App</td>
+          <td>NA</td>
+          <td>DC</td>
+          <td>Instant discount at POS</td>
+          <td>Auto</td>
+          <td>Medium</td>
+          <td>N/A</td>
+          <td>Offer-specific</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Revolut</td>
+          <td>EU</td>
+          <td>CC/DC</td>
+          <td>Miles / Stays / Experiences</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>5,000 pts</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Monzo</td>
+          <td>EU</td>
+          <td>CC/DC</td>
+          <td>Cashback (offer-specific)</td>
+          <td>Manual</td>
+          <td>Medium</td>
+          <td>None</td>
+          <td>Offer-specific</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>N26</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td>Statement credit</td>
+          <td>Manual</td>
+          <td>Low</td>
+          <td>None</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Bunq</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td>❓</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Starling Bank</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td>None</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Panel 2: Tiers -->
+<div class="tab-panel" id="panel-2">
+  <div class="t-scroll">
+    <table class="bench-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Region</th>
+          <th># Tiers</th>
+          <th>Sub Fee / yr</th>
+          <th>Break-even Spend</th>
+          <th>Key Perk Unlocked</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="io-row">
+          <td class="t-co"><span class="rdot" style="background:#1C1B19;"></span>iO ★</td>
+          <td>Reference</td>
+          <td>3</td>
+          <td>$0</td>
+          <td>None (no fee)</td>
+          <td>Maestro: 20% AI cashback + Cashback Plus</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>KAST</td>
+          <td>Crypto</td>
+          <td>3+</td>
+          <td>~$120–240</td>
+          <td>~$3,000–4,000 spend</td>
+          <td>8% cashback, premium perks</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Crypto.com</td>
+          <td>Crypto</td>
+          <td>5</td>
+          <td>$0 (staking)</td>
+          <td>$400 CRO stake</td>
+          <td>8% cashback, airport lounge, card rebates</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Nexo</td>
+          <td>Crypto</td>
+          <td>4</td>
+          <td>$0 (token hold)</td>
+          <td>$500K NEXO tokens</td>
+          <td>2% cashback + interest boost</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Ether.fi</td>
+          <td>Crypto</td>
+          <td>2+</td>
+          <td>$0 (staking)</td>
+          <td>ETH staking req.</td>
+          <td>Enhanced EtherPoints earn</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Robinhood</td>
+          <td>NA</td>
+          <td>1 gate</td>
+          <td>$75</td>
+          <td>~$2,500 spend</td>
+          <td>3% flat cashback (vs 0% without)</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Bank of America</td>
+          <td>NA</td>
+          <td>1 (Preferred Rewards)</td>
+          <td>$0</td>
+          <td>$20K in deposits</td>
+          <td>Enhanced earn rates on all BofA cards</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Revolut</td>
+          <td>EU</td>
+          <td>5</td>
+          <td>$48–$540</td>
+          <td>Varies by plan</td>
+          <td>RevPoints + travel insurance + FX</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Monzo</td>
+          <td>EU</td>
+          <td>4</td>
+          <td>$0–$180</td>
+          <td>Varies</td>
+          <td>Offer access + product features</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>N26</td>
+          <td>EU</td>
+          <td>3</td>
+          <td>$0–$192</td>
+          <td>~$4,000 spend</td>
+          <td>0.5% cashback + travel insurance</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Nubank</td>
+          <td>LATAM</td>
+          <td>1 (Ultravioleta)</td>
+          <td>$0</td>
+          <td>~R$5,000 spend/mo</td>
+          <td>1% cashback (points → cash)</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Rappi</td>
+          <td>LATAM</td>
+          <td>1 (Prime)</td>
+          <td>~$60</td>
+          <td>❓</td>
+          <td>Enhanced RappiCash rate</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>BCP</td>
+          <td>LATAM</td>
+          <td>Multiple</td>
+          <td>Varies</td>
+          <td>❓</td>
+          <td>Higher points earn + lifestyle perks</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Interbank</td>
+          <td>LATAM</td>
+          <td>Multiple</td>
+          <td>Varies</td>
+          <td>❓</td>
+          <td>LifeMiles earn + benefits</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Panel 3: EAR (default active) -->
+<div class="tab-panel active" id="panel-3">
+  <div class="t-scroll">
+    <table class="bench-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Region</th>
+          <th>CC/DC</th>
+          <th>EAR Light</th>
+          <th>EAR Mid</th>
+          <th>EAR Heavy</th>
+          <th>Annual Fee</th>
+          <th>Cap</th>
+          <th>Crypto Vol</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="io-row">
+          <td class="t-co"><span class="rdot" style="background:#1C1B19;"></span>iO ★ (Maestro + AI)</td>
+          <td>Reference</td>
+          <td>CC</td>
+          <td class="ear-cell ear-high">4.7%</td>
+          <td class="ear-cell ear-high">2.2%</td>
+          <td class="ear-cell ear-pos">1.4%</td>
+          <td>$0</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Gemini</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td class="ear-cell ear-high">2.4% ⚠️</td>
+          <td class="ear-cell ear-high">2.4% ⚠️</td>
+          <td class="ear-cell ear-high">4.6% ⚠️</td>
+          <td>$0</td>
+          <td>Partial</td>
+          <td><span class="yn-y">Yes</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Coinbase (4% altcoin)</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td class="ear-cell ear-high">4.0% ⚠️</td>
+          <td class="ear-cell ear-high">4.0% ⚠️</td>
+          <td class="ear-cell ear-high">4.0% ⚠️</td>
+          <td>$0</td>
+          <td>No</td>
+          <td><span class="yn-y">Yes</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Rappi</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td class="ear-cell ear-high">~4.0% ⚠️</td>
+          <td class="ear-cell ear-high">~4.0% ⚠️</td>
+          <td class="ear-cell ear-high">~4.0% ⚠️</td>
+          <td>$0</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Tenpo</td>
+          <td>LATAM</td>
+          <td>DC</td>
+          <td class="ear-cell ear-high">~2–4% ⚠️</td>
+          <td class="ear-cell ear-high">~2–4% ⚠️</td>
+          <td class="ear-cell ear-high">~2–4% ⚠️</td>
+          <td>$0</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Brex</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td class="ear-cell ear-pos">3.0% ⚠️</td>
+          <td class="ear-cell ear-pos">3.0% ⚠️</td>
+          <td class="ear-cell ear-pos">3.0% ⚠️</td>
+          <td>$0</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Ether.fi</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td class="ear-cell ear-pos">3.0% ⚠️</td>
+          <td class="ear-cell ear-pos">3.0% ⚠️</td>
+          <td class="ear-cell ear-pos">3.0% ⚠️</td>
+          <td>$0 (staking)</td>
+          <td>Yes</td>
+          <td><span class="yn-y">Yes</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Robinhood Gold</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td class="ear-cell ear-high">2.38%</td>
+          <td class="ear-cell ear-high">2.79%</td>
+          <td class="ear-cell ear-high">2.94%</td>
+          <td>$75</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Nubank Ultravioleta</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td class="ear-cell ear-zero">0.72%</td>
+          <td class="ear-cell ear-high">2.48%</td>
+          <td class="ear-cell ear-high">2.48%</td>
+          <td>$0</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>PicPay Black</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td class="ear-cell ear-pos">1.98% ⚠️</td>
+          <td class="ear-cell ear-pos">1.99% ⚠️</td>
+          <td class="ear-cell ear-pos">1.99% ⚠️</td>
+          <td>$0</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Lemon Card</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td class="ear-cell ear-high">2.0%</td>
+          <td class="ear-cell ear-high">2.0%</td>
+          <td class="ear-cell ear-high">2.0%</td>
+          <td>$0</td>
+          <td>No</td>
+          <td><span class="yn-y">Yes</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Nexo Platinum</td>
+          <td>Crypto</td>
+          <td>Hybrid</td>
+          <td class="ear-cell ear-high">2.0% ⚠️</td>
+          <td class="ear-cell ear-high">2.0% ⚠️</td>
+          <td class="ear-cell ear-high">2.0% ⚠️</td>
+          <td>$0 (token)</td>
+          <td>Partial</td>
+          <td><span class="yn-y">Yes</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Citi Double Cash</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td class="ear-cell ear-high">2.0%</td>
+          <td class="ear-cell ear-high">2.0%</td>
+          <td class="ear-cell ear-high">2.0%</td>
+          <td>$0</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>American Express BCP</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td class="ear-cell ear-pos">1.81%</td>
+          <td class="ear-cell ear-high">2.17%</td>
+          <td class="ear-cell ear-pos">1.77%</td>
+          <td>$95</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Itaú</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td class="ear-cell ear-pos">~1.5% ⚠️</td>
+          <td class="ear-cell ear-pos">~1.5% ⚠️</td>
+          <td class="ear-cell ear-pos">~1.5% ⚠️</td>
+          <td>Varies</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Mercado Pago</td>
+          <td>LATAM</td>
+          <td>DC</td>
+          <td class="ear-cell ear-pos">~1.5% ⚠️</td>
+          <td class="ear-cell ear-pos">~1.5% ⚠️</td>
+          <td class="ear-cell ear-pos">~1.5% ⚠️</td>
+          <td>$0</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Capital One Venture</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td class="ear-cell ear-pos">1.21%</td>
+          <td class="ear-cell ear-pos">1.74%</td>
+          <td class="ear-cell ear-pos">1.92%</td>
+          <td>$95</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Venmo</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td class="ear-cell ear-pos">1.70%</td>
+          <td class="ear-cell ear-pos">1.70%</td>
+          <td class="ear-cell ear-pos">1.70%</td>
+          <td>$0</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Bank of America</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td class="ear-cell ear-pos">1.70%</td>
+          <td class="ear-cell ear-pos">1.39%</td>
+          <td class="ear-cell ear-pos">1.12%</td>
+          <td>$0</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Chase Sapphire</td>
+          <td>NA</td>
+          <td>CC</td>
+          <td class="ear-cell ear-zero">0.91%</td>
+          <td class="ear-cell ear-pos">1.44%</td>
+          <td class="ear-cell ear-pos">1.62%</td>
+          <td>$95</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Coinbase (1% BTC)</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td class="ear-cell ear-zero">1.0%</td>
+          <td class="ear-cell ear-zero">1.0%</td>
+          <td class="ear-cell ear-zero">1.0%</td>
+          <td>$0</td>
+          <td>No</td>
+          <td><span class="yn-y">Yes</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>BCP</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td>Varies</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Interbank</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td>Varies</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Scotiabank Peru</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td>Varies</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>BBVA Peru</td>
+          <td>LATAM</td>
+          <td>CC</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td class="ear-cell ear-zero">~0.75% ⚠️</td>
+          <td>Varies</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>UOB</td>
+          <td>Asia</td>
+          <td>CC</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td>Varies</td>
+          <td>Yes</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>KAST Standard</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td class="ear-cell ear-pos">1.5%</td>
+          <td class="ear-cell ear-zero">1.0%</td>
+          <td class="ear-cell ear-zero">0.3%</td>
+          <td>$0</td>
+          <td>Yes</td>
+          <td><span class="yn-y">Yes</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Binance</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td class="ear-cell ear-high">2.0%</td>
+          <td class="ear-cell ear-pos">1.4%</td>
+          <td class="ear-cell ear-zero">0.42%</td>
+          <td>$0</td>
+          <td>Yes</td>
+          <td><span class="yn-y">Yes</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Crypto.com Pro</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td class="ear-cell ear-zero">0.0%</td>
+          <td class="ear-cell ear-pos">1.5%</td>
+          <td class="ear-cell ear-zero">0.45%</td>
+          <td>$0 (staking)</td>
+          <td>Yes</td>
+          <td><span class="yn-y">Yes</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Revolut Standard</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td class="ear-cell ear-zero">0.1% ⚠️</td>
+          <td class="ear-cell ear-zero">0.1% ⚠️</td>
+          <td class="ear-cell ear-zero">0.1% ⚠️</td>
+          <td>$0</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Revolut Metal</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td class="ear-cell ear-neg">−1.0% ⚠️</td>
+          <td class="ear-cell ear-zero">~0.0% ⚠️</td>
+          <td class="ear-cell ear-zero">0.35% ⚠️</td>
+          <td>Varies</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Chime</td>
+          <td>NA</td>
+          <td>DC</td>
+          <td class="ear-cell ear-zero">0.0%</td>
+          <td class="ear-cell ear-zero">0.0%</td>
+          <td class="ear-cell ear-zero">0.0%</td>
+          <td>$0</td>
+          <td>N/A</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Avici</td>
+          <td>Crypto</td>
+          <td>CC</td>
+          <td class="ear-cell ear-zero">0.0%</td>
+          <td class="ear-cell ear-zero">0.0%</td>
+          <td class="ear-cell ear-zero">0.0%</td>
+          <td>$0</td>
+          <td>N/A</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>N26 Metal</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td class="ear-cell ear-neg">−1.6%</td>
+          <td class="ear-cell ear-neg">−0.4%</td>
+          <td class="ear-cell ear-zero">0.03%</td>
+          <td>$192</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Revolut Ultra</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td class="ear-cell ear-neg">−3.5%</td>
+          <td class="ear-cell ear-neg">−0.5%</td>
+          <td class="ear-cell ear-zero">0.55%</td>
+          <td>$540</td>
+          <td>No</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Cash App</td>
+          <td>NA</td>
+          <td>DC</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td>$0</td>
+          <td>N/A</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Monzo</td>
+          <td>EU</td>
+          <td>CC/DC</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td>$0</td>
+          <td>N/A</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Bunq</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Plasma</td>
+          <td>Crypto</td>
+          <td>DC</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td><span class="yn-y">Yes</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Starling Bank</td>
+          <td>EU</td>
+          <td>DC</td>
+          <td class="ear-cell ear-zero">0.0%</td>
+          <td class="ear-cell ear-zero">0.0%</td>
+          <td class="ear-cell ear-zero">0.0%</td>
+          <td>$0</td>
+          <td>N/A</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>T-Bank</td>
+          <td>Asia</td>
+          <td>CC</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td>❓</td>
+          <td>❓</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>Wio Bank</td>
+          <td>Asia</td>
+          <td>DC</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td>$0</td>
+          <td>❓</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#9a9088;"></span>Trust Bank</td>
+          <td>Asia</td>
+          <td>CC/DC</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td class="ear-cell ear-na">❓</td>
+          <td>$0</td>
+          <td>❓</td>
+          <td><span class="yn-n">No</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-note">EAR Light = $12K/yr · EAR Mid = $36K/yr · EAR Heavy = $120K/yr · Exchange: 3.5 PEN/USD · ⚠️ = estimated · ❓ = not available</div>
+</div>
+
+<!-- Panel 4: Engagement -->
+<div class="tab-panel" id="panel-4">
+  <div class="t-scroll">
+    <table class="bench-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Region</th>
+          <th>Challenges / Missions</th>
+          <th>Progress Tracking</th>
+          <th>Referral</th>
+          <th>Gamification</th>
+          <th>Notable UX</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="io-row">
+          <td class="t-co"><span class="rdot" style="background:#1C1B19;"></span>iO ★</td>
+          <td>Reference</td>
+          <td><span class="yn-n">No</span></td>
+          <td>App balance</td>
+          <td><span class="yn-n">No</span></td>
+          <td><span class="yn-n">No</span></td>
+          <td>Cashback Plus monthly category choice</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>KAST</td>
+          <td>Crypto</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Balance</td>
+          <td><span class="yn-n">No</span></td>
+          <td><span class="yn-n">No</span></td>
+          <td>Tier upgrade path</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Crypto.com</td>
+          <td>Crypto</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Points + tier</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Staking progress</td>
+          <td>NFT / tier milestone rewards</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Gemini</td>
+          <td>Crypto</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Balance</td>
+          <td><span class="yn-n">No</span></td>
+          <td><span class="yn-n">No</span></td>
+          <td>Simple 3% earn</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Nubank</td>
+          <td>LATAM</td>
+          <td><span class="yn-y">Yes (features)</span></td>
+          <td>Multi-product</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Financial health</td>
+          <td>Strong app; linked savings, insurance</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>PicPay</td>
+          <td>LATAM</td>
+          <td><span class="yn-y">Yes</span></td>
+          <td>Balance</td>
+          <td><span class="yn-y">Yes</span></td>
+          <td>Social pay features</td>
+          <td>Integrated social payments</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Rappi</td>
+          <td>LATAM</td>
+          <td><span class="yn-y">Yes</span></td>
+          <td>Order tracking</td>
+          <td><span class="yn-y">Yes</span></td>
+          <td>Gamified delivery</td>
+          <td>Full super-app — delivery, grocery, fintech</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Mercado Pago</td>
+          <td>LATAM</td>
+          <td><span class="yn-y">Yes</span></td>
+          <td>Balance</td>
+          <td><span class="yn-y">Yes</span></td>
+          <td>Fintech ecosystem</td>
+          <td>MP ecosystem drives cross-sell</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Tenpo</td>
+          <td>LATAM</td>
+          <td><span class="yn-y">Yes (missions)</span></td>
+          <td>Mission progress</td>
+          <td><span class="yn-y">Yes</span></td>
+          <td>Mission board</td>
+          <td>UX centered on mission completion</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Bank of America</td>
+          <td>NA</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Category + balance</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Category selection</td>
+          <td>Preferred Rewards balance gate</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Chase</td>
+          <td>NA</td>
+          <td>Offer activations</td>
+          <td>UR hub</td>
+          <td>Yes (varies)</td>
+          <td>Card pairing</td>
+          <td>Freedom + Sapphire ecosystem pairing</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Venmo</td>
+          <td>NA</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Balance</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Auto category</td>
+          <td>Social payment feed on card</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Robinhood</td>
+          <td>NA</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Balance</td>
+          <td>Varies</td>
+          <td>Invest rewards</td>
+          <td>Cashback → investing positioning</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Cash App</td>
+          <td>NA</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Savings progress</td>
+          <td>Varies</td>
+          <td>Offer discovery / swap</td>
+          <td>One-offer-at-a-time creates app opens</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Revolut</td>
+          <td>EU</td>
+          <td><span class="yn-y">Yes (Spare Change)</span></td>
+          <td>RevPoints</td>
+          <td>Yes (market)</td>
+          <td>Plan upgrades</td>
+          <td>Spare Change converts roundups → points</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Monzo</td>
+          <td>EU</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Offers</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Subscription tiers</td>
+          <td>Subscription tier nudge</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>N26</td>
+          <td>EU</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Balance</td>
+          <td><span class="yn-n">No</span></td>
+          <td><span class="yn-n">No</span></td>
+          <td>Simple</td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Chime</td>
+          <td>NA</td>
+          <td><span class="yn-n">No</span></td>
+          <td>Credit Builder</td>
+          <td>Varies</td>
+          <td>Credit-building habit</td>
+          <td>SpotMe + early wage access</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Panel 5: Failure Modes -->
+<div class="tab-panel" id="panel-5">
+  <div class="t-scroll">
+    <table class="bench-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Region</th>
+          <th>Top Complaints</th>
+          <th>Churn Trigger</th>
+          <th>Redemption Issues</th>
+          <th>Severity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="io-row">
+          <td class="t-co"><span class="rdot" style="background:#1C1B19;"></span>iO ★</td>
+          <td>Reference</td>
+          <td>Unknown MCC codes; Cashback Plus selection unclear</td>
+          <td>Users unsure which transactions qualify for which tier</td>
+          <td><span class="ear-na">❓</span></td>
+          <td><span class="sev sev-2">●● 2</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>KAST</td>
+          <td>Crypto</td>
+          <td>Subscription ROI unclear; crypto price exposure</td>
+          <td>Premium tier break-even risk</td>
+          <td>USDC conversion friction</td>
+          <td><span class="sev sev-3">●●● 3</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Crypto.com</td>
+          <td>Crypto</td>
+          <td>Benefit cuts when CRO price drops; staking lock-in</td>
+          <td>Token devaluation; benefit reductions</td>
+          <td>Token conversion; staking exit</td>
+          <td><span class="sev sev-4">●●●● 4</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Gemini</td>
+          <td>Crypto</td>
+          <td>Crypto price risk; unclear category MCC</td>
+          <td>Bear market reduces effective EAR</td>
+          <td>Crypto-to-cash friction</td>
+          <td><span class="sev sev-3">●●● 3</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Binance</td>
+          <td>Crypto</td>
+          <td>Regulatory risk; platform restrictions in some regions</td>
+          <td>Account access issues; BNB stake lock</td>
+          <td>Token conversion</td>
+          <td><span class="sev sev-4">●●●● 4</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#C8A96E;"></span>Nexo</td>
+          <td>Crypto</td>
+          <td>Very high token stake threshold for top tier</td>
+          <td>Token crash wipes tier status</td>
+          <td>Staking lock-up</td>
+          <td><span class="sev sev-4">●●●● 4</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Robinhood</td>
+          <td>NA</td>
+          <td>Subscription break-even; past waitlist delays</td>
+          <td>Rate reduction or program change</td>
+          <td>Ecosystem lock-in</td>
+          <td><span class="sev sev-3">●●● 3</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Bank of America</td>
+          <td>NA</td>
+          <td>Cap complexity; 2% grocery + 3% chosen share quarterly cap</td>
+          <td>Low EAR at heavy spend</td>
+          <td>None</td>
+          <td><span class="sev sev-2">●● 2</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Chase</td>
+          <td>NA</td>
+          <td>Portal redemption rule changes; annual fee</td>
+          <td>Not worth $95 for non-travelers</td>
+          <td>Transfer partner complexity</td>
+          <td><span class="sev sev-3">●●● 3</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>American Express</td>
+          <td>NA</td>
+          <td>Annual fee; grocery cap resets</td>
+          <td>Users downgrade if grocery spend low</td>
+          <td>None</td>
+          <td><span class="sev sev-2">●● 2</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B8BAE;"></span>Citi</td>
+          <td>NA</td>
+          <td>Low excitement; no bonus categories</td>
+          <td>Optimizers switch to Chase/Amex</td>
+          <td>Minor friction (pay-to-unlock 2nd 1%)</td>
+          <td><span class="sev sev-2">●● 2</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>Revolut</td>
+          <td>EU</td>
+          <td>Benefit changes by market; points opacity; sub fatigue</td>
+          <td>ROI confusion on paid plans</td>
+          <td>Points value opacity</td>
+          <td><span class="sev sev-3">●●● 3</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#8B7BAE;"></span>N26</td>
+          <td>EU</td>
+          <td>Negative EAR at light spend; subscription drag</td>
+          <td>Users realize they pay more than they earn</td>
+          <td>None</td>
+          <td><span class="sev sev-3">●●● 3</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Nubank</td>
+          <td>LATAM</td>
+          <td>Points complexity vs simple cashback preference</td>
+          <td>Power users find better products</td>
+          <td>Points expiration risk</td>
+          <td><span class="sev sev-2">●● 2</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Rappi</td>
+          <td>LATAM</td>
+          <td>Platform risk; loyalty tied to delivery behavior</td>
+          <td>App uninstall = loyalty loss</td>
+          <td>RappiCash expiry ❓</td>
+          <td><span class="sev sev-3">●●● 3</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>Tenpo</td>
+          <td>LATAM</td>
+          <td>Mission fatigue; not all users complete missions</td>
+          <td>Users who don't engage missions earn 0%</td>
+          <td>Offer-specific friction</td>
+          <td><span class="sev sev-2">●● 2</span></td>
+        </tr>
+        <tr>
+          <td class="t-co"><span class="rdot" style="background:#6B9E78;"></span>BCP</td>
+          <td>LATAM</td>
+          <td>Points catalog complexity; travel redemption friction</td>
+          <td>Low-value redemption perception</td>
+          <td>Min threshold + catalog browse</td>
+          <td><span class="sev sev-3">●●● 3</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+function switchTab(n, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + n).classList.add('active');
+}
+</script>
   </div>
 
   <!-- ACCORDIONS (Part 3) -->
