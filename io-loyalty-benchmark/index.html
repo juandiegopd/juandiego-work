@@ -73,8 +73,9 @@ main{flex:1;padding:5rem 3rem 6rem;}
 /* GLOBE */
 .globe-section{margin-top:3.5rem;}
 .globe-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);margin-bottom:1rem;}
-.globe-wrap{position:relative;width:100%;height:420px;border-radius:8px;overflow:hidden;background:#0d0d0d;}
-#globe-container{width:100%;height:100%;}
+.globe-wrap{position:relative;width:100%;height:420px;border-radius:8px;overflow:hidden;background:#EEE9E0;border:1px solid var(--cream-3);}
+#choropleth-container{width:100%;height:100%;}
+#map-tooltip{position:fixed;pointer-events:none;z-index:999;font-family:var(--mono);font-size:11px;padding:7px 11px;border-radius:4px;line-height:1.6;white-space:nowrap;opacity:0;transition:opacity .12s;box-shadow:0 2px 8px rgba(0,0,0,.18);background:var(--ink);color:var(--cream);}
 .globe-legend{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:1rem;}
 .legend-item{display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4);}
 .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
@@ -235,7 +236,7 @@ footer a:hover{color:var(--ink);}
   <div class="globe-section">
     <div class="globe-label">Geographic distribution</div>
     <div class="globe-wrap">
-      <div id="globe-container"></div>
+      <div id="choropleth-container"></div>
     </div>
     <div class="globe-legend">
       <div class="legend-item"><div class="legend-dot" style="background:#F8F7F4;border:2px solid #1C1B19;width:10px;height:10px;"></div>iO (Reference)</div>
@@ -3464,8 +3465,9 @@ function switchCtab(accId, n, btn) {
   <span>© 2026 JD Peñaherrera</span>
 </footer>
 
-<!-- Globe.gl -->
-<script src="https://unpkg.com/globe.gl@2.30.0/dist/globe.gl.min.js"></script>
+<!-- D3 Choropleth -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script>
 // ── METHODOLOGY ACCORDION ──
 function toggleMethod() {
@@ -3489,89 +3491,215 @@ function filterCards(region, btn) {
   });
 }
 
-// ── GLOBE ──
+// ── CHOROPLETH MAP ──
 (function() {
-  const regionColors = {
-    reference: '#F8F7F4',
-    crypto:    '#C8A96E',
-    latam:     '#6B9E78',
-    na:        '#6B8BAE',
-    eu:        '#8B7BAE',
+  // Trigger the existing filter bar from a region string
+  function triggerFilter(region) {
+    const btns = document.querySelectorAll('.filter-btn');
+    let target;
+    btns.forEach(b => {
+      const oc = b.getAttribute('onclick') || '';
+      if (oc.includes("'" + region + "'")) target = b;
+    });
+    if (target) filterCards(region, target);
+    // Smooth scroll to company grid
+    const grid = document.getElementById('company-grid');
+    if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  const regionColor = {
+    crypto: '#C8A96E',
+    latam:  '#6B9E78',
+    na:     '#6B8BAE',
+    eu:     '#8B7BAE',
   };
 
-  const companies = [
-    { id:'io',          name:'iO',              region:'reference', lat:-12.05, lng:-77.04, ear:'1.0% – 4.7%',  hq:'Lima, Peru' },
-    { id:'kast',        name:'KAST',             region:'crypto',    lat:37.77,  lng:-122.41,ear:'0.3% – 1.5%',  hq:'USA' },
-    { id:'cryptocom',   name:'Crypto.com',       region:'crypto',    lat:1.35,   lng:103.82, ear:'0% – 1.5%',    hq:'Singapore' },
-    { id:'gemini',      name:'Gemini',           region:'crypto',    lat:40.72,  lng:-74.01, ear:'2.4% – 4.6%',  hq:'New York, USA' },
-    { id:'coinbase',    name:'Coinbase',         region:'crypto',    lat:37.78,  lng:-122.40,ear:'1.0% – 4.0%',  hq:'San Francisco, USA' },
-    { id:'binance',     name:'Binance',          region:'crypto',    lat:19.31,  lng:-81.24, ear:'0.4% – 2.0%',  hq:'Cayman Islands' },
-    { id:'nexo',        name:'Nexo',             region:'crypto',    lat:42.70,  lng:23.32,  ear:'~2.0%',         hq:'Sofia, Bulgaria' },
-    { id:'etherfi',     name:'Ether.fi',         region:'crypto',    lat:37.46,  lng:-122.17,ear:'3.0%',          hq:'USA' },
-    { id:'avici',       name:'Avici',            region:'crypto',    lat:37.75,  lng:-122.39,ear:'0.0%',          hq:'USA' },
-    { id:'plasma',      name:'Plasma',           region:'crypto',    lat:37.80,  lng:-122.43,ear:'❓',             hq:'USA' },
-    { id:'lemon',       name:'Lemon Card',       region:'crypto',    lat:-34.60, lng:-58.38, ear:'2.0%',          hq:'Buenos Aires, Argentina' },
-    { id:'brex',        name:'Brex',             region:'crypto',    lat:37.76,  lng:-122.41,ear:'3.0%',          hq:'San Francisco, USA' },
-    { id:'nubank',      name:'Nubank',           region:'latam',     lat:-23.55, lng:-46.63, ear:'0.7% – 2.5%',  hq:'São Paulo, Brazil' },
-    { id:'picpay',      name:'PicPay',           region:'latam',     lat:-23.57, lng:-46.65, ear:'~2.0%',         hq:'São Paulo, Brazil' },
-    { id:'tenpo',       name:'Tenpo',            region:'latam',     lat:-33.46, lng:-70.65, ear:'2% – 4%',       hq:'Santiago, Chile' },
-    { id:'rappi',       name:'Rappi',            region:'latam',     lat:4.71,   lng:-74.07, ear:'up to 4%',      hq:'Bogotá, Colombia' },
-    { id:'mercadopago', name:'Mercado Pago',     region:'latam',     lat:-34.62, lng:-58.40, ear:'~1% – 2%',      hq:'Buenos Aires, Argentina' },
-    { id:'bcp',         name:'BCP',              region:'latam',     lat:-12.08, lng:-77.05, ear:'~0.5% – 1%',   hq:'Lima, Peru' },
-    { id:'interbank',   name:'Interbank',        region:'latam',     lat:-12.06, lng:-77.03, ear:'~0.5% – 1%',   hq:'Lima, Peru' },
-    { id:'scotiabank',  name:'Scotiabank Peru',  region:'latam',     lat:-12.10, lng:-77.02, ear:'~0.5% – 1%',   hq:'Lima, Peru' },
-    { id:'bbva',        name:'BBVA Peru',        region:'latam',     lat:-12.04, lng:-77.06, ear:'~0.5% – 1%',   hq:'Lima, Peru' },
-    { id:'itau',        name:'Itaú',             region:'latam',     lat:-23.53, lng:-46.61, ear:'~1% – 2%',      hq:'São Paulo, Brazil' },
-    { id:'tbank',       name:'T-Bank',           region:'latam',     lat:13.76,  lng:100.50, ear:'❓',             hq:'Bangkok, Thailand' },
-    { id:'wio',         name:'Wio Bank',         region:'latam',     lat:24.47,  lng:54.37,  ear:'❓',             hq:'Abu Dhabi, UAE' },
-    { id:'trust',       name:'Trust Bank',       region:'latam',     lat:1.36,   lng:103.83, ear:'❓',             hq:'Singapore' },
-    { id:'uob',         name:'UOB',              region:'latam',     lat:1.34,   lng:103.81, ear:'❓',             hq:'Singapore' },
-    { id:'bofa',        name:'Bank of America',  region:'na',        lat:35.23,  lng:-80.84, ear:'1.1% – 1.7%',  hq:'Charlotte, USA' },
-    { id:'chase',       name:'Chase',            region:'na',        lat:40.74,  lng:-74.00, ear:'0.9% – 1.6%',  hq:'New York, USA' },
-    { id:'capitalone',  name:'Capital One',      region:'na',        lat:38.94,  lng:-77.18, ear:'1.2% – 1.9%',  hq:'McLean, USA' },
-    { id:'amex',        name:'American Express', region:'na',        lat:40.76,  lng:-73.98, ear:'1.8% – 2.2%',  hq:'New York, USA' },
-    { id:'citi',        name:'Citi',             region:'na',        lat:40.73,  lng:-73.99, ear:'2.0%',          hq:'New York, USA' },
-    { id:'venmo',       name:'Venmo',            region:'na',        lat:37.34,  lng:-121.89,ear:'1.7%',          hq:'San Jose, USA' },
-    { id:'robinhood',   name:'Robinhood',        region:'na',        lat:37.45,  lng:-122.18,ear:'2.4% – 2.9%',  hq:'Menlo Park, USA' },
-    { id:'chime',       name:'Chime',            region:'na',        lat:37.79,  lng:-122.42,ear:'0.0%',          hq:'San Francisco, USA' },
-    { id:'cashapp',     name:'Cash App',         region:'na',        lat:37.77,  lng:-122.43,ear:'❓',             hq:'San Francisco, USA' },
-    { id:'revolut',     name:'Revolut',          region:'eu',        lat:51.51,  lng:-0.13,  ear:'−3.5% – 0.6%', hq:'London, UK' },
-    { id:'monzo',       name:'Monzo',            region:'eu',        lat:51.52,  lng:-0.12,  ear:'❓',             hq:'London, UK' },
-    { id:'n26',         name:'N26',              region:'eu',        lat:52.52,  lng:13.40,  ear:'−1.6% – 0.0%', hq:'Berlin, Germany' },
-    { id:'bunq',        name:'Bunq',             region:'eu',        lat:52.37,  lng:4.90,   ear:'❓',             hq:'Amsterdam, Netherlands' },
-    { id:'starling',    name:'Starling Bank',    region:'eu',        lat:51.50,  lng:-0.14,  ear:'❓',             hq:'London, UK' },
-  ];
+  const regionLabel = {
+    crypto: 'Crypto neobanks',
+    latam:  'LATAM + Asia',
+    na:     'North America',
+    eu:     'Europe',
+  };
 
-  const globe = Globe({ animateIn: false })
-    .width(document.getElementById('globe-container').offsetWidth)
-    .height(document.getElementById('globe-container').offsetHeight)
-    .backgroundColor('rgba(0,0,0,0)')
-    .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
-    .pointsData(companies)
-    .pointLat('lat')
-    .pointLng('lng')
-    .pointColor(d => d.region === 'reference' ? '#FFFFFF' : regionColors[d.region])
-    .pointRadius(d => d.region === 'reference' ? 0.7 : 0.35)
-    .pointAltitude(0.01)
-    .pointLabel(d => `<div style="font-family:'DM Mono',monospace;font-size:12px;background:rgba(28,27,25,0.9);color:#F8F7F4;padding:6px 10px;border-radius:4px;white-space:nowrap;"><strong>${d.name}</strong><br>${d.hq}<br>EAR: ${d.ear}</div>`)
-    .onPointClick(d => {
-      const el = document.getElementById('acc-' + d.id);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    })
-    (document.getElementById('globe-container'));
+  const regionCount = { crypto: 11, latam: 14, na: 9, eu: 5 };
 
-  // Auto-rotate
-  globe.controls().autoRotate = true;
-  globe.controls().autoRotateSpeed = 0.5;
-  globe.controls().enableZoom = true;
+  // Numeric ISO-3166 country ID → benchmark region
+  const countryRegion = {
+    // North America
+    840:'na', 124:'na', 484:'na',
+    // LATAM
+    76:'latam', 170:'latam', 152:'latam', 604:'latam', 32:'latam',
+    858:'latam', 591:'latam', 340:'latam', 320:'latam', 214:'latam',
+    332:'latam', 630:'latam', 218:'latam', 600:'latam', 68:'latam',
+    862:'latam', 188:'latam', 192:'latam', 630:'latam',
+    // Asia (grouped with LATAM in this benchmark)
+    764:'latam', 784:'latam', 702:'latam', 356:'latam', 156:'latam',
+    392:'latam', 410:'latam', 360:'latam', 458:'latam', 144:'latam', 50:'latam',
+    // Europe
+    826:'eu', 276:'eu', 528:'eu', 250:'eu', 724:'eu', 380:'eu', 756:'eu',
+    620:'eu', 56:'eu', 40:'eu', 208:'eu', 246:'eu', 578:'eu', 752:'eu',
+    372:'eu', 300:'eu', 203:'eu', 703:'eu', 348:'eu', 642:'eu', 191:'eu',
+    705:'eu', 440:'eu', 428:'eu', 233:'eu', 616:'eu', 804:'eu',
+    // Crypto-adjacent (Bulgaria HQ for Nexo)
+    100:'crypto',
+  };
 
-  // Point of view on Lima
-  globe.pointOfView({ lat: -10, lng: -65, altitude: 2.2 }, 0);
+  const container = document.getElementById('choropleth-container');
+  const W = 900, H = 420;
 
-  // Resize
-  window.addEventListener('resize', () => {
-    const c = document.getElementById('globe-container');
-    globe.width(c.offsetWidth).height(c.offsetHeight);
+  const svg = d3.select('#choropleth-container').append('svg')
+    .attr('viewBox', `0 0 ${W} ${H}`)
+    .attr('preserveAspectRatio', 'xMidYMid meet')
+    .style('width', '100%').style('height', '100%');
+
+  svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#E8E3D8');
+
+  const projection = d3.geoNaturalEarth1()
+    .scale(W / 6.5)
+    .translate([W / 2, H / 2]);
+  const path = d3.geoPath().projection(projection);
+
+  // Graticule
+  svg.append('path')
+    .datum(d3.geoGraticule()())
+    .attr('d', path)
+    .attr('fill', 'none')
+    .attr('stroke', 'rgba(28,27,25,0.06)')
+    .attr('stroke-width', 0.5);
+
+  // Tooltip div (shared, appended once)
+  let tooltip = document.getElementById('map-tooltip');
+  if (!tooltip) {
+    tooltip = document.createElement('div');
+    tooltip.id = 'map-tooltip';
+    document.body.appendChild(tooltip);
+  }
+
+  let selectedRegion = 'all';
+
+  function baseOpacity(r) {
+    if (!r) return 1;
+    const max = 14;
+    return 0.28 + 0.52 * ((regionCount[r] || 1) / max);
+  }
+
+  d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(world => {
+    const countries = topojson.feature(world, world.objects.countries);
+
+    const paths = svg.selectAll('.country')
+      .data(countries.features)
+      .join('path')
+        .attr('class', 'country')
+        .attr('d', path)
+        .attr('fill', d => {
+          const r = countryRegion[+d.id];
+          return r ? regionColor[r] : '#D9D3C6';
+        })
+        .attr('fill-opacity', d => baseOpacity(countryRegion[+d.id]))
+        .attr('stroke', '#C8C0B4')
+        .attr('stroke-width', 0.5)
+        .style('cursor', d => countryRegion[+d.id] ? 'pointer' : 'default');
+
+    function resetOpacities() {
+      paths.attr('fill-opacity', d => {
+        const r = countryRegion[+d.id];
+        if (!r) return 1;
+        if (selectedRegion === 'all' || selectedRegion === r) return baseOpacity(r);
+        return 0.10;
+      });
+    }
+
+    paths
+      .on('mousemove', function(event, d) {
+        const r = countryRegion[+d.id];
+        if (!r) return;
+        tooltip.style.opacity = '1';
+        tooltip.style.left = (event.clientX + 14) + 'px';
+        tooltip.style.top  = (event.clientY - 42) + 'px';
+        tooltip.innerHTML = `<strong>${regionLabel[r]}</strong>&ensp;<span style="opacity:.6">${regionCount[r]} companies</span><br><span style="opacity:.4">Click to filter ↓</span>`;
+        d3.select(this).attr('fill-opacity', 0.88);
+      })
+      .on('mouseleave', function(event, d) {
+        tooltip.style.opacity = '0';
+        const r = countryRegion[+d.id];
+        if (!r) return;
+        d3.select(this).attr('fill-opacity',
+          selectedRegion === 'all' || selectedRegion === r ? baseOpacity(r) : 0.10
+        );
+      })
+      .on('click', function(event, d) {
+        const r = countryRegion[+d.id];
+        if (!r) return;
+        event.stopPropagation();
+        selectedRegion = r;
+        triggerFilter(r);
+        resetOpacities();
+      });
+
+    // Click ocean → reset
+    svg.on('click', () => {
+      selectedRegion = 'all';
+      triggerFilter('all');
+      resetOpacities();
+    });
+
+    // Border mesh
+    svg.append('path')
+      .datum(topojson.mesh(world, world.objects.countries, (a,b) => a !== b))
+      .attr('d', path)
+      .attr('fill', 'none')
+      .attr('stroke', '#C8C0B4')
+      .attr('stroke-width', 0.4);
+
+    // iO pin — Lima, Peru
+    const limaXY = projection([-77.04, -12.05]);
+    const pinG = svg.append('g')
+      .attr('transform', `translate(${limaXY[0]},${limaXY[1]})`)
+      .style('pointer-events', 'none');
+
+    pinG.append('circle').attr('r', 9)
+      .attr('fill', 'none').attr('stroke', '#1C1B19')
+      .attr('stroke-width', 1).attr('opacity', 0.25);
+
+    pinG.append('circle').attr('r', 5)
+      .attr('fill', '#1C1B19').attr('stroke', '#F8F7F4')
+      .attr('stroke-width', 2);
+
+    pinG.append('text')
+      .attr('x', 9).attr('y', 4)
+      .attr('fill', '#1C1B19')
+      .attr('font-size', 9)
+      .attr('font-family', 'DM Mono,monospace')
+      .attr('font-weight', '500')
+      .attr('opacity', 0.75)
+      .text('iO');
+
+    // Legend (bottom-left overlay)
+    const legEntries = [
+      { r:'na',     l:'North America (9)' },
+      { r:'latam',  l:'LATAM + Asia (14)' },
+      { r:'eu',     l:'Europe (5)' },
+      { r:'crypto', l:'Crypto (11)' },
+    ];
+    const legH = legEntries.length * 14 + 18;
+    const leg = svg.append('g').attr('transform', `translate(10,${H - legH - 10})`);
+    leg.append('rect').attr('width', 162).attr('height', legH).attr('rx', 4)
+      .attr('fill', 'rgba(248,247,244,0.88)').attr('stroke', 'rgba(28,27,25,0.10)').attr('stroke-width', 1);
+
+    legEntries.forEach((e, i) => {
+      const g = leg.append('g').attr('transform', `translate(10,${13 + i * 14})`);
+      g.append('rect').attr('width', 8).attr('height', 8).attr('rx', 1).attr('y', 1)
+        .attr('fill', regionColor[e.r]);
+      g.append('text').attr('x', 13).attr('y', 9)
+        .attr('fill', 'rgba(28,27,25,0.65)').attr('font-size', 10)
+        .attr('font-family', 'DM Mono,monospace').text(e.l);
+    });
+
+  }).catch(() => {
+    d3.select('#choropleth-container').append('div')
+      .style('padding','24px').style('color','var(--ink-2)')
+      .style('font-family','var(--mono)').style('font-size','13px')
+      .text('Map could not load — check internet connection.');
   });
 })();
 </script>
