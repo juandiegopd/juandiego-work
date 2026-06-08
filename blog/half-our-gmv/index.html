@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Half our GMV was losing money. Here's how I rebuilt it. — JD Peñaherrera</title>
+<meta name="description" content="About 50 entrepreneurs were doing half of Favo's GMV — at a negative contribution margin. Here's how I rebuilt the model so the same volume made money.">
+<link rel="icon" type="image/jpeg" href="/JD_PFP.jpeg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F8F7F4;--cream-2:#EFEDE8;--cream-3:#E0DDD7;--cream-4:#C9C5BD;
+  --ink:#1C1B19;--ink-2:#4a4641;--ink-3:#6B6861;--ink-4:#9a9088;
+  --serif:'DM Serif Display',Georgia,serif;
+  --mono:'DM Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+  --dur:200ms;--ease:cubic-bezier(.2,.6,.2,1);
+}
+html,body{min-height:100%;}
+body{
+  font-family:var(--sans);
+  background:var(--cream);
+  color:var(--ink);
+  display:flex;flex-direction:column;
+}
+
+/* ── NAV ── */
+nav{
+  border-bottom:1px solid var(--cream-3);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;height:56px;flex-shrink:0;
+  background:rgba(248,247,244,0.92);
+  backdrop-filter:blur(8px);
+  position:sticky;top:0;z-index:10;
+}
+.nav-logo{
+  font-family:var(--mono);font-size:13px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);text-decoration:none;
+}
+.nav-links{display:flex;gap:2rem;align-items:center;}
+.nav-link{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);
+  text-decoration:none;display:flex;align-items:center;gap:.4rem;
+  transition:color var(--dur) var(--ease);
+}
+.nav-link::before{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--cream-3);flex-shrink:0;
+  transition:background var(--dur) var(--ease);
+}
+.nav-link:hover{color:var(--ink);}
+.nav-link:hover::before{background:var(--ink);}
+.nav-link.active{color:var(--ink);}
+.nav-link.active::before{background:var(--ink);}
+
+/* ── LAYOUT ── */
+main{flex:1;}
+.article-page{max-width:680px;margin:0 auto;padding:5rem 3rem 6rem;width:100%;}
+
+/* ── ARTICLE HEADER ── */
+.eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:1.25rem;
+}
+.article-title{
+  font-family:var(--serif);font-size:clamp(1.75rem,3.4vw,2.625rem);
+  font-weight:400;line-height:1.08;letter-spacing:-.01em;
+  color:var(--ink);margin-bottom:1.25rem;
+}
+.article-meta{
+  display:flex;align-items:center;gap:.5rem;
+  font-family:var(--mono);font-size:11px;letter-spacing:.07em;
+  color:var(--ink-4);margin-bottom:3rem;
+  padding-bottom:2.5rem;border-bottom:1px solid var(--cream-3);
+}
+.meta-sep{color:var(--cream-4);}
+
+/* ── ARTICLE BODY ── */
+.article-lede{
+  font-family:var(--serif);font-style:italic;
+  font-size:1.175rem;line-height:1.7;
+  color:var(--ink-2);margin-bottom:2rem;
+}
+.article-body p{
+  font-size:1.0625rem;line-height:1.825;
+  color:var(--ink);margin-bottom:1.625rem;
+}
+.article-body h2{
+  font-family:var(--serif);font-size:1.375rem;font-weight:400;
+  line-height:1.2;color:var(--ink);
+  margin:3.25rem 0 1.125rem;
+}
+.article-body ul{
+  margin:0 0 1.625rem 0;
+  list-style:none;
+  padding:0;
+}
+.article-body li{
+  font-size:1.0625rem;line-height:1.825;color:var(--ink);
+  padding:0.625rem 0 0.625rem 1.5rem;
+  border-bottom:1px solid var(--cream-3);
+  position:relative;
+}
+.article-body li:first-child{border-top:1px solid var(--cream-3);}
+.article-body li::before{
+  content:'';position:absolute;left:0;top:1.05rem;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--cream-4);flex-shrink:0;
+}
+.article-body strong{font-weight:600;}
+.article-body em{font-style:italic;}
+
+/* ── STAT CALLOUT ── */
+.stat-callout{
+  background:var(--cream-2);border-left:2px solid var(--ink);
+  padding:1.25rem 1.5rem;margin:2rem 0;
+}
+.stat-callout p{
+  font-family:var(--serif);font-size:1.05rem;
+  line-height:1.65;color:var(--ink);margin:0;
+}
+
+/* ── CHART ── */
+.chart-wrap{
+  background:var(--cream-2);
+  border:1px solid var(--cream-3);
+  border-radius:3px;
+  padding:1.75rem 1.5rem 1.25rem;
+  margin:2.5rem 0;
+}
+.chart-label{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-4);margin-bottom:1.25rem;
+}
+.chart-canvas-wrap{position:relative;height:300px;}
+.chart-note{
+  font-family:var(--mono);font-size:10px;letter-spacing:.05em;
+  color:var(--ink-4);margin-top:1rem;line-height:1.6;
+}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--cream-3);
+  padding:1.25rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:11px;
+  color:var(--ink-4);letter-spacing:.06em;flex-shrink:0;
+}
+footer a{color:var(--ink-3);text-decoration:none;transition:color var(--dur) var(--ease);}
+footer a:hover{color:var(--ink);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  nav{padding:0 1.25rem;}
+  .article-page{padding:3.5rem 1.25rem 5rem;}
+  footer{padding:1.25rem;flex-direction:column;gap:.5rem;text-align:center;}
+  .chart-canvas-wrap{height:240px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">JD</a>
+  <div class="nav-links">
+    <a class="nav-link" href="/experience">Experience</a>
+    <a class="nav-link active" href="/blog">Writing</a>
+  </div>
+</nav>
+
+<main>
+<div class="article-page">
+
+  <div class="eyebrow">Operator learnings</div>
+  <h1 class="article-title">Half our GMV was losing money.<br>Here's how I rebuilt it.</h1>
+  <div class="article-meta">
+    <span>Jun 2026</span>
+    <span class="meta-sep">·</span>
+    <span>7 min read</span>
+  </div>
+
+  <div class="article-body">
+
+    <p class="article-lede">Half of our GMV was losing us money. And it was coming from the customers everyone in the company treated as our best.</p>
+
+    <p>To explain how I ended up owning that problem, I have to back up a few months. In early 2022 the capital markets turned — the same shift Sequoia described to its founders in <em>Adapting to Endure</em>. For two years money had been functionally free; suddenly it wasn't. For a Latin American startup burning cash to grow across two countries, that wasn't a market headline. It was a deadline. We cut Brazil. The company halved. (How we fought to keep Brazil alive first — the logistics models we built to try to make it profitable before pulling the plug — is its own post.)</p>
+
+    <p>When the dust settled, I was handed the sales and customer experience org — about 55 people — in a role I had no business holding yet. The CEO introduced me to the team as one of the most talented people in the company. I didn't feel it. I'd never managed a team that size, and the people I'd have to rebuild the business alongside — the commercial director, the CFO, the COO, the CEO — were a decade ahead of me. I was the youngest person in the room by a wide margin. I'll come back to that.</p>
+
+    <p>My mandate was narrow and brutal: increase lifetime value and make the business profitable. So I did the first thing my instincts push me toward — I rebuilt the P&amp;L from the customer up, segment by segment. That's where the number showed up.</p>
+
+    <h2>The incentive I inherited</h2>
+
+    <p>Favo paid its entrepreneurs a commission on everything they sold. Historically it was a flat 8%. The scheme I inherited had added tiers on top — up to 15% for the "super-tops," anyone moving more than S/20k a month. On paper, reward your best sellers. In practice it created a customer nobody had designed and nobody was watching: wholesalers.</p>
+
+    <p>These weren't neighbors selling groceries to neighbors, which was the model Favo was built on. They were buying in bulk and reselling to other businesses. And they had found the arbitrage. A 15% commission on a low-margin staple was worth more than our own margin on that staple. Take Leche Gloria: our gross margin was around 5%. We paid 15% in commission. Every unit a wholesaler moved, we lost ten points before a single truck left the warehouse. They used the 15% as a rebate — undercutting the market price, reselling in volume, keeping the spread. It was completely rational. We had built the incentive; they just read it correctly.</p>
+
+    <p>About 50 entrepreneurs were doing this. They concentrated roughly 90% of their volume in around 40 SKUs, and together they were close to half of Favo's GMV — at a negative contribution margin. We were, in the most literal sense, paying our biggest customers to grow while we lost money on every order.</p>
+
+    <h2>The counterintuitive part</h2>
+
+    <p>The obvious move was to kill it. Cut the commission, lose the wholesalers, move on.</p>
+
+    <p>But when I reconstructed the full unit economics — not just commission and margin, but logistics — the picture inverted. Wholesalers were the most logistically efficient customers we had. A single wholesaler order filled a truck. The marginal cost per drop was a fraction of what it cost to serve a regular entrepreneur on a half-empty route. The volume wasn't the problem. The pricing was. Killing the segment would have thrown away the one part of the business that was operationally efficient.</p>
+
+    <p>So the job wasn't to cut. It was to rebuild the model so the same volume made money.</p>
+
+    <h2>The rebuild</h2>
+
+    <p>We did it lean: me, one analyst, and one person to process orders. Not 55 — three. That was a choice. A problem this tangled needed depth, not headcount, and I wanted my own hands in the numbers.</p>
+
+    <p>Before I changed a single term, I called all fifty wholesalers. One at a time. I went through each of their businesses with them, read their financials line by line, and in a lot of cases went out to see them in person — traveling to wherever they ran their business, often far from my office. I needed to understand what they really needed before I took something away from them, and I needed them to believe that I understood it. You don't redesign the economics of someone's livelihood from a spreadsheet.</p>
+
+    <p>What I built from there had a few moving parts, but one idea sat underneath all of them: stop paying a commission that ignored product margin, and start serving wholesalers the way you'd run an actual distribution business.</p>
+
+    <ul>
+      <li><strong>Sell at cost plus an engineered markup</strong>, sized to a ~5% contribution, instead of a flat commission. They set their own resale price; we made our margin on the way in.</li>
+      <li><strong>Price by SKU</strong>, to each product's profitability, so we never again paid 15% to move something we made 5% on.</li>
+      <li><strong>Require pre-orders, paid upfront.</strong> Wholesalers told us what they'd buy, and at what price, before we purchased it.</li>
+    </ul>
+
+    <p>That last one was the real unlock. Pre-orders turned guessing into forecasting. Forecastable demand let us negotiate volume with suppliers, right-size the trucks, and carve out a dedicated lane in the distribution center so wholesale volume stopped cannibalizing the stock that core entrepreneurs needed. What I'd been told was a pricing problem was really an information problem. Once we knew demand in advance, every other cost fell into place — we cut logistics cost on the wholesale business from around 14% to under 6%.</p>
+
+    <h2>It worked, and it hurt first</h2>
+
+    <p>The moment we pulled the 15% subsidy, wholesale revenue dropped about 70%. The pure-arbitrage players — the ones whose entire business was the commission, not the customers — left immediately. That was the point, but it's a hard number to watch in real time.</p>
+
+    <p>Then we rebuilt, one wholesaler at a time, on the new terms. By December the segment had recovered most of its volume — and this time it made money.</p>
+
+    <p>The contribution margin tells the story better than revenue does. The wholesale business went from roughly <strong>−6% in June to break-even by the end of September</strong> — three months — and held at around <strong>+6% through the fourth quarter</strong>. We traded unprofitable volume for profitable volume, and the profitable volume grew back.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-label">Wholesale segment — revenue &amp; contribution margin, Jun–Dec 2022</div>
+      <div class="chart-canvas-wrap">
+        <canvas id="turnaroundChart"></canvas>
+      </div>
+      <p class="chart-note">Revenue indexed to Jun 2022 = 100. Absolute figures not shown. Jul–Sep: commission redesign, sell-at-cost pricing, pre-orders. Sep: break-even. Oct–Dec: +5.5–6% CM, holding.</p>
+    </div>
+
+    <h2>What this was, and what it wasn't</h2>
+
+    <p>I want to be precise, because the precise version is the honest one. I made the wholesale business profitable. I did not make Favo profitable. The company's overall contribution margin stayed negative through the end of the year — the core entrepreneur business and the macro environment were a bigger fight than one segment turnaround could win. We had already cut Brazil. We would keep searching for a model that worked at the company level. Fixing my piece mattered, but I was winning a battle inside a war being decided well above my role.</p>
+
+    <p>What it did do is concrete. It took half the company's revenue from −6% to +6% contribution margin — a twelve-point swing — and bought Favo more than a year of additional runway. Runway isn't profitability. But in that market, runway was the scarcest thing there was.</p>
+
+    <p>Once the wholesale business was stable and the pricing model was built, I did the thing that's easy to write and hard to do: I gave it away. I handed it to a director on our supply team — someone who'd been close to the vendor negotiations and knew the economics cold — so I could go build the next bet: a direct-to-bodega business inside Favo. I built that one from scratch and later made the call to kill it, including the sales force I'd hired to run it. That's its own post.</p>
+
+    <h2>I didn't have the experience to build what I built</h2>
+
+    <p>The honest truth is I didn't have the experience the role asked for. I'd never managed at that level, never rebuilt a business model from nothing, never sat across from a CFO and a CEO as the person who was supposed to have the answer. The feeling that I was out of my depth wasn't insecurity. It was accurate.</p>
+
+    <p>But paralysis was the only move guaranteed to fail. If I froze, I failed for certain. If I worked the problem as well as I knew how, I might fail — or I might not. So I just worked. Long hours, first principles, one P&amp;L at a time. And it turned out that doing it as well as I could, unprepared, was enough.</p>
+
+    <p>I've met a lot of people doing impressive things since. They're sharp. But they're not a different species. The gap between them and everyone else is mostly that they started before they felt ready, and then didn't stop.</p>
+
+    <p>Two things I keep returning to from that year. First: revenue is not profit, and the customers you celebrate can be the ones quietly bleeding you — so build the segment-level P&amp;L <em>before</em> you build the incentive. Second: incentives are a system. Set one without thinking through the behavior it rewards, and a rational actor will find the hole you left.</p>
+
+    <p>The most expensive mistakes I've seen aren't bad execution. They're well-executed incentives pointed at the wrong number.</p>
+
+  </div>
+</div>
+</main>
+
+<footer>
+  <a href="/blog">← Writing</a>
+  <span>© 2026 JD Peñaherrera</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<script>
+(function() {
+  const labels = ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const revenue = [100, 30, 40, 37, 57, 63, 83];
+  const cm = [-6, -5, -1.9, 0, 5.8, 6.0, 5.5];
+
+  const ink    = '#1C1B19';
+  const ink3   = '#6B6861';
+  const ink4   = '#9a9088';
+  const cream2 = '#EFEDE8';
+  const cream3 = '#E0DDD7';
+  const cream4 = '#C9C5BD';
+
+  new Chart(document.getElementById('turnaroundChart'), {
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Revenue (indexed)',
+          data: revenue,
+          backgroundColor: 'rgba(201,197,189,0.55)',
+          borderColor: 'rgba(154,144,136,0.7)',
+          borderWidth: 1,
+          borderRadius: 2,
+          yAxisID: 'y',
+          order: 2,
+        },
+        {
+          type: 'line',
+          label: 'Contribution margin %',
+          data: cm,
+          borderColor: ink,
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          pointBackgroundColor: function(ctx) {
+            const v = cm[ctx.dataIndex];
+            return v >= 0 ? ink : '#fff';
+          },
+          pointBorderColor: ink,
+          pointRadius: 4.5,
+          pointHoverRadius: 6,
+          tension: 0.25,
+          yAxisID: 'y1',
+          order: 1,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: { family: 'DM Mono', size: 10 },
+            color: ink3,
+            usePointStyle: true,
+            pointStyleWidth: 10,
+            padding: 20,
+          }
+        },
+        tooltip: {
+          backgroundColor: '#1C1B19',
+          titleFont: { family: 'DM Mono', size: 10 },
+          bodyFont: { family: 'DM Mono', size: 10 },
+          padding: 10,
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.datasetIndex === 0) return '  Revenue: ' + ctx.raw + ' (indexed)';
+              const sign = ctx.raw > 0 ? '+' : '';
+              return '  CM: ' + sign + ctx.raw + '%';
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            transitionBand: {
+              type: 'box',
+              xMin: 0.5,
+              xMax: 3.5,
+              yScaleID: 'y',
+              yMin: 0,
+              yMax: 130,
+              backgroundColor: 'rgba(224,221,215,0.45)',
+              borderColor: cream3,
+              borderWidth: 1,
+              label: {
+                display: true,
+                content: 'redesign period',
+                font: { family: 'DM Mono', size: 9 },
+                color: ink4,
+                position: { x: 'center', y: 'start' },
+                yAdjust: 6,
+              }
+            },
+            zeroLine: {
+              type: 'line',
+              scaleID: 'y1',
+              value: 0,
+              borderColor: 'rgba(28,27,25,0.22)',
+              borderWidth: 1,
+              borderDash: [5, 4],
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: cream3, lineWidth: 1 },
+          border: { color: cream3 },
+          ticks: {
+            font: { family: 'DM Mono', size: 11 },
+            color: ink3,
+          }
+        },
+        y: {
+          type: 'linear',
+          position: 'left',
+          min: 0,
+          max: 130,
+          grid: { color: cream3, lineWidth: 1 },
+          border: { color: cream3 },
+          ticks: {
+            font: { family: 'DM Mono', size: 10 },
+            color: ink4,
+            maxTicksLimit: 6,
+          },
+          title: {
+            display: true,
+            text: 'Revenue (indexed)',
+            font: { family: 'DM Mono', size: 9 },
+            color: ink4,
+          }
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          min: -10,
+          max: 10,
+          grid: { drawOnChartArea: false },
+          border: { color: cream3 },
+          ticks: {
+            font: { family: 'DM Mono', size: 10 },
+            color: ink,
+            callback: function(v) { return (v > 0 ? '+' : '') + v + '%'; }
+          },
+          title: {
+            display: true,
+            text: 'Contribution margin',
+            font: { family: 'DM Mono', size: 9 },
+            color: ink,
+          }
+        }
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
