@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chart options — 5 approaches</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#F8F7F4; --cream-2:#EFEDE8; --cream-3:#E0DDD7; --cream-4:#C9C5BD;
+  --ink:#1C1B19; --ink-2:#4a4641; --ink-3:#6B6861; --ink-4:#9a9088;
+  --blue:#0D84FF; --blue-dim:rgba(13,132,255,0.10);
+  --serif:'DM Serif Display',Georgia,serif;
+  --mono:'DM Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body { font-family:var(--sans); background:var(--cream); color:var(--ink); padding:3rem 2rem; }
+.page { max-width:760px; margin:0 auto; }
+.page-title { font-family:var(--serif); font-size:1.75rem; margin-bottom:.4rem; }
+.page-sub { font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--ink-3); text-transform:uppercase; margin-bottom:3rem; }
+.option { margin-bottom:4.5rem; }
+.option-label { font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-4); margin-bottom:.5rem; }
+.option-name  { font-family:var(--serif); font-size:1.2rem; margin-bottom:.375rem; }
+.option-desc  { font-family:var(--sans); font-size:.875rem; color:var(--ink-3); line-height:1.6; margin-bottom:1.25rem; max-width:58ch; }
+.lib-tag { display:inline-block; font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; background:var(--cream-2); color:var(--ink-3); padding:2px 8px; margin-bottom:1.25rem; }
+.divider { border:none; border-top:1px solid var(--cream-3); margin-bottom:4.5rem; }
+.section-head { font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-4); margin-bottom:6px; }
+
+/* ─────────────────────────────────────────────────────────
+   OPTION 1 — Two-section horizontal bars
+   ───────────────────────────────────────────────────────── */
+.hbar-block { margin-bottom:1.25rem; }
+.hbar-row {
+  display:grid; grid-template-columns:44px 1fr 52px;
+  align-items:center; border-bottom:1px solid var(--cream-3);
+  padding:6px 0;
+}
+.hbar-row:first-child { border-top:1px solid var(--cream-3); }
+.hbar-month { font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--ink-3); }
+
+/* revenue: grey bar going right, max=100 */
+.rev-track { height:8px; background:var(--cream-2); position:relative; }
+.rev-bar   { height:100%; background:var(--cream-4); position:absolute; left:0; top:0; }
+
+/* CM: diverging from center (0 = 50%) */
+.cm-track  { display:grid; grid-template-columns:1fr 1fr; height:10px; }
+.cm-neg    { display:flex; justify-content:flex-end; border-right:1px solid var(--cream-4); }
+.cm-pos    { display:flex; justify-content:flex-start; }
+.cm-neg-bar{ height:10px; background:var(--cream-3); }
+.cm-pos-bar{ height:10px; background:var(--blue); }
+
+.hbar-val { font-family:var(--mono); font-size:10px; text-align:right; padding-left:.5rem; }
+.hbar-val.rev { color:var(--ink-4); }
+.hbar-val.neg { color:var(--ink-4); }
+.hbar-val.pos { color:var(--blue); }
+.hbar-val.zero{ color:var(--ink-4); }
+
+/* ─────────────────────────────────────────────────────────
+   OPTION 3 — SVG combined (bars behind, lollipops above)
+   ───────────────────────────────────────────────────────── */
+/* inline SVG */
+
+/* ─────────────────────────────────────────────────────────
+   OPTION 5 — Scorecard cells
+   ───────────────────────────────────────────────────────── */
+.scorecard { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+.sc-cell { display:flex; flex-direction:column; align-items:center; padding:10px 4px 10px; }
+.sc-month { font-family:var(--mono); font-size:9px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-4); margin-bottom:8px; }
+.sc-rev   { font-family:var(--mono); font-size:10px; color:var(--ink-4); margin-bottom:4px; }
+.sc-sep   { width:20px; height:1px; background:var(--cream-3); margin-bottom:6px; }
+.sc-cm    { font-family:var(--mono); font-size:13px; font-weight:500; }
+.sc-cell.neg { background:var(--cream-2); }
+.sc-cell.neg .sc-cm { color:var(--ink-4); }
+.sc-cell.zero{ background:var(--cream-3); }
+.sc-cell.zero .sc-cm{ color:var(--ink-3); }
+.sc-cell.pos { background:var(--blue-dim); border-bottom:2px solid var(--blue); }
+.sc-cell.pos .sc-cm { color:var(--blue); }
+.sc-cell.pos .sc-month { color:var(--blue); opacity:.7; }
+.sc-caption { font-family:var(--mono); font-size:9px; letter-spacing:.04em; color:var(--ink-4); margin-top:10px; line-height:1.7; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="page-title">Chart options</div>
+<div class="page-sub">Revenue (indexed, Jun = 100) + Contribution margin % · Jun–Dec 2022 · 5 approaches</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     OPTION 1 — CSS Two-Section Horizontal Bars
+     ══════════════════════════════════════════════════════ -->
+<div class="option">
+  <div class="option-label">Option 01</div>
+  <div class="option-name">CSS Horizontal — Two Linked Sections</div>
+  <div class="option-desc">Revenue as a grey bar (100 = full width) and CM as a diverging bar sharing the same month labels. Two separate tracks, one story. No library.</div>
+  <div class="lib-tag">No library — pure CSS</div>
+
+  <!-- REVENUE -->
+  <div class="hbar-block">
+    <div class="section-head">Revenue — indexed, Jun = 100</div>
+    <div class="hbar-row">
+      <span class="hbar-month">Jun</span>
+      <div class="rev-track"><div class="rev-bar" style="width:100%"></div></div>
+      <span class="hbar-val rev">100</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Jul</span>
+      <div class="rev-track"><div class="rev-bar" style="width:30%"></div></div>
+      <span class="hbar-val rev">30</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Aug</span>
+      <div class="rev-track"><div class="rev-bar" style="width:40%"></div></div>
+      <span class="hbar-val rev">40</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Sep</span>
+      <div class="rev-track"><div class="rev-bar" style="width:37%"></div></div>
+      <span class="hbar-val rev">37</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Oct</span>
+      <div class="rev-track"><div class="rev-bar" style="width:57%"></div></div>
+      <span class="hbar-val rev">57</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Nov</span>
+      <div class="rev-track"><div class="rev-bar" style="width:63%"></div></div>
+      <span class="hbar-val rev">63</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Dec</span>
+      <div class="rev-track"><div class="rev-bar" style="width:83%"></div></div>
+      <span class="hbar-val rev">83</span>
+    </div>
+  </div>
+
+  <!-- CM DIVERGING -->
+  <div class="hbar-block">
+    <div class="section-head">Contribution margin %  ·  ◄ negative &nbsp;|&nbsp; positive ►</div>
+    <div class="hbar-row">
+      <span class="hbar-month">Jun</span>
+      <div class="cm-track"><div class="cm-neg"><div class="cm-neg-bar" style="width:100%"></div></div><div class="cm-pos"></div></div>
+      <span class="hbar-val neg">−6%</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Jul</span>
+      <div class="cm-track"><div class="cm-neg"><div class="cm-neg-bar" style="width:83.3%"></div></div><div class="cm-pos"></div></div>
+      <span class="hbar-val neg">−5%</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Aug</span>
+      <div class="cm-track"><div class="cm-neg"><div class="cm-neg-bar" style="width:31.7%"></div></div><div class="cm-pos"></div></div>
+      <span class="hbar-val neg">−1.9%</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Sep</span>
+      <div class="cm-track"><div class="cm-neg"></div><div class="cm-pos"></div></div>
+      <span class="hbar-val zero">0%</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Oct</span>
+      <div class="cm-track"><div class="cm-neg"></div><div class="cm-pos"><div class="cm-pos-bar" style="width:96.7%"></div></div></div>
+      <span class="hbar-val pos">+5.8%</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Nov</span>
+      <div class="cm-track"><div class="cm-neg"></div><div class="cm-pos"><div class="cm-pos-bar" style="width:100%"></div></div></div>
+      <span class="hbar-val pos">+6%</span>
+    </div>
+    <div class="hbar-row">
+      <span class="hbar-month">Dec</span>
+      <div class="cm-track"><div class="cm-neg"></div><div class="cm-pos"><div class="cm-pos-bar" style="width:91.7%"></div></div></div>
+      <span class="hbar-val pos">+5.5%</span>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+
+<!-- ══════════════════════════════════════════════════════
+     OPTION 2 — SVG Dual-Panel (stacked panels, shared x)
+     ══════════════════════════════════════════════════════ -->
+<div class="option">
+  <div class="option-label">Option 02</div>
+  <div class="option-name">SVG Dual Panel — Revenue above, CM below</div>
+  <div class="option-desc">Two stacked panels sharing the same month axis. Top: revenue as grey bars (0–100). Bottom: CM as colored bars diverging from zero. Reads like a financial newspaper chart. No library.</div>
+  <div class="lib-tag">No library — inline SVG</div>
+
+  <!-- Matches the live page exactly: Folio palette, IBM Plex Mono, redesign annotation -->
+  <!-- viewBox 0 0 640 275 · month centres: 50,140,230,320,410,500,590 · bar width 52 -->
+  <svg viewBox="0 0 640 275" width="100%" style="display:block;font-family:'IBM Plex Mono',monospace;">
+
+    <!-- ── REVENUE PANEL ── -->
+    <text x="0" y="11" font-size="9" fill="#798594" letter-spacing=".08em" text-anchor="start">REVENUE — INDEXED, JUN = 100</text>
+
+    <!-- bars (baseline y=110, max height=80px for rev=100) -->
+    <rect x="24"  y="30"    width="52" height="80"   fill="rgba(13,132,255,0.09)" stroke="rgba(13,132,255,0.22)" stroke-width="1"/><!-- Jun 100 -->
+    <rect x="114" y="86"    width="52" height="24"   fill="rgba(13,132,255,0.06)" stroke="rgba(13,132,255,0.14)" stroke-width="1"/><!-- Jul 30  -->
+    <rect x="204" y="78"    width="52" height="32"   fill="rgba(13,132,255,0.06)" stroke="rgba(13,132,255,0.14)" stroke-width="1"/><!-- Aug 40  -->
+    <rect x="294" y="80.4"  width="52" height="29.6" fill="rgba(13,132,255,0.06)" stroke="rgba(13,132,255,0.14)" stroke-width="1"/><!-- Sep 37  -->
+    <rect x="384" y="64.4"  width="52" height="45.6" fill="rgba(13,132,255,0.09)" stroke="rgba(13,132,255,0.22)" stroke-width="1"/><!-- Oct 57  -->
+    <rect x="474" y="59.6"  width="52" height="50.4" fill="rgba(13,132,255,0.09)" stroke="rgba(13,132,255,0.22)" stroke-width="1"/><!-- Nov 63  -->
+    <rect x="564" y="43.6"  width="52" height="66.4" fill="rgba(13,132,255,0.12)" stroke="rgba(13,132,255,0.28)" stroke-width="1"/><!-- Dec 83  -->
+
+    <!-- baseline -->
+    <line x1="8" y1="110" x2="632" y2="110" stroke="rgba(0,23,46,0.12)" stroke-width="1"/>
+
+    <!-- revenue value labels -->
+    <text x="50"  y="26"  font-size="9" fill="#798594" text-anchor="middle">100</text>
+    <text x="140" y="82"  font-size="9" fill="#798594" text-anchor="middle">30</text>
+    <text x="230" y="74"  font-size="9" fill="#798594" text-anchor="middle">40</text>
+    <text x="320" y="76"  font-size="9" fill="#798594" text-anchor="middle">37</text>
+    <text x="410" y="60"  font-size="9" fill="#798594" text-anchor="middle">57</text>
+    <text x="500" y="55"  font-size="9" fill="#798594" text-anchor="middle">63</text>
+    <text x="590" y="39"  font-size="9" fill="#798594" text-anchor="middle">83</text>
+
+    <!-- redesign period: Jul–Sep (bars x=114–346, +6px padding each side) -->
+    <rect x="108" y="14" width="244" height="96" fill="rgba(13,132,255,0.04)" stroke="rgba(13,132,255,0.12)" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="230" y="27" font-size="8.5" fill="rgba(13,132,255,0.6)" text-anchor="middle" letter-spacing=".05em">redesign period</text>
+
+    <!-- panel divider -->
+    <line x1="0" y1="124" x2="640" y2="124" stroke="rgba(0,23,46,0.08)" stroke-width="1"/>
+
+    <!-- ── CM PANEL ── -->
+    <text x="0" y="136" font-size="9" fill="#798594" letter-spacing=".08em">CONTRIBUTION MARGIN %</text>
+    <line x1="8" y1="200" x2="632" y2="200" stroke="rgba(0,23,46,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="630" y="203" font-size="9" fill="#798594" text-anchor="end">0%</text>
+
+    <!-- CM negative bars (navy tint, visible against surface-100 bg) -->
+    <rect x="24"  y="200" width="52" height="48"   fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.15)" stroke-width="1"/><!-- Jun -6   -->
+    <rect x="114" y="200" width="52" height="40"   fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.15)" stroke-width="1"/><!-- Jul -5   -->
+    <rect x="204" y="200" width="52" height="15.2" fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.12)" stroke-width="1"/><!-- Aug -1.9 -->
+    <!-- Sep = 0, no bar -->
+
+    <!-- CM positive bars -->
+    <rect x="384" y="153.6" width="52" height="46.4" fill="#0D84FF"/><!-- Oct +5.8 -->
+    <rect x="474" y="152"   width="52" height="48"   fill="#0D84FF"/><!-- Nov +6   -->
+    <rect x="564" y="156"   width="52" height="44"   fill="#0D84FF"/><!-- Dec +5.5 -->
+
+    <!-- CM value labels -->
+    <text x="50"  y="261" font-size="9" fill="#798594" text-anchor="middle">−6%</text>
+    <text x="140" y="252" font-size="9" fill="#798594" text-anchor="middle">−5%</text>
+    <text x="230" y="223" font-size="9" fill="#798594" text-anchor="middle">−1.9%</text>
+    <text x="320" y="214" font-size="9" fill="#798594" text-anchor="middle">0%</text>
+    <text x="410" y="148" font-size="9" fill="#0D84FF" text-anchor="middle">+5.8%</text>
+    <text x="500" y="146" font-size="9" fill="#0D84FF" text-anchor="middle">+6%</text>
+    <text x="590" y="150" font-size="9" fill="#0D84FF" text-anchor="middle">+5.5%</text>
+
+    <!-- month labels -->
+    <text x="50"  y="270" font-size="10" fill="#597597" text-anchor="middle">Jun</text>
+    <text x="140" y="270" font-size="10" fill="#597597" text-anchor="middle">Jul</text>
+    <text x="230" y="270" font-size="10" fill="#597597" text-anchor="middle">Aug</text>
+    <text x="320" y="270" font-size="10" fill="#597597" text-anchor="middle">Sep</text>
+    <text x="410" y="270" font-size="10" fill="#597597" text-anchor="middle">Oct</text>
+    <text x="500" y="270" font-size="10" fill="#597597" text-anchor="middle">Nov</text>
+    <text x="590" y="270" font-size="10" fill="#597597" text-anchor="middle">Dec</text>
+  </svg>
+</div>
+
+<hr class="divider">
+
+
+<!-- ══════════════════════════════════════════════════════
+     OPTION 3 — SVG Layered (revenue bars behind, CM line on top)
+     ══════════════════════════════════════════════════════ -->
+<div class="option">
+  <div class="option-label">Option 03</div>
+  <div class="option-name">SVG Layered — Revenue bars behind, CM line above</div>
+  <div class="option-desc">Revenue as quiet grey bars in the background; contribution margin as a bold colored line in the foreground with filled/hollow dots at the zero crossing. Both metrics in one frame. No library.</div>
+  <div class="lib-tag">No library — inline SVG</div>
+
+  <svg viewBox="0 0 680 230" width="100%" style="display:block;overflow:visible" font-family="'DM Mono',monospace">
+    <defs>
+      <!-- clip to chart area -->
+      <clipPath id="chart-area"><rect x="40" y="10" width="620" height="180"/></clipPath>
+    </defs>
+
+    <!-- Revenue bars (background, very muted)
+         bar chart area: y=190 baseline, max height=160 (=100).
+         months x: 60,150,240,330,420,510,600. bar width 52. -->
+    <rect x="34"  y="62"  width="52" height="128" fill="#EFEDE8"/><!-- 100 -->
+    <rect x="124" y="151" width="52" height="39"  fill="#EFEDE8"/><!-- 30  -->
+    <rect x="214" y="138" width="52" height="52"  fill="#EFEDE8"/><!-- 40  -->
+    <rect x="304" y="142" width="52" height="48"  fill="#EFEDE8"/><!-- 37  -->
+    <rect x="394" y="116" width="52" height="74"  fill="#EFEDE8"/><!-- 57  -->
+    <rect x="484" y="109" width="52" height="81"  fill="#EFEDE8"/><!-- 63  -->
+    <rect x="574" y="87"  width="52" height="103" fill="#EFEDE8"/><!-- 83  -->
+
+    <!-- Revenue scale label -->
+    <text x="34" y="57" font-size="9" fill="#C9C5BD" letter-spacing=".06em">rev 100</text>
+    <text x="574" y="83" font-size="9" fill="#C9C5BD" letter-spacing=".06em" text-anchor="middle">83</text>
+
+    <!-- baseline -->
+    <line x1="20" y1="190" x2="660" y2="190" stroke="#E0DDD7" stroke-width="1"/>
+
+    <!-- CM zero line — mapped to chart area
+         CM range: -6 to +6, mapped within y=190 (bottom) to y=10 (top)
+         zero = y 100, ±6 = ±75px
+         zero y = 190 - (0+6)/12 * 180 = 190 - 90 = 100
+         Jun(-6) = 190, Jul(-5)=168.75, Aug(-1.9)=128.5, Sep(0)=100
+         Oct(5.8)=13.5, Nov(6)=10, Dec(5.5)=17.5   -->
+    <line x1="20" y1="100" x2="660" y2="100" stroke="#C9C5BD" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="664" y="103" font-size="9" fill="#9a9088">0%</text>
+
+    <!-- CM line -->
+    <polyline clip-path="url(#chart-area)"
+      points="60,190 150,168.75 240,128.5 330,100 420,13.5 510,10 600,17.5"
+      fill="none" stroke="#1C1B19" stroke-width="2"/>
+
+    <!-- CM dots: hollow=neg, filled=pos -->
+    <circle cx="60"  cy="190"   r="4.5" fill="white" stroke="#9a9088" stroke-width="1.5"/>
+    <circle cx="150" cy="168.75"r="4.5" fill="white" stroke="#9a9088" stroke-width="1.5"/>
+    <circle cx="240" cy="128.5" r="4.5" fill="white" stroke="#C9C5BD" stroke-width="1.5"/>
+    <circle cx="330" cy="100"   r="4.5" fill="white" stroke="#C9C5BD" stroke-width="1.5"/>
+    <circle cx="420" cy="13.5"  r="4.5" fill="#0D84FF" stroke="#0D84FF" stroke-width="1.5"/>
+    <circle cx="510" cy="10"    r="4.5" fill="#0D84FF" stroke="#0D84FF" stroke-width="1.5"/>
+    <circle cx="600" cy="17.5"  r="4.5" fill="#0D84FF" stroke="#0D84FF" stroke-width="1.5"/>
+
+    <!-- CM labels -->
+    <text x="60"  y="207" font-size="9" fill="#9a9088" text-anchor="middle">−6%</text>
+    <text x="420" y="8"   font-size="9" fill="#0D84FF" text-anchor="middle">+5.8%</text>
+    <text x="510" y="5"   font-size="9" fill="#0D84FF" text-anchor="middle">+6%</text>
+    <text x="600" y="12"  font-size="9" fill="#0D84FF" text-anchor="middle">+5.5%</text>
+
+    <!-- Legend -->
+    <rect x="20"  y="213" width="12" height="8" fill="#EFEDE8"/>
+    <text x="36"  y="221" font-size="9" fill="#9a9088">Revenue (indexed)</text>
+    <line x1="160" y1="217" x2="172" y2="217" stroke="#1C1B19" stroke-width="2"/>
+    <circle cx="166" cy="217" r="3" fill="white" stroke="#9a9088" stroke-width="1.5"/>
+    <text x="177" y="221" font-size="9" fill="#9a9088">CM % (hollow = neg)</text>
+
+    <!-- month labels -->
+    <text x="60"  y="225" font-size="10" fill="#6B6861" text-anchor="middle">Jun</text>
+    <text x="150" y="225" font-size="10" fill="#6B6861" text-anchor="middle">Jul</text>
+    <text x="240" y="225" font-size="10" fill="#6B6861" text-anchor="middle">Aug</text>
+    <text x="330" y="225" font-size="10" fill="#6B6861" text-anchor="middle">Sep</text>
+    <text x="420" y="225" font-size="10" fill="#6B6861" text-anchor="middle">Oct</text>
+    <text x="510" y="225" font-size="10" fill="#6B6861" text-anchor="middle">Nov</text>
+    <text x="600" y="225" font-size="10" fill="#6B6861" text-anchor="middle">Dec</text>
+  </svg>
+</div>
+
+<hr class="divider">
+
+
+<!-- ══════════════════════════════════════════════════════
+     OPTION 4 — Observable Plot (open-source)
+     ══════════════════════════════════════════════════════ -->
+<div class="option">
+  <div class="option-label">Option 04</div>
+  <div class="option-name">Observable Plot — Bars + Line, dual scale</div>
+  <div class="option-desc">Observable Plot (MIT, by the D3 team) renders revenue as grey bars on the left axis and CM as a colored line + dots on the right axis. The cleanest dual-axis output of any open-source library at this weight.</div>
+  <div class="lib-tag">Observable Plot · MIT · cdn.jsdelivr.net/npm/@observablehq/plot</div>
+  <div id="plot4"></div>
+</div>
+
+<hr class="divider">
+
+
+<!-- ══════════════════════════════════════════════════════
+     OPTION 5 — CSS Scorecard cells with both metrics
+     ══════════════════════════════════════════════════════ -->
+<div class="option">
+  <div class="option-label">Option 05</div>
+  <div class="option-name">CSS Scorecard — Both metrics per cell</div>
+  <div class="option-desc">Each month is a card showing indexed revenue (top, small) and CM % (bottom, large). Cell color is driven by CM sign — grey for negative months, azure-washed for positive. Fully typographic, no axes.</div>
+  <div class="lib-tag">No library — pure CSS</div>
+
+  <div class="scorecard">
+    <div class="sc-cell neg">
+      <span class="sc-month">Jun</span>
+      <span class="sc-rev">rev 100</span>
+      <div class="sc-sep"></div>
+      <span class="sc-cm">−6%</span>
+    </div>
+    <div class="sc-cell neg">
+      <span class="sc-month">Jul</span>
+      <span class="sc-rev">rev 30</span>
+      <div class="sc-sep"></div>
+      <span class="sc-cm">−5%</span>
+    </div>
+    <div class="sc-cell neg">
+      <span class="sc-month">Aug</span>
+      <span class="sc-rev">rev 40</span>
+      <div class="sc-sep"></div>
+      <span class="sc-cm">−1.9%</span>
+    </div>
+    <div class="sc-cell zero">
+      <span class="sc-month">Sep</span>
+      <span class="sc-rev">rev 37</span>
+      <div class="sc-sep"></div>
+      <span class="sc-cm">0%</span>
+    </div>
+    <div class="sc-cell pos">
+      <span class="sc-month">Oct</span>
+      <span class="sc-rev">rev 57</span>
+      <div class="sc-sep"></div>
+      <span class="sc-cm">+5.8%</span>
+    </div>
+    <div class="sc-cell pos">
+      <span class="sc-month">Nov</span>
+      <span class="sc-rev">rev 63</span>
+      <div class="sc-sep"></div>
+      <span class="sc-cm">+6%</span>
+    </div>
+    <div class="sc-cell pos">
+      <span class="sc-month">Dec</span>
+      <span class="sc-rev">rev 83</span>
+      <div class="sc-sep"></div>
+      <span class="sc-cm">+5.5%</span>
+    </div>
+  </div>
+  <p class="sc-caption">Top: revenue indexed to Jun = 100. Bottom: contribution margin %.<br>Grey = negative CM · Blue wash = positive CM.</p>
+</div>
+
+
+</div><!-- /page -->
+
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/dist/plot.umd.min.js"></script>
+<script>
+(function() {
+  const months = ['Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const rev  = [100, 30, 40, 37, 57, 63, 83];
+  const cm   = [-6, -5, -1.9, 0, 5.8, 6.0, 5.5];
+
+  const revData = months.map((m,i) => ({ month: m, value: rev[i] }));
+  const cmData  = months.map((m,i) => ({ month: m, value: cm[i]  }));
+
+  const chart = Plot.plot({
+    width: 680,
+    height: 220,
+    marginLeft: 42,
+    marginRight: 48,
+    marginBottom: 28,
+    marginTop: 12,
+    style: {
+      background: 'transparent',
+      fontFamily: "'DM Mono', monospace",
+      fontSize: '10px',
+      color: '#9a9088',
+      overflow: 'visible',
+    },
+    x: {
+      domain: months,
+      tickSize: 0,
+      tickPadding: 8,
+    },
+    y: {
+      label: 'Revenue (indexed)',
+      labelAnchor: 'top',
+      tickSize: 0,
+      tickCount: 4,
+      domain: [0, 115],
+      grid: true,
+    },
+    fy: null,
+    marks: [
+      // Revenue bars
+      Plot.barY(revData, {
+        x: 'month',
+        y: 'value',
+        fill: '#C9C5BD',
+        insetLeft: 10,
+        insetRight: 10,
+      }),
+
+      // CM line on secondary axis (normalised to rev scale for overlay)
+      // CM −6…+6 mapped to 0…100: mapped = (cm + 6) / 12 * 100
+      Plot.line(cmData, {
+        x: 'month',
+        y: d => (d.value + 6) / 12 * 100,
+        stroke: '#1C1B19',
+        strokeWidth: 2,
+      }),
+      Plot.dot(cmData, {
+        x: 'month',
+        y: d => (d.value + 6) / 12 * 100,
+        fill: d => d.value >= 0 ? '#0D84FF' : 'white',
+        stroke: d => d.value >= 0 ? '#0D84FF' : '#9a9088',
+        strokeWidth: 1.5,
+        r: 4,
+      }),
+
+      // Zero line for CM (mapped = (0+6)/12*100 = 50)
+      Plot.ruleY([50], {
+        stroke: '#C9C5BD',
+        strokeWidth: 1,
+        strokeDasharray: '4,3',
+      }),
+
+      // CM value text labels
+      Plot.text(cmData, {
+        x: 'month',
+        y: d => (d.value + 6) / 12 * 100,
+        text: d => (d.value > 0 ? '+' : '') + d.value + '%',
+        dy: d => d.value >= 0 ? -10 : 12,
+        fill: d => d.value >= 0 ? '#0D84FF' : '#9a9088',
+        fontSize: 9,
+      }),
+    ],
+  });
+
+  document.getElementById('plot4').appendChild(chart);
+})();
+</script>
+</body>
+</html>
