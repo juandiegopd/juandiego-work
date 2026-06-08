@@ -5,120 +5,129 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JD Peñaherrera</title>
 <link rel="icon" type="image/jpeg" href="/JD_PFP.jpeg">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --cream:#F8F7F4;--cream-2:#EFEDE8;--cream-3:#E0DDD7;
-  --ink:#1C1B19;--ink-2:#4a4641;--ink-3:#6B6861;--ink-4:#9a9088;
-  --serif:'DM Serif Display',Georgia,serif;
-  --mono:'DM Mono',monospace;
-  --sans:'DM Sans',sans-serif;
-  --dur:200ms;--ease:cubic-bezier(.2,.6,.2,1);
+  --ink-900:#00172E; --ink-700:#002B57;
+  --blue-600:#0E72DA; --blue-500:#0D84FF; --blue-300:#B2D5FF;
+  --blue-100:#F0F7FF; --blue-050:#EFF9FE;
+  --slate-600:#597597; --slate-500:#798594;
+  --paper:#FAFDFF; --surface-100:#F2F3F9;
+  --text-primary:var(--ink-900);
+  --text-secondary:var(--ink-700);
+  --text-muted:var(--slate-600);
+  --text-caption:var(--slate-500);
+  --text-accent:var(--blue-500);
+  --border-subtle:rgba(0,23,46,0.10);
+  --border-strong:rgba(0,23,46,0.22);
+  --rule:rgba(0,23,46,0.14);
+  --font-serif:'Newsreader',Georgia,serif;
+  --font-sans:'Public Sans','Helvetica Neue',Arial,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --weight-medium:500; --weight-semibold:600;
+  --tracking-display:-0.03em; --tracking-eyebrow:0.06em;
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --dur-fast:140ms; --dur-base:240ms;
 }
 html,body{height:100%;}
 body{
-  font-family:var(--sans);
-  background:var(--cream);
-  color:var(--ink);
+  font-family:var(--font-sans);
+  background:var(--paper);
+  color:var(--text-primary);
   min-height:100vh;
-  display:flex;
-  flex-direction:column;
+  display:flex;flex-direction:column;
+  -webkit-font-smoothing:antialiased;
 }
 
 /* NAV */
 nav{
-  border-bottom:1px solid var(--cream-3);
+  border-bottom:1px solid var(--border-subtle);
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 3rem;height:56px;flex-shrink:0;
-  background:rgba(248,247,244,0.92);
-  backdrop-filter:blur(8px);
+  padding:0 4rem;height:56px;flex-shrink:0;
+  background:var(--paper);
   position:sticky;top:0;z-index:10;
 }
 .nav-logo{
-  font-family:var(--mono);font-size:13px;font-weight:500;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--ink);
-  text-decoration:none;
+  font-family:var(--font-serif);font-size:19px;font-weight:var(--weight-medium);
+  letter-spacing:-0.02em;color:var(--text-primary);text-decoration:none;
 }
-.nav-links{display:flex;gap:2rem;align-items:center;}
+.nav-logo em{font-style:italic;}
+.nav-links{display:flex;gap:3rem;align-items:center;}
 .nav-link{
-  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-3);
-  text-decoration:none;
-  display:flex;align-items:center;gap:.4rem;
-  transition:color var(--dur) var(--ease);
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-muted);text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out);
 }
-.nav-link::before{
-  content:'';width:5px;height:5px;border-radius:50%;
-  background:var(--cream-3);flex-shrink:0;
-  transition:background var(--dur) var(--ease);
-}
-.nav-link:hover{color:var(--ink);}
-.nav-link:hover::before{background:var(--ink);}
+.nav-link:hover{color:var(--text-primary);}
+.nav-link.active{color:var(--text-primary);}
 
 /* MAIN */
-main{flex:1;display:flex;align-items:center;padding:4rem 3rem;}
-.inner{max-width:780px;margin:0 auto;width:100%;}
+main{flex:1;display:flex;align-items:center;padding:4rem 4rem;}
+.inner{max-width:800px;margin:0 auto;width:100%;}
 .grid{display:grid;grid-template-columns:200px 1fr;gap:5rem;align-items:center;}
 
 /* PHOTO */
 .nft{
-  width:200px;height:200px;border-radius:6px;
-  image-rendering:pixelated;display:block;
-  flex-shrink:0;object-fit:cover;
+  width:200px;height:200px;
+  display:block;flex-shrink:0;object-fit:cover;
 }
 
 /* TEXT */
 .eyebrow{
-  font-family:var(--mono);font-size:11px;font-weight:500;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink-3);margin-bottom:1.25rem;
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-accent);margin-bottom:1.25rem;
 }
 .name{
-  font-family:var(--serif);font-size:3rem;font-weight:400;
-  line-height:1.05;letter-spacing:-.01em;margin-bottom:.75rem;
+  font-family:var(--font-serif);font-size:3rem;font-weight:var(--weight-medium);
+  line-height:1.04;letter-spacing:var(--tracking-display);margin-bottom:.75rem;
 }
-.name em{font-style:italic;color:var(--ink-2);}
+.name em{font-style:italic;}
 .tagline{
-  font-family:var(--serif);font-style:italic;
-  font-size:1.05rem;color:var(--ink-2);
+  font-family:var(--font-serif);font-style:italic;
+  font-size:1.05rem;color:var(--text-secondary);
   margin-bottom:2.5rem;line-height:1.6;
 }
 
 /* SECTION LINKS */
 .sections{
   display:flex;gap:2rem;
-  border-top:1px solid var(--cream-3);
+  border-top:1px solid var(--border-subtle);
   padding-top:1.25rem;flex-wrap:wrap;
 }
 .sec{
-  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-4);
-  display:flex;align-items:center;gap:.4rem;
-  text-decoration:none;
-  transition:color var(--dur) var(--ease);
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-muted);text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out);
 }
-.sec::before{
-  content:'';width:5px;height:5px;border-radius:50%;
-  background:var(--cream-3);flex-shrink:0;
-  transition:background var(--dur) var(--ease);
-}
-.sec:hover{color:var(--ink);}
-.sec:hover::before{background:var(--ink);}
+.sec:hover{color:var(--text-primary);}
 
 /* FOOTER */
 footer{
-  border-top:1px solid var(--cream-3);
-  padding:1.25rem 3rem;
+  border-top:1px solid var(--border-subtle);
+  padding:1.25rem 4rem;
   display:flex;justify-content:space-between;align-items:center;
-  font-family:var(--mono);font-size:10px;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--ink-4);flex-shrink:0;
+  flex-shrink:0;
 }
+.footer-copy{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--text-caption);
+}
+.footer-link{
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-muted);text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+.footer-link:hover{color:var(--text-primary);}
 
 /* RESPONSIVE */
 @media(max-width:768px){
   nav{padding:0 1.5rem;}
-  .nav-links{gap:1.25rem;}
+  .nav-links{gap:1.5rem;}
   main{padding:3rem 1.5rem;align-items:flex-start;}
   .grid{grid-template-columns:1fr;gap:2rem;text-align:center;}
   .nft{width:140px;height:140px;margin:0 auto;}
@@ -137,7 +146,7 @@ footer{
 <body>
 
 <nav>
-  <a class="nav-logo" href="/">JD</a>
+  <a class="nav-logo" href="/"><em>JD</em></a>
   <div class="nav-links">
     <a class="nav-link" href="/experience">Experience</a>
     <a class="nav-link" href="/blog">Writing</a>
@@ -162,8 +171,8 @@ footer{
 </main>
 
 <footer>
-  <span>juandiego.work</span>
-  <span>© 2026 JD Peñaherrera</span>
+  <span class="footer-copy">juandiego.work</span>
+  <span class="footer-copy">© 2026 JD Peñaherrera</span>
 </footer>
 
 </body>

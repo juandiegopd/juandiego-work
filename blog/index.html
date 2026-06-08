@@ -5,155 +5,174 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Writing — JD Peñaherrera</title>
 <link rel="icon" type="image/jpeg" href="/JD_PFP.jpeg">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --cream:#F8F7F4;--cream-2:#EFEDE8;--cream-3:#E0DDD7;--cream-4:#C9C5BD;
-  --ink:#1C1B19;--ink-2:#4a4641;--ink-3:#6B6861;--ink-4:#9a9088;
-  --serif:'DM Serif Display',Georgia,serif;
-  --mono:'DM Mono',monospace;
-  --sans:'DM Sans',sans-serif;
-  --dur:200ms;--ease:cubic-bezier(.2,.6,.2,1);
+  --ink-900:#00172E; --ink-700:#002B57;
+  --blue-600:#0E72DA; --blue-500:#0D84FF; --blue-300:#B2D5FF;
+  --blue-100:#F0F7FF;
+  --slate-600:#597597; --slate-500:#798594;
+  --paper:#FAFDFF; --surface-100:#F2F3F9;
+  --text-primary:var(--ink-900);
+  --text-secondary:var(--ink-700);
+  --text-muted:var(--slate-600);
+  --text-caption:var(--slate-500);
+  --text-accent:var(--blue-500);
+  --border-subtle:rgba(0,23,46,0.10);
+  --rule:rgba(0,23,46,0.14);
+  --font-serif:'Newsreader',Georgia,serif;
+  --font-sans:'Public Sans','Helvetica Neue',Arial,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --weight-medium:500; --weight-semibold:600;
+  --tracking-eyebrow:0.06em;
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --dur-fast:140ms;
 }
 html,body{min-height:100%;}
 body{
-  font-family:var(--sans);
-  background:var(--cream);
-  color:var(--ink);
+  font-family:var(--font-sans);
+  background:var(--paper);
+  color:var(--text-primary);
   display:flex;flex-direction:column;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* ── NAV ── */
+/* NAV */
 nav{
-  border-bottom:1px solid var(--cream-3);
+  border-bottom:1px solid var(--border-subtle);
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 3rem;height:56px;flex-shrink:0;
-  background:rgba(248,247,244,0.92);
-  backdrop-filter:blur(8px);
+  padding:0 4rem;height:56px;flex-shrink:0;
+  background:var(--paper);
   position:sticky;top:0;z-index:10;
 }
 .nav-logo{
-  font-family:var(--mono);font-size:13px;font-weight:500;
-  letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink);text-decoration:none;
+  font-family:var(--font-serif);font-size:19px;font-weight:var(--weight-medium);
+  letter-spacing:-0.02em;color:var(--text-primary);text-decoration:none;
 }
-.nav-links{display:flex;gap:2rem;align-items:center;}
+.nav-logo em{font-style:italic;}
+.nav-links{display:flex;gap:3rem;align-items:center;}
 .nav-link{
-  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-3);
-  text-decoration:none;display:flex;align-items:center;gap:.4rem;
-  transition:color var(--dur) var(--ease);
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-muted);text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out);
 }
-.nav-link::before{
-  content:'';width:5px;height:5px;border-radius:50%;
-  background:var(--cream-3);flex-shrink:0;
-  transition:background var(--dur) var(--ease);
-}
-.nav-link:hover{color:var(--ink);}
-.nav-link:hover::before{background:var(--ink);}
-.nav-link.active{color:var(--ink);}
-.nav-link.active::before{background:var(--ink);}
+.nav-link:hover{color:var(--text-primary);}
+.nav-link.active{color:var(--text-primary);}
 
-/* ── LAYOUT ── */
-main{flex:1;padding:5rem 3rem 6rem;}
+/* LAYOUT */
+main{flex:1;padding:5rem 4rem 6rem;}
 .page{max-width:680px;margin:0 auto;width:100%;}
 
-/* ── HERO ── */
+/* HERO */
 .eyebrow{
-  font-family:var(--mono);font-size:11px;font-weight:500;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink-3);margin-bottom:1.25rem;
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-accent);margin-bottom:1.25rem;
+}
+.accent-rule{
+  width:40px;height:3px;background:var(--blue-500);border:none;
+  margin-bottom:2rem;
 }
 .hero-title{
-  font-family:var(--serif);font-size:clamp(2rem,3.6vw,3rem);
-  font-weight:400;line-height:1.05;letter-spacing:-.01em;
+  font-family:var(--font-serif);font-size:clamp(2rem,3.6vw,3rem);
+  font-weight:var(--weight-medium);line-height:1.05;letter-spacing:-0.025em;
   margin-bottom:1.25rem;
 }
-.hero-title em{font-style:italic;color:var(--ink-2);}
+.hero-title em{font-style:italic;}
 .hero-lede{
-  font-family:var(--serif);font-style:italic;
-  font-size:1.05rem;color:var(--ink-2);line-height:1.65;
+  font-family:var(--font-serif);font-style:italic;
+  font-size:1.05rem;color:var(--text-secondary);line-height:1.65;
   max-width:520px;
 }
 
-/* ── CATEGORY CARDS ── */
+/* CATEGORY CARDS */
 .categories{
   margin-top:3.5rem;
   display:flex;flex-direction:column;
-  border-top:1px solid var(--cream-3);
+  border-top:1px solid var(--border-subtle);
 }
 .category{
-  display:grid;grid-template-columns:140px 1fr;gap:2rem;
+  display:grid;grid-template-columns:160px 1fr;gap:2rem;
   padding:1.75rem 0;
-  border-bottom:1px solid var(--cream-3);
+  border-bottom:1px solid var(--border-subtle);
 }
 .cat-tag{
-  font-family:var(--mono);font-size:10px;font-weight:500;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink-4);padding-top:.15rem;
+  font-family:var(--font-mono);font-size:10px;font-weight:var(--weight-medium);
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--text-caption);padding-top:.15rem;
 }
-.cat-body{}
 .cat-title{
-  font-family:var(--serif);font-size:1.15rem;
-  color:var(--ink);margin-bottom:.4rem;line-height:1.2;
+  font-family:var(--font-serif);font-size:1.15rem;
+  color:var(--text-primary);margin-bottom:.4rem;line-height:1.2;
 }
 .cat-title em{font-style:italic;}
 .cat-desc{
-  font-family:var(--sans);font-size:.875rem;
-  color:var(--ink-3);line-height:1.65;
+  font-family:var(--font-sans);font-size:.875rem;
+  color:var(--text-muted);line-height:1.65;
 }
 
-/* ── POSTS ── */
+/* POSTS */
 .posts{
   margin-top:2.5rem;
-  border-top:1px solid var(--cream-3);
+  border-top:1px solid var(--border-subtle);
 }
 .posts-heading{
-  font-family:var(--mono);font-size:10px;font-weight:500;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink-4);padding:1.25rem 0 .75rem;
+  font-family:var(--font-mono);font-size:10px;font-weight:var(--weight-medium);
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text-caption);padding:1.25rem 0 .75rem;
 }
 .post-entry{
-  display:grid;grid-template-columns:140px 1fr;gap:2rem;
-  padding:1.5rem 0;border-bottom:1px solid var(--cream-3);
+  display:grid;grid-template-columns:160px 1fr;gap:2rem;
+  padding:1.5rem 0;border-bottom:1px solid var(--border-subtle);
   text-decoration:none;color:inherit;
-  transition:opacity var(--dur) var(--ease);
+  transition:opacity var(--dur-fast) var(--ease-out);
 }
-.post-entry:hover{opacity:.72;}
+.post-entry:hover{opacity:.7;}
 .post-meta-col{
   display:flex;flex-direction:column;gap:.35rem;padding-top:.1rem;
 }
 .post-tag{
-  font-family:var(--mono);font-size:10px;font-weight:500;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);
+  font-family:var(--font-mono);font-size:10px;font-weight:var(--weight-medium);
+  letter-spacing:0.08em;text-transform:uppercase;color:var(--text-accent);
 }
 .post-date{
-  font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-4);
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;
+  color:var(--text-caption);
 }
 .post-title{
-  font-family:var(--serif);font-size:1.075rem;
-  color:var(--ink);margin-bottom:.35rem;line-height:1.25;
+  font-family:var(--font-serif);font-size:1.075rem;font-weight:var(--weight-medium);
+  color:var(--text-primary);margin-bottom:.35rem;line-height:1.25;
 }
 .post-desc{
-  font-family:var(--sans);font-size:.875rem;
-  color:var(--ink-3);line-height:1.65;
+  font-family:var(--font-sans);font-size:.875rem;
+  color:var(--text-muted);line-height:1.65;
 }
 
-/* ── FOOTER ── */
+/* FOOTER */
 footer{
-  border-top:1px solid var(--cream-3);
-  padding:1.25rem 3rem;
+  border-top:1px solid var(--border-subtle);
+  padding:1.25rem 4rem;
   display:flex;justify-content:space-between;align-items:center;
-  font-family:var(--mono);font-size:11px;
-  color:var(--ink-4);letter-spacing:.06em;flex-shrink:0;
+  flex-shrink:0;
 }
-footer a{color:var(--ink-3);text-decoration:none;transition:color var(--dur) var(--ease);}
-footer a:hover{color:var(--ink-3);}
+.footer-link{
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-muted);text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+.footer-link:hover{color:var(--text-primary);}
+.footer-copy{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--text-caption);
+}
 
-/* ── RESPONSIVE ── */
+/* RESPONSIVE */
 @media(max-width:600px){
   nav{padding:0 1.25rem;}
+  .nav-links{gap:1.5rem;}
   main{padding:3.5rem 1.25rem 5rem;}
   footer{padding:1.25rem;flex-direction:column;gap:.5rem;text-align:center;}
   .category{grid-template-columns:1fr;gap:.5rem;}
@@ -166,7 +185,7 @@ footer a:hover{color:var(--ink-3);}
 <body>
 
 <nav>
-  <a class="nav-logo" href="/">JD</a>
+  <a class="nav-logo" href="/"><em>JD</em></a>
   <div class="nav-links">
     <a class="nav-link" href="/experience">Experience</a>
     <a class="nav-link active" href="/blog">Writing</a>
@@ -176,7 +195,8 @@ footer a:hover{color:var(--ink-3);}
 <main>
 <div class="page">
 
-  <div class="eyebrow">Writing</div>
+  <p class="eyebrow">Writing</p>
+  <hr class="accent-rule">
   <h1 class="hero-title">Things I have learned<br><em>worth writing down.</em></h1>
   <p class="hero-lede">Operator notes from ten years of building — what worked, what didn't, and the frameworks that travel across companies.</p>
 
@@ -226,8 +246,8 @@ footer a:hover{color:var(--ink-3);}
 </main>
 
 <footer>
-  <a href="/">← juandiego.work</a>
-  <span>© 2026 JD Peñaherrera</span>
+  <a class="footer-link" href="/">← juandiego.work</a>
+  <span class="footer-copy">© 2026 JD Peñaherrera</span>
 </footer>
 
 </body>

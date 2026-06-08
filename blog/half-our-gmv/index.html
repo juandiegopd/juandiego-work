@@ -6,159 +6,191 @@
 <title>Half our GMV was losing money. Here's how I rebuilt it. — JD Peñaherrera</title>
 <meta name="description" content="About 50 entrepreneurs were doing half of Favo's GMV — at a negative contribution margin. Here's how I rebuilt the model so the same volume made money.">
 <link rel="icon" type="image/jpeg" href="/JD_PFP.jpeg">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --cream:#F8F7F4;--cream-2:#EFEDE8;--cream-3:#E0DDD7;--cream-4:#C9C5BD;
-  --ink:#1C1B19;--ink-2:#4a4641;--ink-3:#6B6861;--ink-4:#9a9088;
-  --serif:'DM Serif Display',Georgia,serif;
-  --mono:'DM Mono',monospace;
-  --sans:'DM Sans',sans-serif;
-  --dur:200ms;--ease:cubic-bezier(.2,.6,.2,1);
+  --ink-900:#00172E; --ink-850:#05162C; --ink-700:#002B57;
+  --blue-600:#0E72DA; --blue-500:#0D84FF; --blue-300:#B2D5FF;
+  --blue-100:#F0F7FF; --blue-050:#EFF9FE;
+  --slate-600:#597597; --slate-500:#798594;
+  --paper:#FAFDFF; --surface-100:#F2F3F9;
+  --text-primary:var(--ink-900);
+  --text-secondary:var(--ink-700);
+  --text-muted:var(--slate-600);
+  --text-caption:var(--slate-500);
+  --text-accent:var(--blue-500);
+  --border-subtle:rgba(0,23,46,0.10);
+  --border-strong:rgba(0,23,46,0.22);
+  --rule:rgba(0,23,46,0.14);
+  --font-serif:'Newsreader',Georgia,serif;
+  --font-sans:'Public Sans','Helvetica Neue',Arial,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --weight-medium:500; --weight-semibold:600;
+  --tracking-display:-0.03em; --tracking-eyebrow:0.06em;
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --dur-fast:140ms; --dur-base:240ms;
 }
 html,body{min-height:100%;}
 body{
-  font-family:var(--sans);
-  background:var(--cream);
-  color:var(--ink);
+  font-family:var(--font-sans);
+  background:var(--paper);
+  color:var(--text-primary);
   display:flex;flex-direction:column;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* ── NAV ── */
+/* NAV */
 nav{
-  border-bottom:1px solid var(--cream-3);
+  border-bottom:1px solid var(--border-subtle);
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 3rem;height:56px;flex-shrink:0;
-  background:rgba(248,247,244,0.92);
-  backdrop-filter:blur(8px);
+  padding:0 4rem;height:56px;flex-shrink:0;
+  background:var(--paper);
   position:sticky;top:0;z-index:10;
 }
 .nav-logo{
-  font-family:var(--mono);font-size:13px;font-weight:500;
-  letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink);text-decoration:none;
+  font-family:var(--font-serif);font-size:19px;font-weight:var(--weight-medium);
+  letter-spacing:-0.02em;color:var(--text-primary);text-decoration:none;
 }
-.nav-links{display:flex;gap:2rem;align-items:center;}
+.nav-logo em{font-style:italic;}
+.nav-links{display:flex;gap:3rem;align-items:center;}
 .nav-link{
-  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-3);
-  text-decoration:none;display:flex;align-items:center;gap:.4rem;
-  transition:color var(--dur) var(--ease);
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-muted);text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out);
 }
-.nav-link::before{
-  content:'';width:5px;height:5px;border-radius:50%;
-  background:var(--cream-3);flex-shrink:0;
-  transition:background var(--dur) var(--ease);
-}
-.nav-link:hover{color:var(--ink);}
-.nav-link:hover::before{background:var(--ink);}
-.nav-link.active{color:var(--ink);}
-.nav-link.active::before{background:var(--ink);}
+.nav-link:hover{color:var(--text-primary);}
+.nav-link.active{color:var(--text-primary);}
 
-/* ── LAYOUT ── */
+/* LAYOUT */
 main{flex:1;}
-.article-page{max-width:680px;margin:0 auto;padding:5rem 3rem 6rem;width:100%;}
+.article-page{max-width:720px;margin:0 auto;padding:5rem 4rem 6rem;width:100%;}
 
-/* ── ARTICLE HEADER ── */
+/* ARTICLE HEADER */
 .eyebrow{
-  font-family:var(--mono);font-size:11px;font-weight:500;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink-3);margin-bottom:1.25rem;
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-accent);margin-bottom:1rem;
+}
+.accent-rule{
+  width:40px;height:3px;background:var(--blue-500);border:none;
+  margin-bottom:1.75rem;
 }
 .article-title{
-  font-family:var(--serif);font-size:clamp(1.75rem,3.4vw,2.625rem);
-  font-weight:400;line-height:1.08;letter-spacing:-.01em;
-  color:var(--ink);margin-bottom:1.25rem;
+  font-family:var(--font-serif);
+  font-size:clamp(1.875rem,3.4vw,2.875rem);
+  font-weight:var(--weight-medium);
+  line-height:1.06;letter-spacing:var(--tracking-display);
+  color:var(--text-primary);margin-bottom:1.25rem;
+  text-wrap:balance;
 }
+.article-title em{font-style:italic;}
 .article-meta{
-  display:flex;align-items:center;gap:.5rem;
-  font-family:var(--mono);font-size:11px;letter-spacing:.07em;
-  color:var(--ink-4);margin-bottom:3rem;
-  padding-bottom:2.5rem;border-bottom:1px solid var(--cream-3);
+  display:flex;align-items:center;gap:.75rem;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:0.04em;
+  color:var(--text-caption);
+  padding-bottom:2.75rem;
+  border-bottom:1px solid var(--border-subtle);
+  margin-bottom:2.75rem;
 }
-.meta-sep{color:var(--ink-4);}
+.meta-sep{color:var(--border-strong);}
 
-/* ── ARTICLE BODY ── */
+/* ARTICLE BODY */
 .article-body p{
-  font-size:1.0625rem;line-height:1.825;
-  color:var(--ink);margin-bottom:1.625rem;
+  font-family:var(--font-sans);
+  font-size:0.97rem;line-height:1.75;
+  color:var(--text-primary);margin-bottom:1.5rem;
 }
-/* Higher specificity (0,2,0) overrides .article-body p (0,1,1) */
 .article-body .article-lede{
-  font-family:var(--serif);font-style:italic;
-  font-size:1.175rem;line-height:1.7;
-  color:var(--ink-2);margin-bottom:2rem;
+  font-family:var(--font-serif);font-style:italic;
+  font-size:1.25rem;line-height:1.5;
+  color:var(--text-secondary);
+  margin-bottom:1.75rem;
 }
 .article-body h2{
-  font-family:var(--serif);font-size:1.375rem;font-weight:400;
-  line-height:1.2;color:var(--ink);
-  margin:3.25rem 0 1.125rem;
+  font-family:var(--font-serif);
+  font-size:1.5rem;font-weight:var(--weight-medium);
+  line-height:1.15;letter-spacing:-0.015em;
+  color:var(--text-primary);
+  margin:3.5rem 0 1rem;
 }
+.article-body h2 em{font-style:italic;}
 .article-body ul{
-  margin:0 0 1.625rem 0;
-  list-style:none;
-  padding:0;
+  margin:0 0 1.5rem 0;
+  list-style:none;padding:0;
 }
 .article-body li{
-  font-size:1.0625rem;line-height:1.825;color:var(--ink);
-  padding:0.625rem 0 0.625rem 1.5rem;
-  border-bottom:1px solid var(--cream-3);
+  font-family:var(--font-sans);font-size:0.97rem;
+  line-height:1.7;color:var(--text-primary);
+  padding:1rem 0 1rem 1.5rem;
+  border-bottom:1px solid var(--border-subtle);
   position:relative;
 }
-.article-body li:first-child{border-top:1px solid var(--cream-3);}
+.article-body li:first-child{border-top:1px solid var(--border-subtle);}
 .article-body li::before{
-  content:'';position:absolute;left:0;top:0.9em;
-  width:5px;height:5px;border-radius:50%;
-  background:var(--cream-4);flex-shrink:0;
+  content:'';position:absolute;left:0;top:1.1em;
+  width:4px;height:4px;
+  background:var(--blue-500);
 }
-.article-body strong{font-weight:600;}
+.article-body strong{font-weight:var(--weight-semibold);color:var(--text-primary);}
 .article-body em{font-style:italic;}
+.article-body a{color:var(--text-accent);text-decoration:underline;text-underline-offset:3px;}
+.article-body a:hover{color:var(--blue-600);}
 
-/* ── CHART ── */
+/* CHART — Option 2 SVG Dual Panel */
 .chart-wrap{
-  background:var(--cream-2);
-  border:1px solid var(--cream-3);
-  border-radius:3px;
+  background:var(--surface-100);
+  border:1px solid var(--border-subtle);
   padding:1.75rem 1.5rem 1.25rem;
   margin:2.5rem 0;
 }
 .chart-label{
-  font-family:var(--mono);font-size:10px;font-weight:500;
-  letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink-4);margin-bottom:1.25rem;
+  font-family:var(--font-sans);font-size:11px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-accent);margin-bottom:1.25rem;
 }
-.chart-canvas-wrap{position:relative;height:300px;}
+.chart-svg-wrap{width:100%;overflow:visible;}
 .chart-wrap .chart-note{
-  font-family:var(--mono);font-size:9px;letter-spacing:.04em;
-  color:var(--ink-4);margin-top:.875rem;line-height:1.7;
-  max-width:580px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.03em;
+  color:var(--text-caption);margin-top:1rem;
+  line-height:1.6;max-width:580px;
+  border-top:1px solid var(--border-subtle);
+  padding-top:.875rem;
 }
 
-/* ── FOOTER ── */
+/* FOOTER */
 footer{
-  border-top:1px solid var(--cream-3);
-  padding:1.25rem 3rem;
+  border-top:1px solid var(--border-subtle);
+  padding:1.25rem 4rem;
   display:flex;justify-content:space-between;align-items:center;
-  font-family:var(--mono);font-size:11px;
-  color:var(--ink-4);letter-spacing:.06em;flex-shrink:0;
+  flex-shrink:0;
 }
-footer a{color:var(--ink-3);text-decoration:none;transition:color var(--dur) var(--ease);}
-footer a:hover{color:var(--ink);}
+.footer-link{
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-muted);text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+.footer-link:hover{color:var(--text-primary);}
+.footer-copy{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--text-caption);
+}
 
-/* ── RESPONSIVE ── */
+/* RESPONSIVE */
 @media(max-width:600px){
   nav{padding:0 1.25rem;}
+  .nav-links{gap:1.5rem;}
   .article-page{padding:3.5rem 1.25rem 5rem;}
   footer{padding:1.25rem;flex-direction:column;gap:.5rem;text-align:center;}
-  .chart-canvas-wrap{height:240px;}
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <a class="nav-logo" href="/">JD</a>
+  <a class="nav-logo" href="/"><em>JD</em></a>
   <div class="nav-links">
     <a class="nav-link" href="/experience">Experience</a>
     <a class="nav-link active" href="/blog">Writing</a>
@@ -168,8 +200,9 @@ footer a:hover{color:var(--ink);}
 <main>
 <div class="article-page">
 
-  <div class="eyebrow">Operator learnings</div>
-  <h1 class="article-title">Half our GMV was losing money.<br>Here's how I rebuilt it.</h1>
+  <p class="eyebrow">Operator learnings</p>
+  <hr class="accent-rule">
+  <h1 class="article-title">Half our GMV was losing money.<br>Here's how I <em>rebuilt</em> it.</h1>
   <div class="article-meta">
     <time datetime="2026-06">Jun 2026</time>
     <span class="meta-sep">·</span>
@@ -186,7 +219,7 @@ footer a:hover{color:var(--ink);}
 
     <p>My mandate was narrow and brutal: increase lifetime value and make the business profitable. So I did the first thing my instincts push me toward — I rebuilt the P&amp;L from the customer up, segment by segment. That's where the number showed up.</p>
 
-    <h2>The incentive I inherited</h2>
+    <h2>The incentive I <em>inherited</em></h2>
 
     <p>Favo paid its entrepreneurs a commission on everything they sold. Historically it was a flat 8%. The scheme I inherited had added tiers on top — up to 15% for the "super-tops," anyone moving more than S/20k a month. On paper, reward your best sellers. In practice it created a customer nobody had designed and nobody was watching: wholesalers.</p>
 
@@ -194,7 +227,7 @@ footer a:hover{color:var(--ink);}
 
     <p>About 50 entrepreneurs were doing this. They concentrated roughly 90% of their volume in around 40 SKUs, and together they were close to half of Favo's GMV — at a negative contribution margin. We were, in the most literal sense, paying our biggest customers to grow while we lost money on every order.</p>
 
-    <h2>The counterintuitive part</h2>
+    <h2>The <em>counterintuitive</em> part</h2>
 
     <p>The obvious move was to kill it. Cut the commission, lose the wholesalers, move on.</p>
 
@@ -202,7 +235,7 @@ footer a:hover{color:var(--ink);}
 
     <p>So the job wasn't to cut. It was to rebuild the model so the same volume made money.</p>
 
-    <h2>The rebuild</h2>
+    <h2>The <em>rebuild</em></h2>
 
     <p>We did it lean: me, one analyst, and one person to process orders. Not 55 — three. That was a choice. A problem this tangled needed depth, not headcount, and I wanted my own hands in the numbers.</p>
 
@@ -218,7 +251,7 @@ footer a:hover{color:var(--ink);}
 
     <p>That last one was the real unlock. Pre-orders turned guessing into forecasting. Forecastable demand let us negotiate volume with suppliers, right-size the trucks, and carve out a dedicated lane in the distribution center so wholesale volume stopped cannibalizing the stock that core entrepreneurs needed. What I'd been told was a pricing problem was really an information problem. Once we knew demand in advance, every other cost fell into place — we cut logistics cost on the wholesale business from around 14% to under 6%.</p>
 
-    <h2>It worked, and it hurt first</h2>
+    <h2>It worked, and it <em>hurt</em> first</h2>
 
     <p>The moment we pulled the 15% subsidy, wholesale revenue dropped about 70%. The pure-arbitrage players — the ones whose entire business was the commission, not the customers — left immediately. That was the point, but it's a hard number to watch in real time.</p>
 
@@ -226,15 +259,96 @@ footer a:hover{color:var(--ink);}
 
     <p>The contribution margin tells the story better than revenue does. The wholesale business went from roughly <strong>−6% in June to break-even by the end of September</strong> — three months — and held at around <strong>+6% through the fourth quarter</strong>. We traded unprofitable volume for profitable volume, and the profitable volume grew back.</p>
 
+    <!-- ── CHART: SVG DUAL PANEL ── -->
     <div class="chart-wrap">
       <div class="chart-label">Wholesale segment — revenue &amp; contribution margin, Jun–Dec 2022</div>
-      <div class="chart-canvas-wrap">
-        <canvas id="turnaroundChart"></canvas>
+      <div class="chart-svg-wrap">
+        <!--
+          Layout: viewBox 0 0 640 270
+          Revenue panel: baseline y=110, bars go up, max height=80px (rev=100)
+          CM panel: zero line y=200, bars diverge ±48px (CM=±6)
+          Month x centres: 50,140,230,320,410,500,590 (step=90, bar width=52)
+          Revenue fills: rgba(13,132,255,0.09) + rgba(13,132,255,0.22) stroke
+          CM neg fills: #F2F3F9 + border-subtle stroke
+          CM pos fills: #0D84FF
+        -->
+        <svg viewBox="0 0 640 275" width="100%" style="display:block;font-family:'IBM Plex Mono',monospace;">
+          <!-- ── REVENUE PANEL ── -->
+          <text x="0" y="11" font-size="9" fill="#798594" letter-spacing=".08em" text-anchor="start">REVENUE — INDEXED, JUN = 100</text>
+
+          <!-- bars (baseline y=110) -->
+          <!-- Jun:100 h=80 y=30 -->
+          <rect x="24"  y="30"    width="52" height="80"   fill="rgba(13,132,255,0.09)" stroke="rgba(13,132,255,0.22)" stroke-width="1"/>
+          <!-- Jul:30  h=24 y=86 -->
+          <rect x="114" y="86"    width="52" height="24"   fill="rgba(13,132,255,0.06)" stroke="rgba(13,132,255,0.14)" stroke-width="1"/>
+          <!-- Aug:40  h=32 y=78 -->
+          <rect x="204" y="78"    width="52" height="32"   fill="rgba(13,132,255,0.06)" stroke="rgba(13,132,255,0.14)" stroke-width="1"/>
+          <!-- Sep:37  h=29.6 y=80.4 -->
+          <rect x="294" y="80.4"  width="52" height="29.6" fill="rgba(13,132,255,0.06)" stroke="rgba(13,132,255,0.14)" stroke-width="1"/>
+          <!-- Oct:57  h=45.6 y=64.4 -->
+          <rect x="384" y="64.4"  width="52" height="45.6" fill="rgba(13,132,255,0.09)" stroke="rgba(13,132,255,0.22)" stroke-width="1"/>
+          <!-- Nov:63  h=50.4 y=59.6 -->
+          <rect x="474" y="59.6"  width="52" height="50.4" fill="rgba(13,132,255,0.09)" stroke="rgba(13,132,255,0.22)" stroke-width="1"/>
+          <!-- Dec:83  h=66.4 y=43.6 -->
+          <rect x="564" y="43.6"  width="52" height="66.4" fill="rgba(13,132,255,0.12)" stroke="rgba(13,132,255,0.28)" stroke-width="1"/>
+
+          <!-- baseline -->
+          <line x1="8" y1="110" x2="632" y2="110" stroke="rgba(0,23,46,0.12)" stroke-width="1"/>
+
+          <!-- revenue labels -->
+          <text x="50"  y="26"    font-size="9" fill="#798594" text-anchor="middle">100</text>
+          <text x="140" y="82"    font-size="9" fill="#798594" text-anchor="middle">30</text>
+          <text x="230" y="74"    font-size="9" fill="#798594" text-anchor="middle">40</text>
+          <text x="320" y="76"    font-size="9" fill="#798594" text-anchor="middle">37</text>
+          <text x="410" y="60"    font-size="9" fill="#798594" text-anchor="middle">57</text>
+          <text x="500" y="55"    font-size="9" fill="#798594" text-anchor="middle">63</text>
+          <text x="590" y="39"    font-size="9" fill="#798594" text-anchor="middle">83</text>
+
+          <!-- redesign period label -->
+          <rect x="114" y="14" width="208" height="96" fill="rgba(13,132,255,0.04)" stroke="rgba(13,132,255,0.12)" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="218" y="27" font-size="8.5" fill="rgba(13,132,255,0.6)" text-anchor="middle" letter-spacing=".05em">redesign period</text>
+
+          <!-- ── CM PANEL ── -->
+          <!-- zero line at y=200, range ±6 → ±48px -->
+          <text x="0" y="136" font-size="9" fill="#798594" letter-spacing=".08em">CONTRIBUTION MARGIN %</text>
+          <line x1="8" y1="200" x2="632" y2="200" stroke="rgba(0,23,46,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="636" y="203" font-size="9" fill="#798594">0%</text>
+
+          <!-- CM negative bars: Jun -6 h=48, Jul -5 h=40, Aug -1.9 h=15.2 -->
+          <rect x="24"  y="200" width="52" height="48"   fill="#F2F3F9" stroke="rgba(0,23,46,0.12)" stroke-width="1"/>
+          <rect x="114" y="200" width="52" height="40"   fill="#F2F3F9" stroke="rgba(0,23,46,0.12)" stroke-width="1"/>
+          <rect x="204" y="200" width="52" height="15.2" fill="#F2F3F9" stroke="rgba(0,23,46,0.10)" stroke-width="1"/>
+
+          <!-- Sep = 0, no bar -->
+
+          <!-- CM positive bars: Oct +5.8 y=153.6 h=46.4, Nov +6 y=152 h=48, Dec +5.5 y=156 h=44 -->
+          <rect x="384" y="153.6" width="52" height="46.4" fill="#0D84FF"/>
+          <rect x="474" y="152"   width="52" height="48"   fill="#0D84FF"/>
+          <rect x="564" y="156"   width="52" height="44"   fill="#0D84FF"/>
+
+          <!-- CM value labels -->
+          <text x="50"  y="261"   font-size="9" fill="#798594" text-anchor="middle">−6%</text>
+          <text x="140" y="252"   font-size="9" fill="#798594" text-anchor="middle">−5%</text>
+          <text x="230" y="223"   font-size="9" fill="#798594" text-anchor="middle">−1.9%</text>
+          <text x="320" y="214"   font-size="9" fill="#798594" text-anchor="middle">0%</text>
+          <text x="410" y="148"   font-size="9" fill="#0D84FF" text-anchor="middle">+5.8%</text>
+          <text x="500" y="146"   font-size="9" fill="#0D84FF" text-anchor="middle">+6%</text>
+          <text x="590" y="150"   font-size="9" fill="#0D84FF" text-anchor="middle">+5.5%</text>
+
+          <!-- month labels -->
+          <text x="50"  y="270" font-size="10" fill="#597597" text-anchor="middle">Jun</text>
+          <text x="140" y="270" font-size="10" fill="#597597" text-anchor="middle">Jul</text>
+          <text x="230" y="270" font-size="10" fill="#597597" text-anchor="middle">Aug</text>
+          <text x="320" y="270" font-size="10" fill="#597597" text-anchor="middle">Sep</text>
+          <text x="410" y="270" font-size="10" fill="#597597" text-anchor="middle">Oct</text>
+          <text x="500" y="270" font-size="10" fill="#597597" text-anchor="middle">Nov</text>
+          <text x="590" y="270" font-size="10" fill="#597597" text-anchor="middle">Dec</text>
+        </svg>
       </div>
       <p class="chart-note">Revenue indexed to Jun 2022 = 100. Absolute figures not shown.<br>Jul–Sep: commission redesign, sell-at-cost pricing, pre-orders · Sep: break-even · Oct–Dec: +5.5–6% CM, holding.</p>
     </div>
 
-    <h2>What this was, and what it wasn't</h2>
+    <h2>What this was, and what it <em>wasn't</em></h2>
 
     <p>I want to be precise, because the precise version is the honest one. I made the wholesale business profitable. I did not make Favo profitable. The company's overall contribution margin stayed negative through the end of the year — the core entrepreneur business and the macro environment were a bigger fight than one segment turnaround could win. We had already cut Brazil. We would keep searching for a model that worked at the company level. Fixing my piece mattered, but I was winning a battle inside a war being decided well above my role.</p>
 
@@ -242,7 +356,7 @@ footer a:hover{color:var(--ink);}
 
     <p>Once the wholesale business was stable and the pricing model was built, I did the thing that's easy to write and hard to do: I gave it away. I handed it to a director on our supply team — someone who'd been close to the vendor negotiations and knew the economics cold — so I could go build the next bet: a direct-to-bodega business inside Favo. I built that one from scratch and later made the call to kill it, including the sales force I'd hired to run it. That's its own post.</p>
 
-    <h2>I didn't have the experience to build what I built</h2>
+    <h2>I didn't have the <em>experience</em> to build what I built</h2>
 
     <p>The honest truth is I didn't have the experience the role asked for. I'd never managed at that level, never rebuilt a business model from nothing, never sat across from a CFO and a CEO as the person who was supposed to have the answer. The feeling that I was out of my depth wasn't insecurity. It was accurate.</p>
 
@@ -259,172 +373,9 @@ footer a:hover{color:var(--ink);}
 </main>
 
 <footer>
-  <a href="/blog">← Writing</a>
-  <span>© 2026 JD Peñaherrera</span>
+  <a class="footer-link" href="/blog">← Writing</a>
+  <span class="footer-copy">© 2026 JD Peñaherrera</span>
 </footer>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
-<script>
-(function() {
-  const labels = ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const revenue = [100, 30, 40, 37, 57, 63, 83];
-  const cm = [-6, -5, -1.9, 0, 5.8, 6.0, 5.5];
-
-  const ink    = '#1C1B19';
-  const ink3   = '#6B6861';
-  const ink4   = '#9a9088';
-  const cream2 = '#EFEDE8';
-  const cream3 = '#E0DDD7';
-  const cream4 = '#C9C5BD';
-
-  new Chart(document.getElementById('turnaroundChart'), {
-    data: {
-      labels,
-      datasets: [
-        {
-          type: 'bar',
-          label: 'Revenue (indexed)',
-          data: revenue,
-          backgroundColor: 'rgba(201,197,189,0.55)',
-          borderColor: 'rgba(154,144,136,0.7)',
-          borderWidth: 1,
-          borderRadius: 2,
-          yAxisID: 'y',
-          order: 2,
-        },
-        {
-          type: 'line',
-          label: 'Contribution margin %',
-          data: cm,
-          borderColor: ink,
-          backgroundColor: 'transparent',
-          borderWidth: 2,
-          pointBackgroundColor: function(ctx) {
-            const v = cm[ctx.dataIndex];
-            return v >= 0 ? ink : '#fff';
-          },
-          pointBorderColor: ink,
-          pointRadius: 4.5,
-          pointHoverRadius: 6,
-          tension: 0.25,
-          yAxisID: 'y1',
-          order: 1,
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            font: { family: 'DM Mono', size: 10 },
-            color: ink3,
-            usePointStyle: true,
-            pointStyleWidth: 10,
-            padding: 20,
-          }
-        },
-        tooltip: {
-          backgroundColor: '#1C1B19',
-          titleFont: { family: 'DM Mono', size: 10 },
-          bodyFont: { family: 'DM Mono', size: 10 },
-          padding: 10,
-          callbacks: {
-            label: function(ctx) {
-              if (ctx.datasetIndex === 0) return '  Revenue: ' + ctx.raw + ' (indexed)';
-              const sign = ctx.raw > 0 ? '+' : '';
-              return '  CM: ' + sign + ctx.raw + '%';
-            }
-          }
-        },
-        annotation: {
-          annotations: {
-            transitionBand: {
-              type: 'box',
-              xMin: 0.5,
-              xMax: 3.5,
-              yScaleID: 'y',
-              yMin: 0,
-              yMax: 130,
-              backgroundColor: 'rgba(224,221,215,0.45)',
-              borderColor: cream3,
-              borderWidth: 1,
-              label: {
-                display: true,
-                content: 'redesign period',
-                font: { family: 'DM Mono', size: 9 },
-                color: ink4,
-                position: { x: 'center', y: 'start' },
-                yAdjust: 6,
-              }
-            },
-            zeroLine: {
-              type: 'line',
-              scaleID: 'y1',
-              value: 0,
-              borderColor: 'rgba(28,27,25,0.22)',
-              borderWidth: 1,
-              borderDash: [5, 4],
-            }
-          }
-        }
-      },
-      scales: {
-        x: {
-          grid: { color: cream3, lineWidth: 1 },
-          border: { color: cream3 },
-          ticks: {
-            font: { family: 'DM Mono', size: 11 },
-            color: ink3,
-          }
-        },
-        y: {
-          type: 'linear',
-          position: 'left',
-          min: 0,
-          max: 130,
-          grid: { color: cream3, lineWidth: 1 },
-          border: { color: cream3 },
-          ticks: {
-            font: { family: 'DM Mono', size: 10 },
-            color: ink4,
-            maxTicksLimit: 6,
-          },
-          title: {
-            display: true,
-            text: 'Revenue (indexed)',
-            font: { family: 'DM Mono', size: 9 },
-            color: ink4,
-          }
-        },
-        y1: {
-          type: 'linear',
-          position: 'right',
-          min: -10,
-          max: 10,
-          grid: { drawOnChartArea: false },
-          border: { color: cream3 },
-          ticks: {
-            font: { family: 'DM Mono', size: 10 },
-            color: ink,
-            callback: function(v) { return (v > 0 ? '+' : '') + v + '%'; }
-          },
-          title: {
-            display: true,
-            text: 'Contribution margin',
-            font: { family: 'DM Mono', size: 9 },
-            color: ink,
-          }
-        }
-      }
-    }
-  });
-})();
-</script>
 
 </body>
 </html>
