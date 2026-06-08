@@ -28,23 +28,6 @@ body { font-family:var(--sans); background:var(--cream); color:var(--ink); paddi
 .section-head { font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-4); margin-bottom:6px; }
 
 /* ─────────────────────────────────────────────────────────
-   OPTION 2 — chart-wrap matches live page context exactly
-   ───────────────────────────────────────────────────────── */
-.chart-wrap-preview {
-  background: #F2F3F9;                   /* --surface-100 */
-  border: 1px solid rgba(0,23,46,0.10); /* --border-subtle */
-  padding: 1.75rem 1.5rem 1.25rem;
-}
-.chart-wrap-preview .chart-label {
-  font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em;
-  text-transform: uppercase; color: #0D84FF; margin-bottom: 1.25rem;
-}
-.chart-wrap-preview .chart-note {
-  font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.03em;
-  color: #798594; margin-top: 1rem; line-height: 1.6;
-}
-
-/* ─────────────────────────────────────────────────────────
    OPTION 1 — Two-section horizontal bars
    ───────────────────────────────────────────────────────── */
 .hbar-block { margin-bottom:1.25rem; }
@@ -206,9 +189,8 @@ body { font-family:var(--sans); background:var(--cream); color:var(--ink); paddi
   <div class="option-desc">Two stacked panels sharing the same month axis. Top: revenue as grey bars (0–100). Bottom: CM as colored bars diverging from zero. Reads like a financial newspaper chart. No library.</div>
   <div class="lib-tag">No library — inline SVG</div>
 
-  <!-- Wrapped in chart-wrap-preview to match the live page context exactly -->
-  <div class="chart-wrap-preview">
-    <div class="chart-label">Wholesale segment — revenue &amp; contribution margin, Jun–Dec 2022</div>
+  <!-- Matches the live page exactly: Folio palette, IBM Plex Mono, redesign annotation -->
+  <!-- viewBox 0 0 640 275 · month centres: 50,140,230,320,410,500,590 · bar width 52 -->
   <svg viewBox="0 0 640 275" width="100%" style="display:block;font-family:'IBM Plex Mono',monospace;">
 
     <!-- ── REVENUE PANEL ── -->
@@ -248,9 +230,9 @@ body { font-family:var(--sans); background:var(--cream); color:var(--ink); paddi
     <text x="630" y="203" font-size="9" fill="#798594" text-anchor="end">0%</text>
 
     <!-- CM negative bars (navy tint, visible against surface-100 bg) -->
-    <rect x="24"  y="200" width="52" height="48"   fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.15)" stroke-width="1"/><!-- Jun -6   -->
-    <rect x="114" y="200" width="52" height="40"   fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.15)" stroke-width="1"/><!-- Jul -5   -->
-    <rect x="204" y="200" width="52" height="15.2" fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.12)" stroke-width="1"/><!-- Aug -1.9 -->
+    <rect x="24"  y="200" width="52" height="48"   fill="rgba(0,23,46,0.09)" stroke="rgba(0,23,46,0.20)" stroke-width="1"/><!-- Jun -6   -->
+    <rect x="114" y="200" width="52" height="40"   fill="rgba(0,23,46,0.09)" stroke="rgba(0,23,46,0.20)" stroke-width="1"/><!-- Jul -5   -->
+    <rect x="204" y="200" width="52" height="15.2" fill="rgba(0,23,46,0.09)" stroke="rgba(0,23,46,0.15)" stroke-width="1"/><!-- Aug -1.9 -->
     <!-- Sep = 0, no bar -->
 
     <!-- CM positive bars -->
@@ -276,8 +258,6 @@ body { font-family:var(--sans); background:var(--cream); color:var(--ink); paddi
     <text x="500" y="270" font-size="10" fill="#597597" text-anchor="middle">Nov</text>
     <text x="590" y="270" font-size="10" fill="#597597" text-anchor="middle">Dec</text>
   </svg>
-  <p class="chart-note">Revenue indexed to Jun 2022 = 100. Absolute figures not shown.<br>Jul–Sep: commission redesign, sell-at-cost pricing, pre-orders · Sep: break-even · Oct–Dec: +5.5–6% CM, holding.</p>
-  </div><!-- /chart-wrap-preview -->
 </div>
 
 <hr class="divider">

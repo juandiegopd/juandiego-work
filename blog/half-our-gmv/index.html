@@ -140,23 +140,14 @@ main{flex:1;}
 
 /* CHART — Option 2 SVG Dual Panel */
 .chart-wrap{
-  background:var(--surface-100);
-  border:1px solid var(--border-subtle);
-  padding:1.75rem 1.5rem 1.25rem;
   margin:2.5rem 0;
 }
-.chart-label{
-  font-family:var(--font-sans);font-size:11px;font-weight:var(--weight-semibold);
-  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
-  color:var(--text-accent);margin-bottom:1.25rem;
-}
+.chart-label{ display:none; }
 .chart-svg-wrap{width:100%;overflow:visible;}
 .chart-wrap .chart-note{
   font-family:var(--font-mono);font-size:11px;letter-spacing:0.03em;
   color:var(--text-caption);margin-top:1rem;
   line-height:1.6;max-width:580px;
-  border-top:1px solid var(--border-subtle);
-  padding-top:.875rem;
 }
 
 /* FOOTER */
@@ -319,8 +310,8 @@ footer{
 
           <!-- CM negative bars: Jun -6 h=48, Jul -5 h=40, Aug -1.9 h=15.2 -->
           <!-- fill uses a tint darker than surface-100 bg so bars are visible -->
-          <rect x="24"  y="200" width="52" height="48"   fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.15)" stroke-width="1"/>
-          <rect x="114" y="200" width="52" height="40"   fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.15)" stroke-width="1"/>
+          <rect x="24"  y="200" width="52" height="48"   fill="rgba(0,23,46,0.09)" stroke="rgba(0,23,46,0.20)" stroke-width="1"/>
+          <rect x="114" y="200" width="52" height="40"   fill="rgba(0,23,46,0.09)" stroke="rgba(0,23,46,0.20)" stroke-width="1"/>
           <rect x="204" y="200" width="52" height="15.2" fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.12)" stroke-width="1"/>
 
           <!-- Sep = 0, no bar -->
