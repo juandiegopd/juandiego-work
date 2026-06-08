@@ -304,20 +304,24 @@ footer{
           <text x="500" y="55"    font-size="9" fill="#798594" text-anchor="middle">63</text>
           <text x="590" y="39"    font-size="9" fill="#798594" text-anchor="middle">83</text>
 
-          <!-- redesign period label -->
-          <rect x="114" y="14" width="208" height="96" fill="rgba(13,132,255,0.04)" stroke="rgba(13,132,255,0.12)" stroke-width="1" stroke-dasharray="3,3"/>
-          <text x="218" y="27" font-size="8.5" fill="rgba(13,132,255,0.6)" text-anchor="middle" letter-spacing=".05em">redesign period</text>
+          <!-- redesign period: Jul–Sep (bars x=114–346, +6px padding each side) -->
+          <rect x="108" y="14" width="244" height="96" fill="rgba(13,132,255,0.04)" stroke="rgba(13,132,255,0.12)" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="230" y="27" font-size="8.5" fill="rgba(13,132,255,0.6)" text-anchor="middle" letter-spacing=".05em">redesign period</text>
+
+          <!-- ── PANEL DIVIDER ── -->
+          <line x1="0" y1="124" x2="640" y2="124" stroke="rgba(0,23,46,0.08)" stroke-width="1"/>
 
           <!-- ── CM PANEL ── -->
           <!-- zero line at y=200, range ±6 → ±48px -->
           <text x="0" y="136" font-size="9" fill="#798594" letter-spacing=".08em">CONTRIBUTION MARGIN %</text>
           <line x1="8" y1="200" x2="632" y2="200" stroke="rgba(0,23,46,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
-          <text x="636" y="203" font-size="9" fill="#798594">0%</text>
+          <text x="630" y="203" font-size="9" fill="#798594" text-anchor="end">0%</text>
 
           <!-- CM negative bars: Jun -6 h=48, Jul -5 h=40, Aug -1.9 h=15.2 -->
-          <rect x="24"  y="200" width="52" height="48"   fill="#F2F3F9" stroke="rgba(0,23,46,0.12)" stroke-width="1"/>
-          <rect x="114" y="200" width="52" height="40"   fill="#F2F3F9" stroke="rgba(0,23,46,0.12)" stroke-width="1"/>
-          <rect x="204" y="200" width="52" height="15.2" fill="#F2F3F9" stroke="rgba(0,23,46,0.10)" stroke-width="1"/>
+          <!-- fill uses a tint darker than surface-100 bg so bars are visible -->
+          <rect x="24"  y="200" width="52" height="48"   fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.15)" stroke-width="1"/>
+          <rect x="114" y="200" width="52" height="40"   fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.15)" stroke-width="1"/>
+          <rect x="204" y="200" width="52" height="15.2" fill="rgba(0,23,46,0.07)" stroke="rgba(0,23,46,0.12)" stroke-width="1"/>
 
           <!-- Sep = 0, no bar -->
 
