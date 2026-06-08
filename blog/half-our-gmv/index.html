@@ -77,17 +77,18 @@ main{flex:1;}
   color:var(--ink-4);margin-bottom:3rem;
   padding-bottom:2.5rem;border-bottom:1px solid var(--cream-3);
 }
-.meta-sep{color:var(--cream-4);}
+.meta-sep{color:var(--ink-4);}
 
 /* ── ARTICLE BODY ── */
-.article-lede{
-  font-family:var(--serif);font-style:italic;
-  font-size:1.175rem;line-height:1.7;
-  color:var(--ink-2);margin-bottom:2rem;
-}
 .article-body p{
   font-size:1.0625rem;line-height:1.825;
   color:var(--ink);margin-bottom:1.625rem;
+}
+/* Higher specificity (0,2,0) overrides .article-body p (0,1,1) */
+.article-body .article-lede{
+  font-family:var(--serif);font-style:italic;
+  font-size:1.175rem;line-height:1.7;
+  color:var(--ink-2);margin-bottom:2rem;
 }
 .article-body h2{
   font-family:var(--serif);font-size:1.375rem;font-weight:400;
@@ -107,22 +108,12 @@ main{flex:1;}
 }
 .article-body li:first-child{border-top:1px solid var(--cream-3);}
 .article-body li::before{
-  content:'';position:absolute;left:0;top:1.05rem;
+  content:'';position:absolute;left:0;top:0.9em;
   width:5px;height:5px;border-radius:50%;
   background:var(--cream-4);flex-shrink:0;
 }
 .article-body strong{font-weight:600;}
 .article-body em{font-style:italic;}
-
-/* ── STAT CALLOUT ── */
-.stat-callout{
-  background:var(--cream-2);border-left:2px solid var(--ink);
-  padding:1.25rem 1.5rem;margin:2rem 0;
-}
-.stat-callout p{
-  font-family:var(--serif);font-size:1.05rem;
-  line-height:1.65;color:var(--ink);margin:0;
-}
 
 /* ── CHART ── */
 .chart-wrap{
@@ -138,9 +129,10 @@ main{flex:1;}
   color:var(--ink-4);margin-bottom:1.25rem;
 }
 .chart-canvas-wrap{position:relative;height:300px;}
-.chart-note{
+.chart-wrap .chart-note{
   font-family:var(--mono);font-size:9px;letter-spacing:.04em;
   color:var(--ink-4);margin-top:.875rem;line-height:1.7;
+  max-width:580px;
 }
 
 /* ── FOOTER ── */
@@ -179,7 +171,7 @@ footer a:hover{color:var(--ink);}
   <div class="eyebrow">Operator learnings</div>
   <h1 class="article-title">Half our GMV was losing money.<br>Here's how I rebuilt it.</h1>
   <div class="article-meta">
-    <span>Jun 2026</span>
+    <time datetime="2026-06">Jun 2026</time>
     <span class="meta-sep">·</span>
     <span>7 min read</span>
   </div>
