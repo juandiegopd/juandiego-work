@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
   try {
     const r = await fetch(
-      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Access%20log`,
+      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/tblQcbOXRAgPgrFHD`,
       {
         method: "POST",
         headers: {
