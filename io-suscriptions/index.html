@@ -630,6 +630,64 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 /* ============================================================
+   PASSWORD GATE
+   ============================================================ */
+#gate {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem;
+}
+.gate-card {
+  width: 100%; max-width: 400px;
+  border: 1px solid var(--cream-3); border-radius: 6px;
+  padding: 2.5rem 2rem;
+  background: var(--cream);
+}
+.gate-eye {
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-4); margin-bottom: 1.25rem;
+}
+.gate-title {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 400;
+  line-height: 1.1; letter-spacing: -.01em; color: var(--ink);
+  margin-bottom: .75rem;
+}
+.gate-title em { font-style: italic; color: var(--ink-2); }
+.gate-note {
+  font-size: 13px; color: var(--ink-3); line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+.gate-input {
+  width: 100%; font-family: var(--mono); font-size: 14px;
+  color: var(--ink); background: var(--cream);
+  border: 1px solid var(--cream-3); border-radius: 3px;
+  padding: .625rem .875rem; outline: none; margin-bottom: .75rem;
+  transition: border-color var(--dur) var(--ease);
+  letter-spacing: .06em;
+}
+.gate-input:focus { border-color: var(--ink-4); }
+.gate-btn {
+  width: 100%; font-family: var(--sans); font-size: 14px; font-weight: 600;
+  color: var(--cream); background: var(--ink);
+  border: 1px solid var(--ink); border-radius: 3px;
+  padding: .625rem 1rem; cursor: pointer;
+  transition: background var(--dur) var(--ease);
+}
+.gate-btn:hover { background: var(--ink-2); border-color: var(--ink-2); }
+.gate-error {
+  font-family: var(--mono); font-size: 11px; color: var(--nav-neg);
+  letter-spacing: .04em; margin-top: .625rem; text-align: center;
+}
+.gate-footer {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-4); text-align: center;
+  margin-top: 2rem; padding-top: 1.25rem;
+  border-top: 1px solid var(--cream-3);
+}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1024px) {
@@ -1029,6 +1087,19 @@ input[type=range]::-webkit-slider-thumb {
 
 </div><!-- /.page -->
 </main>
+
+<!-- ===== PASSWORD GATE ===== -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-eye">Acceso restringido · iO Gerencia</div>
+    <h1 class="gate-title">iO — Benchmark <em>Cuenta Premium</em></h1>
+    <p class="gate-note">Documento confidencial. Ingresa tu clave de acceso personal para continuar.</p>
+    <input class="gate-input" id="gateInput" type="password" placeholder="Clave de acceso" autocomplete="current-password" spellcheck="false">
+    <button class="gate-btn" id="gateBtn">Ingresar →</button>
+    <p class="gate-error" id="gateError" hidden>Clave incorrecta. Intenta de nuevo.</p>
+    <div class="gate-footer">juandiego.work · Jun 2026</div>
+  </div>
+</div>
 
 <script>
 // ============================================================
@@ -1665,6 +1736,69 @@ ASSUMPTION_KEYS.forEach(k=>{
 
 // Initial render
 renderCalc();
+
+// ============================================================
+// PASSWORD GATE
+// Replace the keys and names below before sharing any URL.
+// Each person gets their own unique key so you can track
+// who accessed the document in Airtable.
+// ============================================================
+const PASSWORDS = {
+  "clave-uno":    "Persona 1",   // replace with real name
+  "clave-dos":    "Persona 2",
+  "clave-tres":   "Persona 3",
+  "clave-cuatro": "Persona 4",
+  "clave-cinco":  "Persona 5",
+  "clave-seis":   "Persona 6",
+  "clave-siete":  "Persona 7",
+  "clave-ocho":   "Persona 8",
+};
+
+(function initGate() {
+  const gate     = document.getElementById("gate");
+  const input    = document.getElementById("gateInput");
+  const btn      = document.getElementById("gateBtn");
+  const errEl    = document.getElementById("gateError");
+
+  // Already authenticated this session — remove gate immediately
+  if (sessionStorage.getItem("io-gate")) {
+    gate.remove();
+    return;
+  }
+
+  // Block scroll while gate is visible
+  document.body.style.overflow = "hidden";
+
+  async function attempt() {
+    const val  = input.value.trim().toLowerCase();
+    const name = PASSWORDS[val];
+
+    if (name) {
+      // Persist session
+      sessionStorage.setItem("io-gate", JSON.stringify({ name, ts: Date.now() }));
+      // Log to Airtable via serverless function (silent fail — never blocks access)
+      try {
+        await fetch("/api/log", {
+          method:  "POST",
+          headers: { "Content-Type": "application/json" },
+          body:    JSON.stringify({ name, key: val }),
+        });
+      } catch (_) {}
+      // Unlock
+      gate.remove();
+      document.body.style.overflow = "";
+    } else {
+      errEl.hidden = false;
+      input.value  = "";
+      input.focus();
+    }
+  }
+
+  btn.addEventListener("click", attempt);
+  input.addEventListener("keydown", e => { if (e.key === "Enter") attempt(); });
+  // Hide error as soon as user starts typing again
+  input.addEventListener("input", () => { errEl.hidden = true; });
+})();
 </script>
 </body>
 </html>
