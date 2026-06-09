@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iO — Benchmark Cuenta Premium · Gerencia Jun 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root {
+  --cream:   #F8F7F4;
+  --cream-2: #EFEDE8;
+  --cream-3: #E0DDD7;
+  --cream-4: #C9C5BD;
+  --ink:     #1C1B19;
+  --ink-2:   #4A4641;
+  --ink-3:   #6B6861;
+  --ink-4:   #9A9088;
+  --blue:    #1B4DD8;
+
+  /* iO extensions */
+  --nav-pos:     #2E7D52;
+  --nav-pos-bg:  #EBF4EF;
+  --nav-neg:     #B53A3A;
+  --nav-neg-bg:  #FAEAEA;
+  --q-bg:        #1B4DD8;
+  --i-bg:        #8C6A2F;
+  --i-light:     #F5EDD8;
+  --prov-bg:     #9E6C20;
+  --prov-light:  #FBF1DC;
+  --peru-yes:    #2E7D52;
+  --peru-no:     #9A9088;
+  --peru-part:   #9E6C20;
+
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans:  'DM Sans', sans-serif;
+  --mono:  'DM Mono', monospace;
+  --dur:   200ms;
+  --ease:  cubic-bezier(.2,.6,.2,1);
+}
+
+/* ============================================================
+   RESET + BASE
+   ============================================================ */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { min-height: 100%; }
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--blue); text-underline-offset: 3px; }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  height: 56px; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 3rem;
+  background: rgba(248,247,244,.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--cream-3);
+}
+.nav-logo {
+  font-family: var(--mono); font-size: 13px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none;
+}
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-link {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); text-decoration: none;
+  display: flex; align-items: center; gap: .4rem;
+  transition: color var(--dur) var(--ease);
+}
+.nav-link::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--cream-3); flex-shrink: 0;
+  transition: background var(--dur) var(--ease);
+}
+.nav-link:hover { color: var(--ink); }
+.nav-link:hover::before { background: var(--ink); }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+main { padding: 4rem 3rem 8rem; }
+.page { max-width: 1200px; margin: 0 auto; }
+.section { margin-bottom: 5rem; }
+hr.divider { border: 0; border-top: 1px solid var(--cream-3); margin: 5rem 0; }
+
+/* ============================================================
+   TYPE PRIMITIVES
+   ============================================================ */
+.eyebrow {
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-4); margin-bottom: 1rem;
+}
+.section-title {
+  font-family: var(--serif); font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 400; line-height: 1.1; letter-spacing: -.01em;
+  color: var(--ink); margin-bottom: 1rem;
+}
+.section-title em { font-style: italic; color: var(--ink-2); }
+.section-lede {
+  font-size: 13px; color: var(--ink-2); line-height: 1.65;
+  max-width: 640px; margin-bottom: 2rem;
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge {
+  display: inline-flex; align-items: center;
+  font-family: var(--mono); font-size: 9px; font-weight: 500;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: .15rem .4rem; border-radius: 3px;
+  vertical-align: middle; line-height: 1.5; white-space: nowrap;
+}
+.badge-q   { background: var(--q-bg); color: #fff; }
+.badge-i   { background: var(--i-bg); color: #fff; }
+.badge-prov { background: var(--prov-light); color: var(--prov-bg); border: 1px solid var(--prov-bg); }
+.badge-primacy { background: var(--ink-2); color: var(--cream); }
+.badge-waived  { background: var(--nav-pos); color: #fff; }
+.peru-yes  { color: var(--peru-yes); font-family: var(--mono); font-size: 10px; font-weight: 500; }
+.peru-no   { color: var(--peru-no);  font-family: var(--mono); font-size: 10px; font-weight: 500; }
+.peru-part { color: var(--peru-part); font-family: var(--mono); font-size: 10px; font-weight: 500; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--cream-3);
+  margin-bottom: 4rem;
+}
+.hero-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 2rem;
+  flex-wrap: wrap; margin-bottom: 1.5rem;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.6vw, 2.75rem);
+  font-weight: 400; line-height: 1.05;
+  letter-spacing: -.01em; margin-bottom: 1rem;
+}
+.hero-title em { font-style: italic; color: var(--ink-2); }
+.hero-lede {
+  font-family: var(--serif); font-style: italic;
+  font-size: 1rem; color: var(--ink-2);
+  line-height: 1.65; max-width: 560px;
+}
+.hero-stats {
+  display: flex; gap: 0;
+  border-top: 1px solid var(--cream-3);
+  border-bottom: 1px solid var(--cream-3);
+  margin-top: 2.5rem;
+}
+.hero-stat {
+  flex: 1; padding: 1.25rem 1.5rem;
+  border-right: 1px solid var(--cream-3);
+}
+.hero-stat:last-child { border-right: 0; }
+.stat-num {
+  font-family: var(--serif); font-size: 1.75rem;
+  color: var(--ink); line-height: 1;
+}
+.stat-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-4); margin-top: .35rem;
+}
+
+/* ============================================================
+   SECTION 01 — YAPE CONTEXT
+   ============================================================ */
+.archetype-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1rem; margin-bottom: 2.5rem;
+}
+.archetype-card {
+  background: var(--cream); border: 1px solid var(--cream-3);
+  border-radius: 6px; padding: 1.25rem;
+  transition: background var(--dur) var(--ease);
+}
+.archetype-card:hover { background: var(--cream-2); }
+.arch-name {
+  font-family: var(--serif); font-size: 1rem; font-weight: 400;
+  color: var(--ink); margin-bottom: .2rem;
+}
+.arch-pct {
+  font-family: var(--serif); font-size: 1.75rem; font-weight: 400;
+  color: var(--ink); line-height: 1; margin-bottom: .4rem;
+}
+.arch-meta {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .06em;
+  color: var(--ink-4); margin-bottom: .6rem;
+}
+.arch-wtp {
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  margin-bottom: .5rem;
+}
+.wtp-high       { color: var(--nav-pos); }
+.wtp-conditional { color: var(--prov-bg); }
+.wtp-none       { color: var(--nav-neg); }
+.arch-voice {
+  font-family: var(--serif); font-style: italic;
+  font-size: 11px; color: var(--ink-3); line-height: 1.5;
+  border-top: 1px solid var(--cream-3);
+  padding-top: .625rem; margin-top: .625rem;
+}
+
+.pillars-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--cream-3);
+  border: 1px solid var(--cream-3); border-radius: 6px;
+  overflow: hidden; margin-bottom: 2.5rem;
+}
+.pillar { background: var(--cream); padding: 1.5rem; }
+.pillar-pct {
+  font-family: var(--serif); font-size: 2rem; font-weight: 400;
+  color: var(--ink); line-height: 1; margin-bottom: .5rem;
+}
+.pillar-bar-wrap {
+  height: 4px; background: var(--cream-3); border-radius: 2px;
+  margin-bottom: .75rem; overflow: hidden;
+}
+.pillar-bar-fill { height: 100%; border-radius: 2px; background: var(--ink-4); }
+.pillar-label {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--ink); margin-bottom: .2rem;
+}
+.pillar-detail { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+
+.findings-list { list-style: none; }
+.finding-item {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: .875rem 0; border-bottom: 1px solid var(--cream-3);
+  font-size: 13px; color: var(--ink-2); line-height: 1.6;
+}
+.finding-item:first-child { border-top: 1px solid var(--cream-3); }
+.finding-num {
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  color: var(--ink-4); letter-spacing: .06em; flex-shrink: 0;
+  padding-top: 2px; min-width: 2rem;
+}
+
+/* ============================================================
+   SECTION 02 — BENCHMARK
+   ============================================================ */
+.filter-bar {
+  display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+}
+.filter-btn {
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: .35rem .9rem; border: 1px solid var(--cream-3);
+  background: transparent; color: var(--ink-4);
+  cursor: pointer; border-radius: 2px;
+  transition: all var(--dur) var(--ease);
+}
+.filter-btn:hover { border-color: var(--ink-4); color: var(--ink-3); }
+.filter-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+.matrix-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--cream-3);
+  border-radius: 6px;
+  margin-bottom: .75rem;
+}
+.matrix {
+  border-collapse: collapse;
+  min-width: 100%;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.matrix th, .matrix td {
+  text-align: left; vertical-align: top;
+  padding: .75rem .875rem;
+  border-bottom: 1px solid var(--cream-3);
+  border-right: 1px solid var(--cream-3);
+}
+.matrix th:last-child, .matrix td:last-child { border-right: 0; }
+.matrix tbody tr:last-child td { border-bottom: 0; }
+
+.matrix td.row-lbl {
+  position: sticky; left: 0; z-index: 2;
+  background: var(--cream-2);
+  font-family: var(--mono); font-size: 9px; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--ink-4);
+  width: 130px; min-width: 130px; max-width: 130px;
+  border-right: 2px solid var(--cream-4);
+}
+.matrix th.prog-hd {
+  background: var(--cream); cursor: pointer;
+  user-select: none; width: 180px; min-width: 180px;
+  transition: background var(--dur) var(--ease);
+}
+.matrix th.prog-hd:hover { background: var(--cream-2); }
+.matrix th.prog-hd.io-col,
+.matrix td.io-cell { background: #F0EEF8; }
+.matrix th.prog-hd.io-col:hover { background: #E6E3F2; }
+.matrix th.row-lbl-hd {
+  position: sticky; left: 0; z-index: 3;
+  background: var(--cream-2);
+  width: 130px; min-width: 130px; max-width: 130px;
+  border-right: 2px solid var(--cream-4);
+}
+
+.prog-name-cell {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--ink); margin-bottom: .2rem;
+}
+.prog-hq-cell {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-4); margin-bottom: .35rem;
+}
+.expand-hint {
+  font-family: var(--mono); font-size: 9px; color: var(--blue);
+  letter-spacing: .03em; display: block; margin-top: .3rem;
+}
+
+.cell-mono { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--ink); }
+.cell-muted { font-family: var(--mono); font-size: 10px; color: var(--ink-4); }
+.cell-body { font-size: 11px; color: var(--ink-2); line-height: 1.5; }
+
+.ben-list { list-style: none; }
+.ben-item {
+  display: flex; align-items: flex-start; gap: .3rem;
+  margin-bottom: .25rem; font-size: 11px; color: var(--ink-2);
+  line-height: 1.4;
+}
+.ben-text { flex: 1; }
+
+.matrix-legend {
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .06em; color: var(--ink-4);
+  margin-bottom: 2rem;
+}
+.legend-item { display: flex; align-items: center; gap: .4rem; }
+
+/* Detail panels (below matrix) */
+.detail-panels { margin-top: -.75rem; }
+.detail-panel {
+  display: none;
+  background: var(--cream);
+  border: 1px solid var(--cream-3);
+  border-top: 2px solid var(--ink-4);
+  border-radius: 0 0 6px 6px;
+  padding: 2rem;
+  margin-bottom: 1rem;
+}
+.detail-panel.open { display: block; }
+.detail-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.detail-title {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--ink);
+}
+.detail-close {
+  font-family: var(--mono); font-size: 18px; color: var(--ink-4);
+  background: none; border: none; cursor: pointer; padding: .25rem .5rem;
+  transition: color var(--dur) var(--ease);
+}
+.detail-close:hover { color: var(--ink); }
+.tier-block {
+  display: grid; grid-template-columns: 180px 1fr;
+  gap: 1.5rem; padding: 1.25rem 0;
+  border-bottom: 1px solid var(--cream-3);
+}
+.tier-block:last-of-type { border-bottom: 0; }
+.tier-name {
+  font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--ink);
+}
+.tier-price {
+  font-family: var(--mono); font-size: 10px; color: var(--ink-4); margin-top: .2rem;
+}
+.tier-ben-list { list-style: none; }
+.tier-ben-item {
+  display: flex; align-items: flex-start; gap: .5rem;
+  padding: .3rem 0; border-bottom: 1px solid var(--cream-3);
+  font-size: 12px; color: var(--ink-2); line-height: 1.5;
+}
+.tier-ben-item:last-child { border-bottom: 0; }
+.tier-ben-text { flex: 1; }
+.mechanic-note {
+  margin-top: 1rem; background: var(--cream-2);
+  border-left: 3px solid var(--ink-4);
+  padding: .75rem 1rem; border-radius: 0 3px 3px 0;
+  font-size: 12px; color: var(--ink-2); line-height: 1.6;
+}
+
+/* ============================================================
+   SECTION 03 — iO CONCEPTS
+   ============================================================ */
+.concepts-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1rem; margin-bottom: 1.5rem;
+}
+.concept-card {
+  background: var(--cream); border: 1px solid var(--cream-3);
+  border-radius: 6px; padding: 1.5rem;
+  display: flex; flex-direction: column;
+  transition: background var(--dur) var(--ease);
+}
+.concept-card:hover { background: var(--cream-2); }
+.concept-card.featured { border-color: var(--ink-4); border-width: 2px; }
+.concept-lbl {
+  font-family: var(--mono); font-size: 9px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: .5rem;
+}
+.concept-name {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 400;
+  color: var(--ink); margin-bottom: .2rem;
+}
+.concept-tag {
+  font-family: var(--serif); font-style: italic;
+  font-size: .875rem; color: var(--ink-2); line-height: 1.5;
+  margin-bottom: 1rem;
+}
+.concept-meta {
+  border-top: 1px solid var(--cream-3);
+  padding: .75rem 0; margin-bottom: 1rem;
+}
+.meta-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: .5rem; font-size: 11px; margin-bottom: .3rem;
+}
+.meta-lbl { font-family: var(--mono); color: var(--ink-4); text-transform: uppercase; letter-spacing: .05em; font-size: 9px; }
+.meta-val { color: var(--ink); text-align: right; }
+.meta-val.mono { font-family: var(--mono); font-weight: 500; }
+.concept-body { font-size: 12px; color: var(--ink-2); line-height: 1.6; margin-bottom: 1rem; }
+.concept-ben-list { list-style: none; margin-bottom: 1rem; flex: 1; }
+.concept-ben-item {
+  display: flex; align-items: flex-start; gap: .4rem;
+  padding: .3rem 0; border-bottom: 1px solid var(--cream-3);
+  font-size: 11px; color: var(--ink-2); line-height: 1.4;
+}
+.concept-ben-item:last-child { border-bottom: 0; }
+.concept-screens {
+  border-top: 1px solid var(--cream-3); padding-top: .75rem; margin-top: auto;
+}
+.screen-row {
+  display: flex; gap: .5rem; align-items: flex-start;
+  font-size: 11px; color: var(--ink-3); margin-bottom: .25rem;
+}
+.screen-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: .04em; flex-shrink: 0; padding-top: 1px; }
+.screen-pass { color: var(--nav-pos); }
+.screen-flag { color: var(--prov-bg); }
+
+.primacy-card {
+  background: var(--cream-2); border: 1px solid var(--cream-3);
+  border-radius: 6px; padding: 1.5rem;
+  display: grid; grid-template-columns: 200px 1fr; gap: 2rem;
+}
+.primacy-lbl {
+  font-family: var(--mono); font-size: 9px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-4); margin-bottom: .5rem;
+}
+.primacy-name {
+  font-family: var(--serif); font-size: 1rem; font-weight: 400; color: var(--ink);
+}
+.primacy-body { font-size: 12px; color: var(--ink-2); line-height: 1.65; }
+
+/* ============================================================
+   SECTION 04 — CALCULATOR
+   ============================================================ */
+.calc-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 2rem;
+  flex-wrap: wrap; margin-bottom: 2rem;
+}
+.calc-intro-p { font-size: 13px; color: var(--ink-2); line-height: 1.65; max-width: 540px; }
+
+.calc-grid {
+  display: grid; grid-template-columns: 360px 1fr;
+  gap: 2rem; align-items: start;
+}
+.calc-inputs { display: flex; flex-direction: column; gap: 1rem; }
+.input-group {
+  background: var(--cream); border: 1px solid var(--cream-3);
+  border-radius: 6px; padding: 1.25rem;
+}
+.input-group-title {
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: .875rem;
+}
+.persona-btns { display: flex; gap: .5rem; margin-bottom: .875rem; }
+.persona-btn {
+  flex: 1; text-align: center; padding: .5rem .5rem;
+  background: var(--cream); border: 1px solid var(--cream-3);
+  border-radius: 3px; cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+.p-name {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--ink); display: block;
+}
+.p-note {
+  font-family: var(--mono); font-size: 9px; color: var(--ink-4);
+  letter-spacing: .03em; display: block; margin-top: .15rem;
+}
+.persona-btn.active { background: var(--ink); border-color: var(--ink); }
+.persona-btn.active .p-name,
+.persona-btn.active .p-note { color: var(--cream); }
+.persona-btn:not(.active):hover { background: var(--cream-2); border-color: var(--ink-4); }
+
+.range-field { margin-bottom: .75rem; }
+.range-field:last-child { margin-bottom: 0; }
+.range-hdr {
+  display: flex; align-items: baseline;
+  justify-content: space-between; margin-bottom: .3rem;
+}
+.range-lbl {
+  font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: .04em;
+}
+.range-val { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--ink); }
+input[type=range] {
+  width: 100%; height: 2px; cursor: pointer;
+  accent-color: var(--ink); background: var(--cream-3);
+  border-radius: 2px; appearance: none; -webkit-appearance: none;
+  outline: none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--ink); border: 2px solid var(--cream);
+  box-shadow: 0 0 0 1px var(--ink-4);
+}
+
+.checkbox-row {
+  display: flex; align-items: flex-start; gap: .625rem;
+  margin-bottom: .75rem; cursor: pointer;
+}
+.checkbox-row input[type=checkbox] {
+  width: 14px; height: 14px; accent-color: var(--ink);
+  flex-shrink: 0; margin-top: 2px; cursor: pointer;
+}
+.checkbox-lbl { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+.primacy-note-text {
+  font-family: var(--mono); font-size: 10px; color: var(--ink-4);
+  line-height: 1.5; margin-top: .5rem;
+}
+
+.assump-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: .4rem .875rem;
+}
+
+.fee-rows { display: flex; flex-direction: column; gap: .5rem; }
+.fee-row {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.fee-lbl { font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: .04em; }
+.fee-inp-wrap { display: flex; align-items: center; gap: .25rem; }
+.fee-currency { font-family: var(--mono); font-size: 11px; color: var(--ink-4); }
+.fee-field {
+  width: 60px; text-align: right;
+  font-family: var(--mono); font-size: 12px; color: var(--ink);
+  border: 1px solid var(--cream-3); background: var(--cream);
+  border-radius: 3px; padding: .25rem .4rem; outline: none;
+  transition: border-color var(--dur) var(--ease);
+}
+.fee-field:focus { border-color: var(--ink-4); }
+
+.calc-results { display: flex; flex-direction: column; gap: 1rem; }
+.result-card {
+  background: var(--cream); border: 1px solid var(--cream-3);
+  border-radius: 6px; padding: 1.25rem;
+}
+.result-hdr {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; margin-bottom: .2rem;
+}
+.result-cname {
+  font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--ink);
+}
+.result-tag {
+  font-family: var(--serif); font-style: italic;
+  font-size: 12px; color: var(--ink-3); margin-bottom: .75rem;
+}
+.result-nav-row {
+  display: flex; align-items: baseline; gap: .5rem; margin-bottom: .35rem;
+}
+.result-nav-val {
+  font-family: var(--mono); font-size: 1.75rem; font-weight: 400; line-height: 1;
+}
+.result-nav-val.pos { color: var(--nav-pos); }
+.result-nav-val.neg { color: var(--nav-neg); }
+.result-nav-note {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--ink-4); letter-spacing: .04em;
+}
+.result-bar-wrap {
+  height: 3px; background: var(--cream-3); border-radius: 2px;
+  margin-bottom: 1rem; overflow: hidden;
+}
+.result-bar { height: 100%; border-radius: 2px; transition: width .3s var(--ease); }
+.result-bar.pos { background: var(--nav-pos); }
+.result-bar.neg { background: var(--nav-neg); }
+.result-dl { }
+.result-dl-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: .275rem 0; border-bottom: 1px solid var(--cream-3);
+  font-size: 11px;
+}
+.result-dl-row:last-child { border-bottom: 0; }
+.dl-lbl { font-family: var(--mono); color: var(--ink-4); letter-spacing: .04em; }
+.dl-val { font-family: var(--mono); font-weight: 500; color: var(--ink); }
+.result-dl-row.intangible .dl-lbl,
+.result-dl-row.intangible .dl-val { color: var(--i-bg); }
+
+.calc-footnote {
+  grid-column: 1 / -1;
+  margin-top: 1.5rem; padding-top: 1.5rem;
+  border-top: 1px solid var(--cream-3);
+  font-size: 11px; color: var(--ink-3); line-height: 1.65;
+  max-width: 760px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .calc-grid { grid-template-columns: 1fr; }
+  .assump-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  main { padding: 3rem 1.5rem 6rem; }
+  .nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .archetype-grid { grid-template-columns: 1fr 1fr; }
+  .concepts-grid { grid-template-columns: 1fr; }
+  .pillars-row { grid-template-columns: 1fr; }
+  .primacy-card { grid-template-columns: 1fr; gap: 1rem; }
+  .tier-block { grid-template-columns: 1fr; gap: .75rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a class="nav-logo" href="#">iO · Cuenta Premium</a>
+  <div class="nav-links">
+    <a class="nav-link" href="#contexto">Contexto</a>
+    <a class="nav-link" href="#benchmark">Benchmark</a>
+    <a class="nav-link" href="#conceptos">Conceptos iO</a>
+    <a class="nav-link" href="#calculadora">Calculadora NAV</a>
+  </div>
+</nav>
+
+<main>
+<div class="page">
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-top">
+    <div>
+      <div class="eyebrow">BENCHMARK GERENCIAL · JUNIO 2026</div>
+      <h1 class="hero-title">Suscripciones de pago — <em>revisión ejecutiva</em></h1>
+      <p class="hero-lede">Una lectura de los 12 programas más relevantes del mercado, los cuatro conceptos candidatos de iO, y un modelo de valor en vivo. Todo en un lugar.</p>
+    </div>
+    <span class="badge badge-prov" style="font-size:10px;white-space:nowrap;align-self:flex-start;">PROVISIONAL · EDITA CADA NÚMERO</span>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="stat-num">12</div><div class="stat-label">Programas benchmarkeados</div></div>
+    <div class="hero-stat"><div class="stat-num">3</div><div class="stat-label">Conceptos candidatos iO</div></div>
+    <div class="hero-stat"><div class="stat-num">3</div><div class="stat-label">Peru-available (Rappi, Uber, LATAM)</div></div>
+    <div class="hero-stat"><div class="stat-num">50%</div><div class="stat-label">Del valor está en control / ahorro</div></div>
+    <div class="hero-stat"><div class="stat-num">Jun 2026</div><div class="stat-label">Precios observados</div></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 01 — CONTEXTO YAPE ===== -->
+<section class="section" id="contexto">
+  <div class="eyebrow">01 — YAPE / CDE DISEÑO · ABRIL 2026</div>
+  <h2 class="section-title">Contexto — <em>cuatro arquetipos</em></h2>
+  <p class="section-lede">21 entrevistas cualitativas mapeadas en dos ejes: autonomía financiera y función de la tarjeta. Scoped a "perfil de consumo A" (≈45% de la base). Los perfiles B y C no fueron cubiertos.</p>
+
+  <div class="archetype-grid">
+    <div class="archetype-card">
+      <div class="arch-name">El Cazador</div>
+      <div class="arch-pct">48%</div>
+      <div class="arch-meta">2.7 tarjetas · 20% Credilover</div>
+      <div class="arch-wtp wtp-high">WTP más alto</div>
+      <div class="arch-voice">"Maximiza beneficio en cada compra. Donde iO hoy pierde frente a AMEX." Principal comprador del tier pagado.</div>
+    </div>
+    <div class="archetype-card">
+      <div class="arch-name">El Constructor</div>
+      <div class="arch-pct">19%</div>
+      <div class="arch-meta">1.5 tarjetas · 100% Credilover</div>
+      <div class="arch-wtp wtp-conditional">WTP condicional</div>
+      <div class="arch-voice">"Dispuesto a que su esfuerzo lo premie." Construye historial; tiene iO porque "es lo correcto."</div>
+    </div>
+    <div class="archetype-card">
+      <div class="arch-name">El Organizador</div>
+      <div class="arch-pct">14%</div>
+      <div class="arch-meta">1.3 tarjetas · 33% Credilover</div>
+      <div class="arch-wtp wtp-conditional">WTP condicional</div>
+      <div class="arch-voice">"Acepta consumo mínimo o ahorro mensual como condición de acceso." Quiere orden; el cashback solo importa si encaja en su gasto.</div>
+    </div>
+    <div class="archetype-card">
+      <div class="arch-name">El Cauteloso</div>
+      <div class="arch-pct">19%</div>
+      <div class="arch-meta">1.0 tarjetas · 100% Credilover</div>
+      <div class="arch-wtp wtp-none">Sin WTP</div>
+      <div class="arch-voice">"No tiene disposición de pagar." Busca liquidez y seguridad. Fuera del scope para un producto pagado.</div>
+    </div>
+  </div>
+
+  <div class="pillars-row">
+    <div class="pillar">
+      <div class="pillar-pct">50%</div>
+      <div class="pillar-bar-wrap"><div class="pillar-bar-fill" style="width:100%"></div></div>
+      <div class="pillar-label">Gestión del dinero</div>
+      <div class="pillar-detail">Control, ahorro, visibilidad. El pilar más grande — y el menos atendido por la capa gratuita.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-pct">36%</div>
+      <div class="pillar-bar-wrap"><div class="pillar-bar-fill" style="width:72%"></div></div>
+      <div class="pillar-label">Facilita el día a día</div>
+      <div class="pillar-detail">Conveniencia, velocidad, gestión de suscripciones. La oportunidad de diferenciación más clara.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-pct">14%</div>
+      <div class="pillar-bar-wrap"><div class="pillar-bar-fill" style="width:28%"></div></div>
+      <div class="pillar-label">Siéntete especial</div>
+      <div class="pillar-detail">Lounges, seguros, tarjeta premium. Solo el lenguaje del Cazador — y solo si lo respalda utilidad real.</div>
+    </div>
+  </div>
+
+  <ul class="findings-list">
+    <li class="finding-item"><span class="finding-num">01 —</span><span>Revolver, N26 y Monzo le llaman <strong>"cuenta premium"</strong>, no "suscripción" — reduce fricción de pago al posicionarla como upgrade de producto, no como cargo extra. Una decisión de naming, no solo de copy.</span></li>
+    <li class="finding-item"><span class="finding-num">02 —</span><span>Los descuentos <strong>no son el núcleo</strong>: en suscripciones bancarias, la propuesta principal se centra en ahorro, conveniencia y valor financiero recurrente. iO ya tiene cashback de sobra en su capa gratuita — la capa pagada debe sumar un tipo de valor diferente.</span></li>
+    <li class="finding-item"><span class="finding-num">03 —</span><span><strong>Gestión de suscripciones es el #1 deseo transversal</strong> entre arquetipos — y ningún competidor en el benchmark lo resuelve bien. El 76% de usuarios LATAM pagaría por una sola app para adquirir, pagar y cancelar suscripciones. iO es la tarjeta con la que ya pagan.</span></li>
+    <li class="finding-item"><span class="finding-num">04 —</span><span>El <strong>fee-waived-via-spend de Nubank</strong> (gratis si concentras tu banking) es el mecanismo más transferible para iO: convierte la suscripción en un reward de primacía — que es exactamente la north-star metric de billing y transacciones.</span></li>
+    <li class="finding-item"><span class="finding-num">05 —</span><span><strong>Riesgo de ejecución en Perú:</strong> miembros de Rappi Pro/Black pagan y cancelan porque el servicio no cumple lo prometido. El tier pagado debe liderar con beneficios que iO controla y entrega de extremo a extremo (FX, seguros, tasa de ahorro, suscripción incluida) — no con perks de terceros que pueden fallar.</span></li>
+  </ul>
+</section>
+
+<hr class="divider">
+
+<!-- ===== SECTION 02 — BENCHMARK ===== -->
+<section class="section" id="benchmark">
+  <div class="eyebrow">02 — BENCHMARK EXTERNO</div>
+  <h2 class="section-title">12 programas — <em>comparación lado a lado</em></h2>
+  <p class="section-lede">Misma estructura para todos: modelo, precios, beneficios [Q]/[I], mecánica destacada. Haz clic en cualquier programa para ver el detalle completo por tier. Precios observados 8 Jun 2026.</p>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-group="all">Todos</button>
+    <button class="filter-btn" data-group="neobank">Neobancos &amp; fintech</button>
+    <button class="filter-btn" data-group="airline">Aerolíneas</button>
+    <button class="filter-btn" data-group="cross">Cross-vertical</button>
+  </div>
+
+  <div class="matrix-scroll">
+    <table class="matrix" id="benchMatrix">
+      <thead id="matrixHead"></thead>
+      <tbody id="matrixBody"></tbody>
+    </table>
+  </div>
+
+  <div class="matrix-legend">
+    <span class="legend-item"><span class="badge badge-q">[Q]</span> Beneficio cuantificable</span>
+    <span class="legend-item"><span class="badge badge-i">[I]</span> Intangible</span>
+    <span class="legend-item"><span class="badge badge-primacy">PRIMACY</span> Fee waived por gasto/activos</span>
+    <span class="legend-item"><span class="peru-yes">PE ✓</span> Confirmado en Perú</span>
+    <span class="legend-item"><span class="peru-no">PE ✗</span> No encontrado en Perú</span>
+    <span class="legend-item"><span class="peru-part">PE ~</span> Solo mecánica de referencia</span>
+  </div>
+
+  <div class="detail-panels" id="detailPanels"></div>
+</section>
+
+<hr class="divider">
+
+<!-- ===== SECTION 03 — iO CONCEPTS ===== -->
+<section class="section" id="conceptos">
+  <div class="eyebrow">03 — CONCEPTOS iO</div>
+  <h2 class="section-title">Tres direcciones para una <em>membresía pagada</em></h2>
+  <p class="section-lede">Hipótesis divergentes para reaccionar, no una recomendación bloqueada. Cada concepto pasa dos filtros: Screen 1 — ¿no se solapa con lo que ya da Niveles gratis? Screen 2 — ¿iO lo controla y entrega de extremo a extremo? Los precios son ilustrativos y provisionales.</p>
+
+  <div class="concepts-grid">
+    <!-- iO Control -->
+    <div class="concept-card">
+      <div class="concept-lbl">Concepto A</div>
+      <div class="concept-name">iO Control</div>
+      <div class="concept-tag">"Ordena y haz crecer tu dinero."</div>
+      <div class="concept-meta">
+        <div class="meta-row"><span class="meta-lbl">Target</span><span class="meta-val">Organizador · Constructor</span></div>
+        <div class="meta-row"><span class="meta-lbl">Fee (prov.)</span><span class="meta-val mono">S/ 12.90/mo</span></div>
+        <div class="meta-row"><span class="meta-lbl">Pilar líder</span><span class="meta-val">🔵 Gestión del dinero (50%)</span></div>
+      </div>
+      <p class="concept-body">Convierte iO en un cockpit de money management. Leans totalmente en el pilar que la investigación dice que los usuarios más valoran, y en necesidades que ningún programa de cashback cubre.</p>
+      <ul class="concept-ben-list">
+        <li class="concept-ben-item"><span class="concept-ben-text">Tasa de ahorro preferencial</span><span class="badge badge-q">[Q]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">FX sin comisión (Lun–Vie)</span><span class="badge badge-q">[Q]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">Insights y categorización avanzada de gasto</span><span class="badge badge-i">[I]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">Flexibilidad de fecha de pago / período de gracia</span><span class="badge badge-i">[I]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">Insights de línea de crédito (tier avanzado)</span><span class="badge badge-i">[I]</span></li>
+      </ul>
+      <div class="concept-screens">
+        <div class="screen-row"><span class="screen-lbl screen-pass">✓ S1</span><span>No se solapa con Niveles: Niveles no tiene beneficio de ahorro ni FX.</span></div>
+        <div class="screen-row"><span class="screen-lbl screen-pass">✓ S2</span><span>iO controla tasa, FX y flexibilidad de pago end-to-end.</span></div>
+        <div class="screen-row"><span class="screen-lbl screen-flag">⚠ RIESGO</span><span>Valor mayormente intangible → NAV más difícil de comunicar.</span></div>
+      </div>
+    </div>
+
+    <!-- iO Max -->
+    <div class="concept-card featured">
+      <div class="concept-lbl">Concepto B · <span class="badge badge-q" style="font-size:8px;">NAV-POSITIVO</span></div>
+      <div class="concept-name">iO Max</div>
+      <div class="concept-tag">"Tu tarjeta que sí te gana a las demás."</div>
+      <div class="concept-meta">
+        <div class="meta-row"><span class="meta-lbl">Target</span><span class="meta-val">Cazador (48%, WTP más alto)</span></div>
+        <div class="meta-row"><span class="meta-lbl">Fee (prov.)</span><span class="meta-val mono">S/ 29.90/mo</span></div>
+        <div class="meta-row"><span class="meta-lbl">Pilar líder</span><span class="meta-val">🟠 Siéntete especial + 🔵 Protección</span></div>
+      </div>
+      <p class="concept-body">Hace que iO gane el wallet del optimizador. Construido sobre protección y viaje que la capa gratuita no puede dar, más cashback diferente en tipo (no "más de lo mismo"). El único concepto genuinamente NAV-positivo en escenarios Core/Power.</p>
+      <ul class="concept-ben-list">
+        <li class="concept-ben-item"><span class="concept-ben-text">FX sin comisión (límites más altos)</span><span class="badge badge-q">[Q]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">Acceso a lounge aeropuerto (3–4 visitas/año, bundled)</span><span class="badge badge-q">[Q]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">Cashback diferente en tipo (categoría que Niveles no cubre)</span><span class="badge badge-q">[Q]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">Seguro de compra / celular</span><span class="badge badge-i">[I]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">Tarjeta exclusiva paired con utilidad real</span><span class="badge badge-i">[I]</span></li>
+      </ul>
+      <div class="concept-screens">
+        <div class="screen-row"><span class="screen-lbl screen-pass">✓ S1</span><span>Lounge, FX alto límite y seguro son "diferentes en tipo" — Niveles no los tiene.</span></div>
+        <div class="screen-row"><span class="screen-lbl screen-pass">✓ S2</span><span>FX y seguro son controlables; lounge vía partnership verificable.</span></div>
+        <div class="screen-row"><span class="screen-lbl screen-flag">⚠ RIESGO</span><span>Cashback diferente lleva costo de lealtad — modelar contra ceiling 1% AON.</span></div>
+      </div>
+    </div>
+
+    <!-- iO Hub -->
+    <div class="concept-card">
+      <div class="concept-lbl">Concepto C · <span class="badge badge-primacy" style="font-size:8px;">WHITE SPACE</span></div>
+      <div class="concept-name">iO Hub</div>
+      <div class="concept-tag">"Todas tus suscripciones, en la tarjeta que las paga."</div>
+      <div class="concept-meta">
+        <div class="meta-row"><span class="meta-lbl">Target</span><span class="meta-val">Cazador · Organizador</span></div>
+        <div class="meta-row"><span class="meta-lbl">Fee (prov.)</span><span class="meta-val mono">S/ 14.90/mo</span></div>
+        <div class="meta-row"><span class="meta-lbl">Pilar líder</span><span class="meta-val">🟢 Día a día + 🔵 Control</span></div>
+      </div>
+      <p class="concept-body">El espacio en blanco. Ningún competidor hace gestión de suscripciones bien, es el deseo #1 transversal y iO ya es la tarjeta con la que pagan sus suscripciones. Si incluye una suscripción de streaming → breakeven inmediato.</p>
+      <ul class="concept-ben-list">
+        <li class="concept-ben-item"><span class="concept-ben-text">Tracker de suscripciones (detección automática de cargos recurrentes)</span><span class="badge badge-q">[Q]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">1 suscripción incluida (streaming/AI de valor ≥ fee)</span><span class="badge badge-q">[Q]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">Ahorro por cargos olvidados detectados / cancelados</span><span class="badge badge-q">[Q]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">Alertas inteligentes antes de renovaciones y cambios de precio</span><span class="badge badge-i">[I]</span></li>
+        <li class="concept-ben-item"><span class="concept-ben-text">Sorteo de pago de suscripciones (gamificación)</span><span class="badge badge-i">[I]</span></li>
+      </ul>
+      <div class="concept-screens">
+        <div class="screen-row"><span class="screen-lbl screen-pass">✓ S1</span><span>Niveles no tiene tracker ni suscripción incluida.</span></div>
+        <div class="screen-row"><span class="screen-lbl screen-flag">⚠ S2</span><span>Requiere trabajo técnico (MCC/detección de merchants recurrentes) + partnerships de streaming.</span></div>
+        <div class="screen-row"><span class="screen-lbl screen-pass">✓ NAV</span><span>Si suscripción incluida (ej. S/26/mo) > fee → NAV positivo desde día 1.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primacy mechanic -->
+  <div class="primacy-card">
+    <div>
+      <div class="primacy-lbl">Concepto D — Mecánica de pricing</div>
+      <div class="primacy-name">iO Primacy</div>
+      <p style="font-family:var(--serif);font-style:italic;font-size:.875rem;color:var(--ink-2);margin-top:.25rem;">"Gratis si iO es tu tarjeta principal."</p>
+    </div>
+    <div class="primacy-body">
+      <p>No es un bundle de beneficios sino el <strong>mecanismo Nubank de fee-waived-by-spend</strong>: la membresía se condona cuando el miembro concentra su gasto en iO (ej. ≥ S/2,000/mo, el umbral Maestro). Se puede aplicar sobre cualquier combinación de A + B + C.</p>
+      <p style="margin-top:.75rem;">¿Por qué es poderoso para iO? Convierte la suscripción de un costo en un <em>reward de primacía</em> — y la condición de condonación <em>es</em> la north-star metric (billing, transacciones, primacía). También resuelve la preferencia del Organizador de "cumplir un consumo mínimo" en lugar de pagar cash.</p>
+      <p style="margin-top:.75rem;font-family:var(--mono);font-size:10px;color:var(--ink-4);">La calculadora de abajo incluye un toggle de Primacy. Actívalo y ajusta el umbral para ver cómo cambia el NAV.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===== SECTION 04 — CALCULATOR ===== -->
+<section class="section" id="calculadora">
+  <div class="eyebrow">04 — MODELO INTERACTIVO</div>
+  <h2 class="section-title">Calculadora NAV — <em>corre tu propio escenario</em></h2>
+
+  <div class="calc-header">
+    <p class="calc-intro-p"><strong>NAV = beneficio cuantificable − fee anual.</strong> Todo es editable. Ajusta los supuestos para modelar con el equipo o para hacer stress-test con números conservadores. El valor intangible (seguros, control) se muestra por separado — nunca entra al NAV.</p>
+    <span class="badge badge-prov">Provisional · edita cada número</span>
+  </div>
+
+  <div class="calc-grid">
+
+    <!-- INPUTS -->
+    <div class="calc-inputs">
+
+      <div class="input-group">
+        <div class="input-group-title">Persona &amp; gasto</div>
+        <div class="persona-btns" id="personaBtns">
+          <button class="persona-btn active" data-persona="Light">
+            <span class="p-name">Light</span>
+            <span class="p-note">~S/400/mo</span>
+          </button>
+          <button class="persona-btn" data-persona="Core">
+            <span class="p-name">Core</span>
+            <span class="p-note">~S/1,350/mo</span>
+          </button>
+          <button class="persona-btn" data-persona="Power">
+            <span class="p-name">Power</span>
+            <span class="p-note">~S/4,000/mo</span>
+          </button>
+        </div>
+        <div class="range-field">
+          <div class="range-hdr">
+            <span class="range-lbl">Gasto mensual</span>
+            <span class="range-val"><span id="spendVal">400</span> /mo</span>
+          </div>
+          <input type="range" id="spendSlider" min="100" max="8000" step="50" value="400">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--ink-4);margin-top:.3rem;" id="personaNote">Aprendiz / low Experto · modal user</div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-group-title">Mecánica de primacía (fee-waiver)</div>
+        <label class="checkbox-row">
+          <input type="checkbox" id="primacyCheck">
+          <span class="checkbox-lbl">Activar primacy overlay — condonar fee sobre umbral de gasto</span>
+        </label>
+        <div class="range-field">
+          <div class="range-hdr">
+            <span class="range-lbl">Umbral de condonación</span>
+            <span class="range-val"><span id="threshVal">2000</span> /mo</span>
+          </div>
+          <input type="range" id="threshSlider" min="500" max="5000" step="100" value="2000">
+        </div>
+        <div class="primacy-note-text" id="primacyNote">Apagado — fees aplican según el concepto.</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-group-title">Supuestos ajustables</div>
+        <div class="assump-grid">
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">% gasto por FX</span><span class="range-val"><span id="v-fxShare">10</span>%</span></div>
+            <input type="range" id="s-fxShare" min="0" max="60" step="1" value="10">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">Comisión FX ahorrada</span><span class="range-val"><span id="v-fxSaved">3.5</span>%</span></div>
+            <input type="range" id="s-fxSaved" min="0" max="6" step="0.1" value="3.5">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">% gasto categoría boost</span><span class="range-val"><span id="v-catShare">40</span>%</span></div>
+            <input type="range" id="s-catShare" min="0" max="80" step="1" value="40">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">Cashback boost</span><span class="range-val"><span id="v-boostPP">3</span> pp</span></div>
+            <input type="range" id="s-boostPP" min="0" max="10" step="0.5" value="3">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">Saldo de ahorros</span><span class="range-val">S/ <span id="v-savBalance">3000</span></span></div>
+            <input type="range" id="s-savBalance" min="0" max="20000" step="500" value="3000">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">Uplift tasa ahorro</span><span class="range-val"><span id="v-savUplift">2</span> pp</span></div>
+            <input type="range" id="s-savUplift" min="0" max="5" step="0.25" value="2">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">Visitas lounge / año</span><span class="range-val"><span id="v-loungeVisits">3</span></span></div>
+            <input type="range" id="s-loungeVisits" min="0" max="12" step="1" value="3">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">Valor lounge / visita</span><span class="range-val">S/ <span id="v-loungeValue">120</span></span></div>
+            <input type="range" id="s-loungeValue" min="0" max="300" step="10" value="120">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">Suscripción incluida /mo <span class="badge badge-q" style="font-size:8px;">[Q]</span></span><span class="range-val">S/ <span id="v-subValue">26</span></span></div>
+            <input type="range" id="s-subValue" min="0" max="80" step="1" value="26">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">Ahorro hub suscripciones /año <span class="badge badge-q" style="font-size:8px;">[Q]</span></span><span class="range-val">S/ <span id="v-hubSavings">120</span></span></div>
+            <input type="range" id="s-hubSavings" min="0" max="400" step="10" value="120">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">Valor seguro / año <span class="badge badge-i" style="font-size:8px;">[I]</span></span><span class="range-val">S/ <span id="v-insurance">150</span></span></div>
+            <input type="range" id="s-insurance" min="0" max="500" step="10" value="150">
+          </div>
+          <div class="range-field">
+            <div class="range-hdr"><span class="range-lbl">Valor control / año <span class="badge badge-i" style="font-size:8px;">[I]</span></span><span class="range-val">S/ <span id="v-control">60</span></span></div>
+            <input type="range" id="s-control" min="0" max="300" step="10" value="60">
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-group-title">Fee mensual (editable por concepto)</div>
+        <div class="fee-rows">
+          <div class="fee-row">
+            <span class="fee-lbl">iO Control</span>
+            <div class="fee-inp-wrap"><span class="fee-currency">S/</span><input type="number" class="fee-field" id="fee-Control" min="0" step="0.5" value="12.9"></div>
+          </div>
+          <div class="fee-row">
+            <span class="fee-lbl">iO Max</span>
+            <div class="fee-inp-wrap"><span class="fee-currency">S/</span><input type="number" class="fee-field" id="fee-Max" min="0" step="0.5" value="29.9"></div>
+          </div>
+          <div class="fee-row">
+            <span class="fee-lbl">iO Hub</span>
+            <div class="fee-inp-wrap"><span class="fee-currency">S/</span><input type="number" class="fee-field" id="fee-Hub" min="0" step="0.5" value="14.9"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="calc-results" id="calcResults">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+
+  <div class="calc-footnote">
+    El NAV cuenta solo los levers <strong style="color:var(--nav-pos)">cuantificables</strong>. Los levers <em style="color:var(--i-bg);font-style:normal;font-weight:600">intangibles</em> (seguro, control) se reportan pero se excluyen del NAV — consistente con el weighting 50/36/14 de Yape, donde la mayor parte del valor es control/conveniencia, no cash. El <strong>breakeven</strong> resuelve el gasto mensual donde el beneficio cuantificable iguala el fee, manteniendo los % fijos. Todas las cifras son provisionales hasta que iO bloquee precio y valores de perks.
+  </div>
+</section>
+
+</div><!-- /.page -->
+</main>
+
+<script>
+// ============================================================
+// BENCHMARK DATA
+// ============================================================
+const PROGRAMS = [
+  {
+    id:"nubank", name:"Nubank", hq:"Brazil", group:"neobank",
+    model:"Free + 2 tiers pagados", tiers:"Nubank+ · Ultravioleta",
+    priceRange:"R$29–89/mo", priceUSD:"~$5.59–17.14",
+    peruStatus:"no",
+    feeWaiver:"R$3.5k gasto/mo o R$30k activos (Nubank+); R$8k/mo o R$50k activos (Ultravioleta)",
+    keyQ:["0.5–1.25% cashback","Ahorros 120% CDI hasta R$10k","ATM gratis","HBO Max incluido","IOF-zero FX (UV)"],
+    keyI:["Soporte humano","Lounge (Mastercard Black)","Tarjeta negra + experiencias"],
+    notable:"Fee-waived-via-spend/activos — el mecanismo más transferible para iO. Convierte la suscripción en un reward de primacía.",
+    tiers_detail:[
+      { name:"Nubank+", price:"R$29/mo (~$5.59)", bens:[
+        {t:"0.5% cashback en todas las compras",k:"Q"},
+        {t:"Caixinha Turbo ahorros al 120% CDI hasta R$10k",k:"Q"},
+        {t:"ATM gratis ilimitado",k:"Q"},
+        {t:"HBO Max (Basic con ads) incluido (~R$359/año)",k:"Q"},
+        {t:"3 meses ChatGPT Go",k:"Q"},
+        {t:"Tag de peaje/parking, alertas de pago",k:"I"},
+        {t:"Fee condonado: R$3,500/mo gasto O R$30k activos",k:"PRIM"},
+      ]},
+      { name:"Ultravioleta", price:"R$89/mo (~$17.14)", bens:[
+        {t:"Elección: 1.25% cashback O puntos O millas LATAM Pass (2.2 mi/USD +10%)",k:"Q"},
+        {t:"IOF-zero + spread FX reducido",k:"Q"},
+        {t:"Lounge acceso (Mastercard Black)",k:"Q"},
+        {t:"Casa Nubank, soporte humano prioritario",k:"I"},
+        {t:"Tarjeta negra",k:"I"},
+        {t:"Fee condonado: R$8,000/mo gasto O R$50k activos",k:"PRIM"},
+      ]},
+    ]
+  },
+  {
+    id:"monzo", name:"Monzo", hq:"UK", group:"neobank",
+    model:"Free + 3 tiers pagados", tiers:"Extra · Perks · Max",
+    priceRange:"£3–17/mo", priceUSD:"~$4–22.68",
+    peruStatus:"no",
+    feeWaiver:"Sin mecanismo de condonación",
+    keyQ:["Savings +0.50% AER (~£50/año en £10k)","Railcard anual (~£35)","Greggs semanal (~£78/año)","Vue mensual (~£84/año)","Uber One incluido (~£60/año)"],
+    keyI:["Seguro de viaje (Zurich/Qover)","Seguro de celular (Assurant)","Cobertura de avería UK/EU (RAC)"],
+    notable:"Bundle de estilo de vida (Greggs+Vue+Railcard) = perks de relevancia local. El análogo para iO serían Uber/Rappi/cines.",
+    tiers_detail:[
+      { name:"Extra", price:"£3/mo (~$4.00)", bens:[
+        {t:"Credit insights (2 bureaus), tarjetas virtuales",k:"I"},
+        {t:"Herramientas avanzadas de presupuesto",k:"I"},
+        {t:"Billsback lottery (valor esperado no publicado)",k:"Q"},
+      ]},
+      { name:"Perks", price:"£7/mo (~$9.34)", bens:[
+        {t:"Savings boost +0.50% AER (~£50/año en £10k)",k:"Q"},
+        {t:"Railcard anual (~£35 valor)",k:"Q"},
+        {t:"Greggs semanal (~£78/año valor)",k:"Q"},
+        {t:"Vue cinema mensual (~£84/año valor)",k:"Q"},
+        {t:"Uber One incluido (~£60/año valor)",k:"Q"},
+        {t:"Mayor límite ATM",k:"Q"},
+      ]},
+      { name:"Max", price:"£17/mo (~$22.68)", bens:[
+        {t:"Todo de Perks +",k:"Q"},
+        {t:"Seguro de viaje mundial (Zurich/Qover) — médico, equipaje, cancelación",k:"I"},
+        {t:"Seguro de celular (Assurant)",k:"I"},
+        {t:"Cobertura de avería UK/EU (RAC)",k:"I"},
+      ]},
+    ]
+  },
+  {
+    id:"revolut", name:"Revolut", hq:"UK / multi-market", group:"neobank",
+    model:"Free Standard + 4 tiers pagados", tiers:"Plus · Premium · Metal · Ultra",
+    priceRange:"£3.99–55/mo", priceUSD:"~$5.19–71.50",
+    peruStatus:"no",
+    feeWaiver:"Sin condonación; publica su propio 'valor anual de beneficios' por tier",
+    keyQ:["FX sin fee hasta £1k/mo (Plus) → ilimitado (Premium+)","RevPoints 1pt/£10 → 1pt/£1","ATM £200 → £2,000/mo gratis","Savings APY hasta 4%","Bundle de suscripciones de marca (Premium+)"],
+    keyI:["Seguro de viaje/médico £10M (Metal+)","Lounge: descuento → ilimitado (Ultra)","eSIM 3GB/mo (Ultra)"],
+    notable:"Revolut publica su propio 'valor anual' (£100/£1,750/£3,750/£9,000) — precedente de comunicación NAV que iO puede replicar.",
+    tiers_detail:[
+      { name:"Plus", price:"£3.99/mo (~$5.19)", bens:[
+        {t:"FX sin fee hasta £1,000/mo",k:"Q"},
+        {t:"RevPoints 1pt/£10",k:"Q"},
+        {t:"ATM gratis hasta £200/mo",k:"Q"},
+        {t:"Transferencia internacional 20% descuento",k:"Q"},
+      ]},
+      { name:"Premium", price:"£7.99/mo (~$10.39)", bens:[
+        {t:"FX sin fee ilimitado",k:"Q"},
+        {t:"RevPoints 1pt/£3",k:"Q"},
+        {t:"ATM gratis hasta £400/mo",k:"Q"},
+        {t:"Savings APY competitivo",k:"Q"},
+        {t:"Suscripciones de marca incluidas (Tinder, NordVPN, Perplexity, etc.)",k:"Q"},
+        {t:"FX fin de semana sin cargo extra",k:"Q"},
+      ]},
+      { name:"Metal", price:"£14.99/mo (~$19.49)", bens:[
+        {t:"Todo de Premium +",k:"Q"},
+        {t:"Seguro de viaje/médico £10M, coche, equipaje, cancelación",k:"I"},
+        {t:"Lounge acceso con descuento",k:"I"},
+        {t:"Cashback en compras al extranjero",k:"Q"},
+        {t:"Metal card",k:"I"},
+      ]},
+      { name:"Ultra", price:"£55/mo (~$71.50)", bens:[
+        {t:"Todo de Metal +",k:"Q"},
+        {t:"Lounge acceso ilimitado",k:"Q"},
+        {t:"eSIM 3GB/mo",k:"Q"},
+        {t:"Priority everything, concierge",k:"I"},
+      ]},
+    ]
+  },
+  {
+    id:"n26", name:"N26", hq:"Germany / EEA", group:"neobank",
+    model:"Free Standard + 3 tiers pagados", tiers:"Smart · Go · Metal",
+    priceRange:"€4.90–16.90/mo", priceUSD:"~$5.39–18.59",
+    peruStatus:"no",
+    feeWaiver:"Sin mecanismo de condonación",
+    keyQ:["Savings 0.25% → 2% (Metal)","FX gratis en pagos mundiales","ATM no-euro gratis (Go+)","1% cashback en viaje fuera EEA (Go+)"],
+    keyI:["Allianz seguro de viaje (médico €1M, equipaje €2k, cancelación €10k)","Lounge (Metal, primera visita gratis)","Seguro de celular + compras (Metal)"],
+    notable:"Cashback gated behind paid tier (1% viaje en Go/Metal) — el concepto más portable: iO puede layer un cashback boosted detrás del tier pagado.",
+    tiers_detail:[
+      { name:"Smart", price:"€4.90/mo (~$5.39)", bens:[
+        {t:"Savings 0.25% AER",k:"Q"},
+        {t:"3 ATM gratis/mo (zona euro)",k:"Q"},
+        {t:"FX gratis en pagos (zona euro y más)",k:"Q"},
+        {t:"Estadísticas de gasto",k:"I"},
+      ]},
+      { name:"Go", price:"€9.90/mo (~$10.89)", bens:[
+        {t:"Savings 0.55% AER",k:"Q"},
+        {t:"5 ATM gratis/mo + no-euro ATM gratis",k:"Q"},
+        {t:"1% cashback en compras fuera EEA",k:"Q"},
+        {t:"Allianz seguro de viaje: médico €1M, equipaje €2k, cancelación €10k",k:"I"},
+        {t:"eSIM",k:"Q"},
+      ]},
+      { name:"Metal", price:"€16.90/mo (~$18.59)", bens:[
+        {t:"Savings 2% AER",k:"Q"},
+        {t:"8 ATM gratis/mo, no-euro ilimitado",k:"Q"},
+        {t:"1% cashback en compras fuera EEA (rate mantenido)",k:"Q"},
+        {t:"Todo de Go + lounge (primera visita gratis)",k:"Q"},
+        {t:"Seguro de celular + compras",k:"I"},
+        {t:"Metal card",k:"I"},
+      ]},
+    ]
+  },
+  {
+    id:"bunq", name:"bunq", hq:"Netherlands / EEA", group:"neobank",
+    model:"Subscription-native (la cuenta diaria ya requiere un plan pagado)", tiers:"Core · Pro · Elite",
+    priceRange:"€3.99–18.99/mo", priceUSD:"~$4.39–20.89",
+    peruStatus:"no",
+    feeWaiver:"Sin condonación; modelo de prueba 1 mes gratis",
+    keyQ:["Interés en ahorros","Hasta 25 sub-cuentas/IBANs","FX transfers 5→10/mo gratis","50% descuento trading (Elite)","eSIM 4×2GB/año (Elite)"],
+    keyI:["Seguro de viaje familiar Qover (Elite)","Tarjeta metal (Elite)","Soporte prioritario"],
+    notable:"Árbol plantado por €100–1,000 gastados — ESG hook de identidad/valores, costo bajo, no infla cashback liability. Cautionary: modelo pure-paid que iO ha descartado explícitamente.",
+    tiers_detail:[
+      { name:"Core", price:"€3.99/mo (~$4.39)", bens:[
+        {t:"Cuenta de ahorros con interés",k:"Q"},
+        {t:"Hasta 5 sub-cuentas",k:"Q"},
+        {t:"3 FX transfers gratis/mo",k:"Q"},
+      ]},
+      { name:"Pro", price:"€9.99/mo (~$10.99)", bens:[
+        {t:"Hasta 15 sub-cuentas",k:"Q"},
+        {t:"5 FX transfers gratis/mo",k:"Q"},
+        {t:"Árbol plantado por gasto (ESG hook)",k:"I"},
+      ]},
+      { name:"Elite", price:"€18.99/mo (~$20.89)", bens:[
+        {t:"Hasta 25 sub-cuentas/IBANs",k:"Q"},
+        {t:"10 FX transfers gratis/mo",k:"Q"},
+        {t:"50% descuento en stock trading",k:"Q"},
+        {t:"eSIM 4×2GB/año",k:"Q"},
+        {t:"Seguro de viaje familiar Qover",k:"I"},
+        {t:"Tarjeta metal",k:"I"},
+        {t:"Soporte prioritario 24/7",k:"I"},
+      ]},
+    ]
+  },
+  {
+    id:"koho", name:"KOHO", hq:"Canada", group:"neobank",
+    model:"Free Essential + 2 tiers pagados", tiers:"Extra · Everything",
+    priceRange:"$12–14.75 CAD/mo", priceUSD:"~$8.76–10.77",
+    peruStatus:"no",
+    feeWaiver:"Free con depósito directo o $1,000+/mo; 30 días de prueba",
+    keyQ:["Cashback 1%→2% en esenciales, +0.25%→0.5% en todo","Interés 2%→3.5%","Crédito 30%→50% descuento","FX sin fee (Everything)","eSIM 1→3GB/mo","Cashback boosted hasta 6.5% en merchants seleccionados"],
+    keyI:["Tarjeta metal","Soporte prioritario (Everything)"],
+    notable:"Credit-building como gamificación/retención (reporta a burós) — relevante para el arquetipo Constructor de iO.",
+    tiers_detail:[
+      { name:"Extra", price:"$12 CAD/mo (~$8.76)", bens:[
+        {t:"1% cashback en esenciales, +0.25% en todo",k:"Q"},
+        {t:"2% interés en saldo",k:"Q"},
+        {t:"30% descuento en credit-builder",k:"Q"},
+        {t:"eSIM 1GB/mo",k:"Q"},
+      ]},
+      { name:"Everything", price:"$14.75 CAD/mo (~$10.77)", bens:[
+        {t:"2% cashback en esenciales, +0.5% en todo",k:"Q"},
+        {t:"3.5% interés en saldo",k:"Q"},
+        {t:"50% descuento en credit-builder (reporta a bureaus)",k:"Q"},
+        {t:"FX sin fee",k:"Q"},
+        {t:"eSIM 3GB/mo",k:"Q"},
+        {t:"Cashback boosted hasta 6.5% en merchants seleccionados",k:"Q"},
+        {t:"Tarjeta metal, soporte prioritario",k:"I"},
+      ]},
+    ]
+  },
+  {
+    id:"robinhood", name:"Robinhood Gold", hq:"US", group:"neobank",
+    model:"Free brokerage + Gold (single tier)", tiers:"Gold",
+    priceRange:"$5/mo o $50/año", priceUSD:"$5–$60 si mensual",
+    peruStatus:"no",
+    feeWaiver:"30 días de prueba",
+    keyQ:["3% IRA match (~$225/año)","Gold Card 3% cashback sin FX fee","3.25–3.50% APY en cash","$1,000 margin incluido","Descuento en tasa hipotecaria","$2.5M FDIC"],
+    keyI:["Planificación patrimonial y asesoría fiscal","Acceso a eventos/experiencias de lujo"],
+    notable:"Precio bajo ($5) + altísima utilidad financiera — inverso del modelo de tarjeta premium. Retención vía IRA match (condiciones de lock-in) y rendimiento en cash.",
+    tiers_detail:[
+      { name:"Gold", price:"$5/mo o $50/año ($60 mensual)", bens:[
+        {t:"3% IRA match en contribuciones (~$225/año al máximo)",k:"Q"},
+        {t:"Gold Card: 3% cashback en todo, sin FX fee",k:"Q"},
+        {t:"3.25–3.50% APY en saldo cash",k:"Q"},
+        {t:"$1,000 margin incluido",k:"Q"},
+        {t:"Descuento en tasa hipotecaria",k:"Q"},
+        {t:"$2.5M FDIC coverage",k:"Q"},
+        {t:"Planificación patrimonial, asesoría fiscal",k:"I"},
+        {t:"Acceso a eventos y experiencias de lujo",k:"I"},
+      ]},
+    ]
+  },
+  {
+    id:"latampass", name:"Club LATAM Pass", hq:"Chile (disponible Perú)", group:"airline",
+    model:"Free LATAM Pass base + suscripción de millas pagada", tiers:"Lite · Basic · Prime · Deluxe",
+    priceRange:"$10–98/mo", priceUSD:"$10–98 (10% descuento anual)",
+    peruStatus:"yes",
+    feeWaiver:"Mínimo 3 meses; 10% descuento anual vs mensual",
+    keyQ:["500–6,000 millas/mo crédito mensual","Milesback en redenciones 5%→15%","Descuento en compra de millas extra","+Vuelo ($8/mo): status Gold pagado sin volar"],
+    keyI:["Prioridad, upgrades, equipaje extra (con +Vuelo Gold)"],
+    notable:"Buy-status-without-flying (+Vuelo). Millas LATAM Pass ya aparecen en Nubank Ultravioleta — señal de partnership para iO.",
+    tiers_detail:[
+      { name:"Lite", price:"$10/mo ($108/año)", bens:[
+        {t:"500 millas/mes acreditadas",k:"Q"},
+        {t:"Validez de millas extendida a 3 años",k:"Q"},
+      ]},
+      { name:"Basic", price:"$18/mo", bens:[
+        {t:"1,000 millas/mes acreditadas",k:"Q"},
+        {t:"5% milesback en redenciones",k:"Q"},
+        {t:"Descuento en compra de millas extra",k:"Q"},
+      ]},
+      { name:"Prime", price:"$50/mo", bens:[
+        {t:"3,000 millas/mes acreditadas",k:"Q"},
+        {t:"10% milesback en redenciones",k:"Q"},
+        {t:"Descuento mayor en compra de millas",k:"Q"},
+      ]},
+      { name:"Deluxe", price:"$98/mo ($1,058/año)", bens:[
+        {t:"6,000 millas/mes acreditadas",k:"Q"},
+        {t:"15% milesback en redenciones",k:"Q"},
+        {t:"Descuento máximo en compra de millas",k:"Q"},
+        {t:"+Vuelo add-on ($8/mo): status Gold pagado (prioridad, upgrades, equipaje)",k:"I"},
+      ]},
+    ]
+  },
+  {
+    id:"amazon", name:"Amazon Prime", hq:"US (global)", group:"cross",
+    model:"Suscripción única; 30 días de prueba", tiers:"Prime",
+    priceRange:"$14.99/mo o $139/año", priceUSD:"$14.99/mo",
+    peruStatus:"partial",
+    feeWaiver:"$40 ahorro anual vs mensual; variante Student/Access con descuento",
+    keyQ:["Envío rápido gratuito (US)","Prime Video incluido (~$50–150/año)","Deals exclusivos Prime Day","Gaming/foto perks"],
+    keyI:["Acceso anticipado a lanzamientos"],
+    notable:"Annual lock-in con descuento ($139 vs $180 mensual). Deep bundling envío+video+deals → stickiness ecosistema. SOLO MECÁNICA DE REFERENCIA para Perú.",
+    tiers_detail:[
+      { name:"Prime", price:"$14.99/mo o $139/año (US)", bens:[
+        {t:"Envío rápido gratuito en millones de productos (US; Perú: no disponible)",k:"Q"},
+        {t:"Prime Video incluido (~$50–150/año valor)",k:"Q"},
+        {t:"Whole Foods/Fresh perks",k:"Q"},
+        {t:"Deals exclusivos Prime Day",k:"Q"},
+        {t:"Gaming (Prime Gaming) y almacenamiento de fotos (Amazon Photos)",k:"Q"},
+        {t:"⚠️ En Perú: solo Prime Video se vende por separado — la propuesta de envío NO está disponible",k:"I"},
+      ]},
+    ]
+  },
+  {
+    id:"rappi", name:"Rappi Pro", hq:"Colombia (Perú ✓)", group:"cross",
+    model:"Suscripción mensual; 30 días de prueba", tiers:"Rappi Pro · Rappi Pro Black",
+    priceRange:"S/17.90–27.90/mo", priceUSD:"~$4.80–7.45",
+    peruStatus:"yes",
+    feeWaiver:"30 días de prueba; 'se paga en ~4 pedidos'",
+    keyQ:["Delivery gratuito ilimitado (comida/super/farma/Turbo)","Descuentos exclusivos en restaurantes y supermercados (2x1, % off)","Créditos de viaje (Black)"],
+    keyI:["Deliveries prioritarios (Black)","Soporte VIP 24/7 (Black)"],
+    notable:"'Se paga en ~4 pedidos' es el modelo de comunicación de breakeven más limpio del benchmark. Frecuencia como retención. ADVERTENCIA: miembros peruanos cancelan por falla de ejecución — alerta para iO sobre riesgo de perks de terceros.",
+    tiers_detail:[
+      { name:"Rappi Pro", price:"S/17.90/mo (~$4.80)", bens:[
+        {t:"Delivery gratuito ilimitado (comida, super, farma, Turbo)",k:"Q"},
+        {t:"Descuentos exclusivos en restaurantes 2x1 y % off",k:"Q"},
+        {t:"Descuentos en supermercados",k:"Q"},
+      ]},
+      { name:"Rappi Pro Black", price:"S/27.90/mo (~$7.45)", bens:[
+        {t:"Todo de Pro +",k:"Q"},
+        {t:"Deliveries prioritarios",k:"I"},
+        {t:"Soporte VIP 24/7",k:"I"},
+        {t:"Créditos de viaje",k:"Q"},
+        {t:"⚠️ Señal de ejecución: miembros peruanos reportan que el servicio prioritario falla en la práctica",k:"I"},
+      ]},
+    ]
+  },
+  {
+    id:"uberone", name:"Uber One", hq:"US / global (Perú ✓)", group:"cross",
+    model:"Suscripción mensual o anual", tiers:"Uber One",
+    priceRange:"S/19.90/mo o S/199/año", priceUSD:"~$5.30/mo",
+    peruStatus:"yes",
+    feeWaiver:"S/199/año vs ~S/239 mensual-equiv → ahorro ~S/40",
+    keyQ:["10% créditos de vuelta en viajes (usables en movilidad y delivery)","$0 delivery fee en pedidos elegibles"],
+    keyI:["Acceso prioritario a los mejores conductores","Eventos Member Days"],
+    notable:"Credits loop (ganas en rides, gastas cross-vertical) impulsa frecuencia en movilidad + delivery. Descuento anual.",
+    tiers_detail:[
+      { name:"Uber One", price:"S/19.90/mo o S/199/año", bens:[
+        {t:"10% créditos de vuelta en todos los viajes (Uber + Uber Eats elegibles)",k:"Q"},
+        {t:"$0 delivery fee en pedidos elegibles de Uber Eats",k:"Q"},
+        {t:"Acceso prioritario a conductores top",k:"I"},
+        {t:"Eventos y descuentos exclusivos Member Days",k:"Q"},
+        {t:"Ahorro anual: S/199/año vs ~S/239 equivalente mensual",k:"Q"},
+      ]},
+    ]
+  },
+  {
+    id:"meli", name:"Meli+", hq:"LATAM (Argentina/Colombia/Chile/México)", group:"cross",
+    model:"Suscripción mensual; tiers Esencial/Total", tiers:"Esencial · Total",
+    priceRange:"~$3–10/mo", priceUSD:"~$3–10 (varía por país)",
+    peruStatus:"partial",
+    feeWaiver:"Trials comunes; varía por mercado",
+    keyQ:["Envío gratis/rápido","Cuotas sin interés","Cashback/reintegros 0.5–3%","Disney+ con ads incluido (Total)"],
+    keyI:["Acceso anticipado a ofertas"],
+    notable:"Streaming bundle como upsell hook Esencial→Total. Commerce+financiamiento+entretenimiento para aumentar cesta promedio. SOLO MECÁNICA para Perú — no confirmado activo.",
+    tiers_detail:[
+      { name:"Esencial", price:"~$3–4/mo (varía por mercado)", bens:[
+        {t:"Envíos gratis en productos elegibles",k:"Q"},
+        {t:"Cuotas sin interés en compras",k:"Q"},
+        {t:"Cashback/reintegros 0.5–1%",k:"Q"},
+      ]},
+      { name:"Total", price:"~$7–10/mo (varía por mercado)", bens:[
+        {t:"Todo de Esencial +",k:"Q"},
+        {t:"Envíos más rápidos priorizados",k:"Q"},
+        {t:"Cashback/reintegros hasta 3%",k:"Q"},
+        {t:"Disney+ con ads incluido (~$50–150/año valor)",k:"Q"},
+        {t:"⚠️ Meli+ en Perú: no confirmado activo — tratar como mecánica de referencia",k:"I"},
+      ]},
+    ]
+  },
+];
+
+// ============================================================
+// RENDER MATRIX
+// ============================================================
+function peruBadge(status){
+  if(status==="yes")  return '<span class="peru-yes">PE ✓</span>';
+  if(status==="no")   return '<span class="peru-no">PE ✗</span>';
+  return '<span class="peru-part">PE ~</span>';
+}
+
+function benBadge(k){
+  if(k==="Q")    return '<span class="badge badge-q">[Q]</span>';
+  if(k==="I")    return '<span class="badge badge-i">[I]</span>';
+  if(k==="PRIM") return '<span class="badge badge-primacy">PRIMACY</span>';
+  return '';
+}
+
+let activeGroup = "all";
+
+function buildMatrix(){
+  const visible = activeGroup==="all" ? PROGRAMS : PROGRAMS.filter(p=>p.group===activeGroup);
+  const head = document.getElementById("matrixHead");
+  const body = document.getElementById("matrixBody");
+
+  // Header row
+  let hrow = '<tr><th class="row-lbl-hd"></th>';
+  visible.forEach(p=>{
+    hrow += `<th class="prog-hd" data-id="${p.id}" onclick="toggleDetail('${p.id}')">
+      <div class="prog-name-cell">${p.name}</div>
+      <div class="prog-hq-cell">${p.hq}</div>
+      ${peruBadge(p.peruStatus)}
+      <span class="expand-hint">↓ ver detalle</span>
+    </th>`;
+  });
+  hrow += '</tr>';
+  head.innerHTML = hrow;
+
+  // Data rows
+  const rows = [
+    {lbl:"Modelo", fn: p=>`<span class="cell-mono">${p.model}</span>`},
+    {lbl:"Tiers", fn: p=>`<span class="cell-body">${p.tiers}</span>`},
+    {lbl:"Precio", fn: p=>`<span class="cell-mono">${p.priceRange}</span><br><span class="cell-muted">${p.priceUSD}</span>`},
+    {lbl:"Fee Waiver / Acceso", fn: p=>`<span class="cell-body">${p.feeWaiver}</span>`},
+    {lbl:"Beneficios [Q]", fn: p=>`<ul class="ben-list">${p.keyQ.map(b=>`<li class="ben-item"><span class="ben-text">${b}</span><span class="badge badge-q">[Q]</span></li>`).join('')}</ul>`},
+    {lbl:"Beneficios [I]", fn: p=>`<ul class="ben-list">${p.keyI.map(b=>`<li class="ben-item"><span class="ben-text">${b}</span><span class="badge badge-i">[I]</span></li>`).join('')}</ul>`},
+    {lbl:"Mecánica destacada", fn: p=>`<span class="cell-body">${p.notable}</span>`},
+  ];
+
+  let bhtml = '';
+  rows.forEach(row=>{
+    bhtml += `<tr><td class="row-lbl">${row.lbl}</td>`;
+    visible.forEach(p=>{
+      bhtml += `<td>${row.fn(p)}</td>`;
+    });
+    bhtml += '</tr>';
+  });
+  body.innerHTML = bhtml;
+}
+
+function buildDetailPanels(){
+  const container = document.getElementById("detailPanels");
+  let html = '';
+  PROGRAMS.forEach(p=>{
+    html += `<div class="detail-panel" id="detail-${p.id}">
+      <div class="detail-hdr">
+        <span class="detail-title">${p.name} — detalle por tier</span>
+        <button class="detail-close" onclick="toggleDetail('${p.id}')">×</button>
+      </div>
+      ${p.tiers_detail.map(t=>`
+        <div class="tier-block">
+          <div>
+            <div class="tier-name">${t.name}</div>
+            <div class="tier-price">${t.price}</div>
+          </div>
+          <ul class="tier-ben-list">
+            ${t.bens.map(b=>`<li class="tier-ben-item"><span class="tier-ben-text">${b.t}</span>${benBadge(b.k)}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('')}
+      <div class="mechanic-note"><strong>Mecánica destacada:</strong> ${p.notable}</div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function toggleDetail(id){
+  const panel = document.getElementById("detail-"+id);
+  if(!panel) return;
+  const wasOpen = panel.classList.contains("open");
+  document.querySelectorAll(".detail-panel.open").forEach(p=>p.classList.remove("open"));
+  if(!wasOpen) {
+    panel.classList.add("open");
+    panel.scrollIntoView({behavior:"smooth", block:"nearest"});
+  }
+}
+
+// Filter buttons
+document.getElementById("filterBar").addEventListener("click", e=>{
+  const btn = e.target.closest(".filter-btn");
+  if(!btn) return;
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  activeGroup = btn.dataset.group;
+  buildMatrix();
+});
+
+buildMatrix();
+buildDetailPanels();
+
+// ============================================================
+// CALCULATOR
+// ============================================================
+const PERSONAS = {
+  Light: { spend: 400, note: "Aprendiz / low Experto · modal user" },
+  Core:  { spend: 1350, note: "mid-Experto · ≈ Engaged 'Active'" },
+  Power: { spend: 4000, note: "Maestro / Transaccional 'Leal'" },
+};
+
+const CONCEPTS = {
+  Control: { name:"iO Control", blurb:"Ordena y haz crecer tu dinero.", levers:{fx:true,savings:true,control:true} },
+  Max:     { name:"iO Max",     blurb:"Tu tarjeta que sí te gana a las demás.", levers:{fx:true,lounge:true,insurance:true,cashback:true} },
+  Hub:     { name:"iO Hub",     blurb:"Centraliza tus suscripciones.", levers:{includedSub:true,hub:true,control:true} },
+};
+
+let state = {
+  persona: "Light",
+  spend: 400,
+  primacy: false,
+  primacyThreshold: 2000,
+  fees: { Control: 12.9, Max: 29.9, Hub: 14.9 },
+  a: {
+    fxShare:10, fxSaved:3.5, catShare:40, boostPP:3,
+    savBalance:3000, savUplift:2,
+    loungeVisits:3, loungeValue:120,
+    subValue:26, hubSavings:120,
+    insurance:150, control:60,
+  }
+};
+
+function fmt(n){ return "S/ "+(Math.round(n)).toLocaleString("es-PE"); }
+function fmtSigned(n){ return (n>=0?"+":"")+fmt(n); }
+
+function compute(){
+  const annualSpend = state.spend * 12;
+  const {a} = state;
+  return Object.entries(CONCEPTS).map(([key,c])=>{
+    const L = c.levers;
+    const fxVal      = L.fx          ? annualSpend*(a.fxShare/100)*(a.fxSaved/100) : 0;
+    const cashVal    = L.cashback    ? annualSpend*(a.catShare/100)*(a.boostPP/100) : 0;
+    const savVal     = L.savings     ? a.savBalance*(a.savUplift/100) : 0;
+    const loungeVal  = L.lounge      ? a.loungeVisits*a.loungeValue : 0;
+    const subVal     = L.includedSub ? a.subValue*12 : 0;
+    const hubVal     = L.hub         ? a.hubSavings : 0;
+    const insVal     = L.insurance   ? a.insurance : 0;
+    const ctrlVal    = L.control     ? a.control : 0;
+    const qBenefit   = fxVal+cashVal+savVal+loungeVal+subVal+hubVal;
+    const iBenefit   = insVal+ctrlVal;
+    const waived     = state.primacy && state.spend >= state.primacyThreshold;
+    const annualFee  = waived ? 0 : state.fees[key]*12;
+    const nav        = qBenefit - annualFee;
+    const multiple   = annualFee>0 ? qBenefit/annualFee : null;
+    const coeff = 12*((L.fx?(a.fxShare/100)*(a.fxSaved/100):0)+(L.cashback?(a.catShare/100)*(a.boostPP/100):0));
+    const fixedQ = savVal+loungeVal+subVal+hubVal;
+    let breakeven = null;
+    if(!waived){
+      if(fixedQ>=annualFee) breakeven=0;
+      else if(coeff>0) breakeven=(annualFee-fixedQ)/coeff;
+      else breakeven=Infinity;
+    }
+    return {key,c,qBenefit,iBenefit,annualFee,nav,multiple,breakeven,waived};
+  });
+}
+
+function renderCalc(){
+  const results = compute();
+  const maxAbsNav = Math.max(...results.map(r=>Math.abs(r.nav)),1);
+  const container = document.getElementById("calcResults");
+
+  container.innerHTML = results.map(r=>{
+    const pos = r.nav>=0;
+    const barW = (Math.abs(r.nav)/maxAbsNav*100).toFixed(1);
+    const mult = r.multiple==null ? "—" : r.multiple.toFixed(1)+"×";
+    let be;
+    if(r.breakeven==null) be="—";
+    else if(r.breakeven===0) be="cubierto";
+    else if(r.breakeven===Infinity) be="n/a";
+    else be=fmt(r.breakeven)+"/mo";
+    return `
+    <div class="result-card">
+      <div class="result-hdr">
+        <span class="result-cname">${r.c.name}</span>
+        ${r.waived?'<span class="badge badge-waived">FEE WAIVED</span>':'<span class="badge badge-prov" style="font-size:9px;">provisional</span>'}
+      </div>
+      <div class="result-tag">"${r.c.blurb}"</div>
+      <div class="result-nav-row">
+        <span class="result-nav-val ${pos?'pos':'neg'}">${fmtSigned(r.nav)}</span>
+        <span class="result-nav-note">NAV / año</span>
+      </div>
+      <div class="result-bar-wrap"><div class="result-bar ${pos?'pos':'neg'}" style="width:${barW}%"></div></div>
+      <div class="result-dl">
+        <div class="result-dl-row"><span class="dl-lbl">Beneficio cuantificable</span><span class="dl-val">${fmt(r.qBenefit)}</span></div>
+        <div class="result-dl-row"><span class="dl-lbl">Fee anual</span><span class="dl-val">${r.annualFee===0?"S/ 0 (condonado)":fmt(r.annualFee)}</span></div>
+        <div class="result-dl-row"><span class="dl-lbl">Value multiple</span><span class="dl-val">${mult}</span></div>
+        <div class="result-dl-row"><span class="dl-lbl">Breakeven gasto</span><span class="dl-val">${be}</span></div>
+        <div class="result-dl-row intangible"><span class="dl-lbl">Intangible (excl.)</span><span class="dl-val">${fmt(r.iBenefit)}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Primacy note
+  const note = document.getElementById("primacyNote");
+  if(!state.primacy) note.textContent="Apagado — fees aplican según el concepto.";
+  else if(state.spend>=state.primacyThreshold) note.textContent="A este gasto, el fee está condonado — NAV = beneficio cuantificable completo.";
+  else note.textContent="A este gasto, el fee aún aplica.";
+}
+
+// Wire up all sliders and inputs
+function wireSlider(sliderId, valId, transform){
+  const slider = document.getElementById(sliderId);
+  const valEl = document.getElementById(valId);
+  if(!slider||!valEl) return;
+  const update = ()=>{
+    const v = parseFloat(slider.value);
+    valEl.textContent = transform ? transform(v) : v;
+    return v;
+  };
+  slider.addEventListener("input",()=>{
+    update();
+    renderCalc();
+  });
+  update();
+}
+
+// Spend slider
+const spendSlider = document.getElementById("spendSlider");
+const spendVal    = document.getElementById("spendVal");
+spendSlider.addEventListener("input",()=>{
+  state.spend = parseFloat(spendSlider.value);
+  spendVal.textContent = state.spend.toLocaleString("es-PE");
+  renderCalc();
+});
+
+// Threshold slider
+const threshSlider = document.getElementById("threshSlider");
+const threshVal    = document.getElementById("threshVal");
+threshSlider.addEventListener("input",()=>{
+  state.primacyThreshold = parseFloat(threshSlider.value);
+  threshVal.textContent = state.primacyThreshold.toLocaleString("es-PE");
+  renderCalc();
+});
+
+// Primacy checkbox
+document.getElementById("primacyCheck").addEventListener("change",e=>{
+  state.primacy = e.target.checked;
+  renderCalc();
+});
+
+// Persona buttons
+document.getElementById("personaBtns").addEventListener("click",e=>{
+  const btn = e.target.closest(".persona-btn");
+  if(!btn) return;
+  const key = btn.dataset.persona;
+  document.querySelectorAll(".persona-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  state.persona = key;
+  state.spend = PERSONAS[key].spend;
+  spendSlider.value = state.spend;
+  spendVal.textContent = state.spend.toLocaleString("es-PE");
+  document.getElementById("personaNote").textContent = PERSONAS[key].note;
+  renderCalc();
+});
+
+// Assumption sliders
+const ASSUMPTION_KEYS = ["fxShare","fxSaved","catShare","boostPP","savBalance","savUplift","loungeVisits","loungeValue","subValue","hubSavings","insurance","control"];
+ASSUMPTION_KEYS.forEach(k=>{
+  const slider = document.getElementById("s-"+k);
+  const valEl  = document.getElementById("v-"+k);
+  if(!slider||!valEl) return;
+  slider.addEventListener("input",()=>{
+    const v = parseFloat(slider.value);
+    valEl.textContent = v.toLocaleString("es-PE");
+    state.a[k] = v;
+    renderCalc();
+  });
+});
+
+// Fee number inputs
+["Control","Max","Hub"].forEach(k=>{
+  const inp = document.getElementById("fee-"+k);
+  if(!inp) return;
+  inp.addEventListener("input",()=>{
+    state.fees[k] = parseFloat(inp.value)||0;
+    renderCalc();
+  });
+});
+
+// Initial render
+renderCalc();
+</script>
+</body>
+</html>
