@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
   try {
     const r = await fetch(
-      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Access%20Log`,
+      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Access%20log`,
       {
         method: "POST",
         headers: {
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
             Persona:        name,
             Timestamp:      new Date().toISOString(),
             IP:             ip,
-            "User Agent":   ua,
+            Agent:          ua,
             Clave:          key.slice(0, 5) + "***",
           },
         }),
