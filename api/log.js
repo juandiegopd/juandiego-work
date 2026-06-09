@@ -7,13 +7,17 @@ export default async function handler(req, res) {
   const ip = (req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "unknown";
   const ua = req.headers["user-agent"] || "unknown";
 
+  const baseId = process.env.AIRTABLE_BASE_ID || "";
+  const pat = process.env.AIRTABLE_PAT || "";
+  console.log("DEBUG base:", baseId.slice(0,8), "pat:", pat.slice(0,6), "lengths:", baseId.length, pat.length);
+
   try {
     const r = await fetch(
-      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/tblQcbOXRAgPgrFHD`,
+      `https://api.airtable.com/v0/${baseId}/tblQcbOXRAgPgrFHD`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
+          Authorization: `Bearer ${pat}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
