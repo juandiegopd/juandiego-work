@@ -21,13 +21,15 @@ export default async function handler(req, res) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fields: {
-            Persona:        name,
-            Timestamp:      new Date().toISOString(),
-            IP:             ip,
-            Agent:          ua,
-            Clave:          key.slice(0, 5) + "***",
-          },
+          records: [{
+            fields: {
+              Persona:    name,
+              Timestamp:  new Date().toISOString(),
+              IP:         ip,
+              Agent:      ua,
+              Clave:      key.slice(0, 5) + "***",
+            },
+          }],
         }),
       }
     );
