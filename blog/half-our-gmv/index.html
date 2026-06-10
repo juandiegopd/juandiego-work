@@ -164,6 +164,15 @@ footer{
   transition:color var(--dur-fast) var(--ease-out);
 }
 .footer-link:hover{color:var(--text-primary);}
+.footer-ref{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--text-caption);
+}
+.footer-ref a{
+  color:var(--text-muted);text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+.footer-ref a:hover{color:var(--text-primary);}
 .footer-copy{
   font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;
   color:var(--text-caption);
@@ -369,6 +378,7 @@ footer{
 
 <footer>
   <a class="footer-link" href="/blog">← Writing</a>
+  <span class="footer-ref">Inspired by <a href="https://sequoiacap.com/article/adapting-to-endure/" target="_blank" rel="noopener noreferrer">Adapting to Endure</a> — Sequoia Capital</span>
   <span class="footer-copy">© 2026 JD Peñaherrera</span>
 </footer>
 
