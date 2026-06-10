@@ -164,19 +164,29 @@ footer{
   transition:color var(--dur-fast) var(--ease-out);
 }
 .footer-link:hover{color:var(--text-primary);}
-.footer-ref{
-  font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;
-  color:var(--text-caption);
-}
-.footer-ref a{
-  color:var(--text-muted);text-decoration:none;
-  transition:color var(--dur-fast) var(--ease-out);
-}
-.footer-ref a:hover{color:var(--text-primary);}
 .footer-copy{
   font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;
   color:var(--text-caption);
 }
+
+/* FOOTNOTES */
+.fn-ref{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.02em;
+  color:var(--text-muted);text-decoration:none;vertical-align:super;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+.fn-ref:hover{color:var(--blue-500);}
+.footnotes{
+  margin-top:3rem;padding-top:1.5rem;
+  border-top:1px solid var(--border-subtle);
+  list-style:none;padding-left:0;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:0.02em;
+  color:var(--text-muted);line-height:1.6;
+}
+.footnotes li{counter-increment:none;}
+.footnotes a{color:var(--text-muted);text-decoration:underline;text-underline-offset:2px;}
+.footnotes a:hover{color:var(--text-primary);}
+.fn-back{text-decoration:none !important;margin-left:.25em;}
 
 /* RESPONSIVE */
 @media(max-width:600px){
@@ -213,7 +223,7 @@ footer{
 
     <p class="article-lede">Half of our GMV was losing us money. And it was coming from the customers everyone in the company treated as our best.</p>
 
-    <p>To explain how I ended up owning that problem, I have to back up a few months. In early 2022 the capital markets turned — the same shift Sequoia described to its founders in <em>Adapting to Endure</em>. For two years money had been functionally free; suddenly it wasn't. For a Latin American startup burning cash to grow across two countries, that wasn't a market headline. It was a deadline. We cut Brazil. The company halved. (How we fought to keep Brazil alive first — the logistics models we built to try to make it profitable before pulling the plug — is its own post.)</p>
+    <p>To explain how I ended up owning that problem, I have to back up a few months. In early 2022 the capital markets turned — the same shift Sequoia described to its founders in <em>Adapting to Endure</em><a href="#fn1" id="fnref1" class="fn-ref">[1]</a>. For two years money had been functionally free; suddenly it wasn't. For a Latin American startup burning cash to grow across two countries, that wasn't a market headline. It was a deadline. We cut Brazil. The company halved. (How we fought to keep Brazil alive first — the logistics models we built to try to make it profitable before pulling the plug — is its own post.)</p>
 
     <p>When the dust settled, I was handed the sales and customer experience org — about 55 people — in a role I had no business holding yet. The CEO introduced me to the team as one of the most talented people in the company. I didn't feel it. I'd never managed a team that size, and the people I'd have to rebuild the business alongside — the commercial director, the CFO, the COO, the CEO — were a decade ahead of me. I was the youngest person in the room by a wide margin. I'll come back to that.</p>
 
@@ -372,13 +382,16 @@ footer{
 
     <p>The most expensive mistakes I've seen aren't bad execution. They're well-executed incentives pointed at the wrong number.</p>
 
+    <ol class="footnotes">
+      <li id="fn1"><a href="https://sequoiacap.com/article/adapting-to-endure/" target="_blank" rel="noopener noreferrer">Adapting to Endure</a> — Sequoia Capital. <a href="#fnref1" class="fn-back">↩</a></li>
+    </ol>
+
   </div>
 </div>
 </main>
 
 <footer>
   <a class="footer-link" href="/blog">← Writing</a>
-  <span class="footer-ref">Inspired by <a href="https://sequoiacap.com/article/adapting-to-endure/" target="_blank" rel="noopener noreferrer">Adapting to Endure</a> — Sequoia Capital</span>
   <span class="footer-copy">© 2026 JD Peñaherrera</span>
 </footer>
 
