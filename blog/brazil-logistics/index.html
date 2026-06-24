@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Could we make Brazil profitable in time? The answer was no. — JD Peñaherrera</title>
+<meta name="description" content="Brazil's logistics couldn't be made profitable fast enough. I led the transport-cost effort — every model, pilot, and number — and the honest answer was that the problem was structural, not operational. Here's what that taught me, and what it cost.">
+<link rel="icon" type="image/jpeg" href="/JD_PFP.jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink-900:#00172E; --ink-850:#05162C; --ink-700:#002B57;
+  --blue-600:#0E72DA; --blue-500:#0D84FF; --blue-300:#B2D5FF;
+  --blue-100:#F0F7FF; --blue-050:#EFF9FE;
+  --slate-600:#597597; --slate-500:#798594;
+  --paper:#FAFDFF; --surface-100:#F2F3F9;
+  --text-primary:var(--ink-900);
+  --text-secondary:var(--ink-700);
+  --text-muted:var(--slate-600);
+  --text-caption:var(--slate-500);
+  --text-accent:var(--blue-500);
+  --border-subtle:rgba(0,23,46,0.10);
+  --border-strong:rgba(0,23,46,0.22);
+  --rule:rgba(0,23,46,0.14);
+  --font-serif:'Newsreader',Georgia,serif;
+  --font-sans:'Public Sans','Helvetica Neue',Arial,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --weight-medium:500; --weight-semibold:600;
+  --tracking-display:-0.03em; --tracking-eyebrow:0.06em;
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --dur-fast:140ms; --dur-base:240ms;
+}
+html,body{min-height:100%;}
+body{
+  font-family:var(--font-sans);
+  background:var(--paper);
+  color:var(--text-primary);
+  display:flex;flex-direction:column;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* NAV */
+nav{
+  border-bottom:1px solid var(--border-subtle);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4rem;height:56px;flex-shrink:0;
+  background:var(--paper);
+  position:sticky;top:0;z-index:10;
+}
+.nav-logo{
+  font-family:var(--font-serif);font-size:19px;font-weight:var(--weight-medium);
+  letter-spacing:-0.02em;color:var(--text-primary);text-decoration:none;
+}
+.nav-logo em{font-style:italic;}
+.nav-links{display:flex;gap:3rem;align-items:center;}
+.nav-link{
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-muted);text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+.nav-link:hover{color:var(--text-primary);}
+.nav-link.active{color:var(--text-primary);}
+
+/* LAYOUT */
+main{flex:1;}
+.article-page{max-width:720px;margin:0 auto;padding:5rem 4rem 6rem;width:100%;}
+
+/* ARTICLE HEADER */
+.eyebrow{
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-accent);margin-bottom:1rem;
+}
+.accent-rule{
+  width:40px;height:3px;background:var(--blue-500);border:none;
+  margin-bottom:1.75rem;
+}
+.article-title{
+  font-family:var(--font-serif);
+  font-size:clamp(1.875rem,3.4vw,2.875rem);
+  font-weight:var(--weight-medium);
+  line-height:1.06;letter-spacing:var(--tracking-display);
+  color:var(--text-primary);margin-bottom:1.25rem;
+  text-wrap:balance;
+}
+.article-title em{font-style:italic;}
+.article-meta{
+  display:flex;align-items:center;gap:.75rem;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:0.04em;
+  color:var(--text-caption);
+  padding-bottom:2.75rem;
+  border-bottom:1px solid var(--border-subtle);
+  margin-bottom:2.75rem;
+}
+.meta-sep{color:var(--border-strong);}
+
+/* ARTICLE BODY */
+.article-body p{
+  font-family:var(--font-sans);
+  font-size:0.97rem;line-height:1.75;
+  color:var(--text-primary);margin-bottom:1.5rem;
+}
+.article-body .article-lede{
+  font-family:var(--font-serif);font-style:italic;
+  font-size:1.25rem;line-height:1.5;
+  color:var(--text-secondary);
+  margin-bottom:1.75rem;
+}
+.article-body h2{
+  font-family:var(--font-serif);
+  font-size:1.5rem;font-weight:var(--weight-medium);
+  line-height:1.15;letter-spacing:-0.015em;
+  color:var(--text-primary);
+  margin:3.5rem 0 1rem;
+}
+.article-body h2 em{font-style:italic;}
+.article-body ul{
+  margin:0 0 1.5rem 0;
+  list-style:none;padding:0;
+}
+.article-body li{
+  font-family:var(--font-sans);font-size:0.97rem;
+  line-height:1.7;color:var(--text-primary);
+  padding:1rem 0 1rem 1.5rem;
+  border-bottom:1px solid var(--border-subtle);
+  position:relative;
+}
+.article-body li:first-child{border-top:1px solid var(--border-subtle);}
+.article-body li::before{
+  content:'';position:absolute;left:0;top:1.1em;
+  width:4px;height:4px;
+  background:var(--blue-500);
+}
+.article-body strong{font-weight:var(--weight-semibold);color:var(--text-primary);}
+.article-body em{font-style:italic;}
+.article-body a{color:var(--text-accent);text-decoration:underline;text-underline-offset:3px;}
+.article-body a:hover{color:var(--blue-600);}
+
+/* BLOCKQUOTE */
+.article-body blockquote{
+  font-family:var(--font-serif);
+  font-size:1.2rem;line-height:1.55;
+  color:var(--text-secondary);
+  border-left:3px solid var(--blue-500);
+  padding:.15rem 0 .15rem 1.5rem;
+  margin:2.25rem 0;
+}
+.article-body blockquote strong{color:var(--text-primary);font-weight:var(--weight-medium);}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border-subtle);
+  padding:1.25rem 4rem;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-shrink:0;
+}
+.footer-link{
+  font-family:var(--font-sans);font-size:12px;font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;
+  color:var(--text-muted);text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+.footer-link:hover{color:var(--text-primary);}
+.footer-copy{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--text-caption);
+}
+
+/* FOOTNOTES */
+.fn-ref{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.02em;
+  color:var(--text-muted);text-decoration:none;vertical-align:super;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+.fn-ref:hover{color:var(--blue-500);}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  nav{padding:0 1.25rem;}
+  .nav-links{gap:1.5rem;}
+  .article-page{padding:3.5rem 1.25rem 5rem;}
+  footer{padding:1.25rem;flex-direction:column;gap:.5rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/"><em>JD</em></a>
+  <div class="nav-links">
+    <a class="nav-link" href="/experience">Experience</a>
+    <a class="nav-link active" href="/blog">Writing</a>
+  </div>
+</nav>
+
+<main>
+<div class="article-page">
+
+  <p class="eyebrow">Operator learnings</p>
+  <hr class="accent-rule">
+  <h1 class="article-title">Could we make Brazil <em>profitable</em> in time?<br>The answer was no.</h1>
+  <div class="article-meta">
+    <time datetime="2026-06">Jun 2026</time>
+    <span class="meta-sep">·</span>
+    <span>9 min read</span>
+  </div>
+
+  <div class="article-body">
+
+    <p class="article-lede">In early 2022 the market turned, and the question every startup got asked changed overnight. For two years it had been <em>how fast can you grow?</em> Now it was <em>can you survive?</em> Money had been functionally free; suddenly it had a cost, and for a company burning cash across two countries, that wasn't a headline — it was a countdown<a href="https://sequoiacap.com/article/adapting-to-endure/" target="_blank" rel="noopener noreferrer" class="fn-ref">[1]</a>.</p>
+
+    <p>Favo's biggest structural problem was Brazil. And inside that problem, the single largest line was logistics. So the company put one of its best teams on it — alongside the CEO, the COO, and a logistics director with real depth — and I was handed one piece of it: <strong>transportation cost.</strong> My job was narrow and unforgiving: find out whether we could cut it far enough, fast enough, to give Brazil a path to profitability. It was one lever inside the bigger question the whole company was racing to answer — <em>could we make Brazil profitable in time?</em></p>
+
+    <p>I spent three months on that question. The honest answer, for the lever I owned, was no. This is how I got there, and why being the one to deliver that <em>no</em> taught me more than a yes would have.</p>
+
+    <h2>The problem was the <em>map</em>, not the operation</h2>
+
+    <p>It's tempting to look at a 10%+ logistics cost and assume someone is running the operation badly. They weren't. The problem was geography.</p>
+
+    <p>Our São Paulo operation covered roughly <strong>4,500 km² — about seven times the area we covered in Lima — at a fraction of the density.</strong> Lima had community leaders packed tightly enough that a delivery truck filled up on a short route. São Paulo had <strong>five to seven times fewer entrepreneurs per square kilometer</strong>, and nearly <strong>a fifth of our coverage area had no active entrepreneurs at all.</strong> The trucks went out half empty and drove much farther to deliver less.</p>
+
+    <p>That's the whole story of the cost. <strong>Transportation ran around 12.6% of GMV in Brazil — versus roughly 3.3% in Peru.</strong> The CEO had set the target at about 5%. We weren't anywhere near it, and the gap wasn't waste. It was distance and emptiness.</p>
+
+    <h2>What I actually <em>did</em></h2>
+
+    <p>This wasn't a spreadsheet job. I led the transport-cost workstream the way you'd run a small internal consulting team: split the problem into fronts, put an owner on each, and — critically — <em>implement</em>, not just analyze. I owned the transport front. I built the unit-economics dashboard that let us finally see cost per truck, drop per truck, and density by zone, and I ran the pilots live in Brazil from Lima, working through the logistics team on the ground. The CEO and COO made the calls; the logistics director owned the physical operation; I owned the math and the experiments that sat on top of it.</p>
+
+    <p>We didn't theorize. We tested. And the most useful thing I did was kill our own best ideas when the numbers said to.</p>
+
+    <h2>The discipline of <em>killing</em> your own work</h2>
+
+    <p>Two of the most promising levers looked great on a slide and died on contact with the model.</p>
+
+    <p>The first was <strong>consolidation</strong> — having lower-volume entrepreneurs pick up from a nearby high-volume one, so fewer truck stops were needed. Intuitive, and everyone wanted it to work. When I built it out, the maximum saving was about <strong>19% of transport cost</strong> — and even that evaporated once you accounted for the fact that the trucks already had idle capacity to absorb those stops. The operational cost of running it wasn't worth the return. I recommended against it.</p>
+
+    <p>The second was a <strong>dedicated hub in Campinas</strong> to serve the far zones. It cut cost on those zones by five points — but once you loaded in the cost of the hub itself, the <em>net</em> saving was <strong>zero.</strong> Shelved.</p>
+
+    <p>What was left actually worked: a <strong>minimum order threshold</strong> (roughly −2.6 points), a <strong>change to delivery cadence</strong> (around −2.2), <strong>closing the lowest-density micro-zones</strong> (which removed about a dozen trucks), and the biggest bet of all — <strong>raising the value of each unit we moved</strong>, so a full truck carried more revenue and the fixed cost diluted.</p>
+
+    <p>Stacked together, in the best realistic case, all of it came to roughly <strong>−3.6 points.</strong> We needed something closer to seven.</p>
+
+    <h2>The math wouldn't <em>close</em></h2>
+
+    <p>Here's the line that tells the truth better than any narrative:</p>
+
+    <blockquote>Transport cost: <strong>12.6% in January → 11.1% in February → 10.7% in April → 10.3% in May</strong> — against an interim target of 8.7%, on the way to a goal of 5%.</blockquote>
+
+    <p>We made real progress. We also missed every target, and we were never close to the one that mattered. And the reason is the whole point of this post: <strong>the gap wasn't execution. It was structure.</strong> You can run every play perfectly — model it, pilot it, implement it, measure it — and still lose, if the root cause sits below the level you're working at. Ours did. No amount of tactical optimization closes a five-to-seven-times density deficit. Brazil's density was destiny.</p>
+
+    <p>So I stopped asking the comforting question — <em>"if we had three more months, could we hit it?"</em> — because the honest answer was no, and pretending otherwise would have cost the company time it didn't have. We had done the work. The work said it couldn't be done at the cost we needed.</p>
+
+    <h2>The honest "no" was the <em>deliverable</em></h2>
+
+    <p>This is the part that reframed how I think about the job. I had assumed my deliverable was a number going down. It wasn't. My deliverable was <strong>clarity</strong> — a defensible, tested answer to <em>can this be saved?</em> — and the answer was no. That answer was part of what gave leadership the conviction to make the hard call.</p>
+
+    <p>On June 1, Favo cut Brazil and the company halved.</p>
+
+    <h2>What it <em>cost</em></h2>
+
+    <p>I won't dress that up. It was the first time I'd lived through something like it, and I genuinely didn't know how to feel. I was sad — people I'd worked closely with lost their jobs, and no model makes that abstract when you know their names. And underneath the sadness I was, honestly, confident: confident I wasn't going to be cut, confident in the work I'd done and the value I'd created. Confident-sad, if that's a thing.</p>
+
+    <p>Then, the same week the project I'd led hadn't saved Brazil, the company handed me the <strong>Sales and Customer Experience org — about 55 people, one of the largest teams in the company.</strong> Both things were true at once: it felt like trust, and it felt like fraud. I had never managed a team that size. I didn't know how to run sales and customer experience. They were betting on a capacity I hadn't yet proven. I'll come back to what I found inside that business in <a href="/blog/half-our-gmv">another post</a> — it turned out half our revenue was quietly losing money — but that's a different story.</p>
+
+    <p>Two things I carried out of Brazil:</p>
+
+    <p><strong>Some problems are structural, not operational.</strong> You can execute flawlessly and still lose if the root cause is below the level you're working at. Before you spend months optimizing, make sure you're not trying to tactically out-run a structural deficit. Sometimes the most valuable thing you can do is <em>prove</em> that you can't.</p>
+
+    <p><strong>The honest "no" is a deliverable.</strong> Killing your own initiative when the math says so — and telling leadership a thing can't be saved, when every incentive pushes you toward a hopeful maybe — is worth more than the optimistic answer everyone wants. The market doesn't reward the maybe. And the people who learn to deliver the <em>no</em> early are the ones who get trusted with the next, bigger problem.</p>
+
+    <p class="article-lede">No one person was going to save Brazil — and we didn't. But I found out, for certain, that the lever I owned couldn't close the gap in time, and that was exactly what the company needed to know to make its call.</p>
+
+  </div>
+</div>
+</main>
+
+<footer>
+  <a class="footer-link" href="/blog">← Writing</a>
+  <span class="footer-copy">© 2026 JD Peñaherrera</span>
+</footer>
+
+</body>
+</html>
