@@ -1,0 +1,42 @@
+/* Extracted from juandiego.work UI kit. Source of truth for the simple-designer agent. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap');
+
+:root {
+  --cream:#F8F7F4; --cream-2:#EFEDE8; --cream-3:#E0DDD7; --cream-4:#C9C5BD;
+  --ink:#1C1B19; --ink-2:#4A4641; --ink-3:#6B6861; --ink-4:#9A9088;
+  --blue:#1B4DD8; --blue-hover:#163FB0; --blue-tint:#E8EEFB;
+
+  --bg:var(--cream); --bg-elevated:var(--cream-2); --border:var(--cream-3);
+  --fg-1:var(--ink); --fg-2:var(--ink-2); --fg-3:var(--ink-3); --fg-4:var(--ink-4);
+
+  --serif:'DM Serif Display','Iowan Old Style',Georgia,serif;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Inter',sans-serif;
+  --mono:'DM Mono',ui-monospace,Menlo,monospace;
+
+  --fs-display:clamp(2.75rem,5.5vw,4.5rem); --fs-h1:clamp(2rem,3.6vw,3rem);
+  --fs-h2:clamp(1.5rem,2.4vw,2rem); --fs-body:1rem; --fs-small:.875rem;
+  --fs-mono:.75rem; --fs-mono-sm:.6875rem;
+  --tracking-mono:.10em; --tracking-tight:-.01em;
+
+  --radius-sm:3px; --radius:6px; --radius-lg:10px;
+  --shadow-1:0 1px 2px rgba(28,27,25,.04); --shadow-2:0 4px 16px rgba(28,27,25,.06);
+  --ease:cubic-bezier(.2,.6,.2,1); --dur-fast:120ms; --dur:200ms; --dur-slow:420ms;
+}
+
+body{font-family:var(--sans);background:var(--bg);color:var(--fg-1);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:var(--tracking-tight);line-height:1.1}
+h1 em,h2 em,.display em{font-family:var(--serif);font-style:italic;color:var(--fg-2)}
+.eyebrow{font:500 var(--fs-mono-sm)/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
+.tagline{font-family:var(--serif);font-style:italic;color:var(--fg-2)}
+a{color:var(--blue);text-underline-offset:3px}
+::selection{background:var(--ink);color:var(--cream)}
+
+/* Signature patterns */
+.nav{height:56px;padding:0 3rem;border-bottom:1px solid var(--cream-3);position:sticky;top:0;background:rgba(248,247,244,.85);backdrop-filter:blur(8px)}
+.dot-item{display:flex;align-items:center;gap:.5rem;font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.dot-item::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cream-3);transition:background var(--dur) var(--ease)}
+.dot-item.active{color:var(--ink)} .dot-item.active::before{background:var(--ink)}
+.row{display:grid;gap:2rem;padding:1.5rem 0;border-top:1px solid var(--cream-3);align-items:baseline}
+.row:last-child{border-bottom:1px solid var(--cream-3)}
+.row:hover{background:var(--cream-2);margin:0 -1.25rem;padding-inline:1.25rem;border-radius:var(--radius);border-color:transparent}
+.card{border:1px solid var(--cream-3);border-radius:var(--radius);padding:1.5rem;background:var(--cream)}
