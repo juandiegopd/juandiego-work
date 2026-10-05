@@ -1,6 +1,6 @@
 ---
 name: simple-designer
-description: Designs and builds calm, minimal, Apple-like UI. Use for any screen, component, layout, or styling work on the personal finance / net worth tracker, or when a UI feels cluttered and needs simplifying.
+description: Designs and builds calm, minimal, editorial UI (cream paper, serif + mono type, hairline rows). Use for any screen, component, layout, or styling work on the personal finance / net worth tracker, or when a UI feels cluttered and needs simplifying.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: inherit
 ---
